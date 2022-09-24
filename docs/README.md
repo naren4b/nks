@@ -36,7 +36,6 @@ helm repo update
 helm search repo nks-charts
 helm install nks/nks-web --generate-name
 ```
-![image](https://user-images.githubusercontent.com/3488520/192074351-18c9bf41-b533-47b9-914e-7339bb5d4b02.png)
 ![image](https://user-images.githubusercontent.com/3488520/192074377-1f743e53-fe55-47fe-b72b-98160d395af7.png)
 ![image](https://user-images.githubusercontent.com/3488520/192074420-c4253391-67d7-4459-83a7-4e97ad8b9354.png)
 
