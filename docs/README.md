@@ -1,3 +1,6 @@
+![image](https://helm.sh/img/helm.svg)
+![image](https://github.com/helm/chartmuseum/blob/main/logo2.png)
+
 # How to create,build,push,host,deploy Private Helm Charts using Chartmuseum 
 #### Assumption
 - Server url http://nks-charts:8080
@@ -18,10 +21,6 @@ git add -A
 git commit -m "nks-web chart added"
 git push
 ```
-![image](https://user-images.githubusercontent.com/3488520/192074163-a10d0097-ef1f-4760-a3fe-181feda4bfe5.png)
-![image](https://user-images.githubusercontent.com/3488520/192074099-2327a912-ba7f-4c7d-b6f0-c555c558cd2b.png)
-
-
 #### package & push :  machine side for packaging and pushing the chart 
 ```
 helm plugin install https://github.com/chartmuseum/helm-push
