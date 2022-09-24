@@ -1,17 +1,14 @@
 ![image](https://user-images.githubusercontent.com/3488520/192076676-3bd58fa4-db2c-4470-9619-d8c62a1135fc.png)
 
 # How to create,build,push,host,deploy Private Helm Charts using Chartmuseum 
-#### Assumption
-- Server url http://nks-charts:8080
-
-#### host : Installation of Chartmuseum  via Docker 
+#### 1.host : Hosting the chartmuseum via Docker 
 ```
 mkdir charts
 chmod 667 charts
 docker run --rm -it -d -p 8080:8080   -e DEBUG=1   -e STORAGE=local   -e STORAGE_LOCAL_ROOTDIR=/charts   -v $(pwd)/charts:/charts ghcr.io/helm/chartmuseum:v0.14.0
 ```
 
-#### create At Developer Machine Prepare your chart 
+#### 2.create at Developer Machine creating arranging helm templates and values 
 ```
 git clone https://github.com/naren4b/helm-charts.git
 cd helm-charts/charts
@@ -20,7 +17,7 @@ git add -A
 git commit -m "nks-web chart added"
 git push
 ```
-#### package & push :  machine side for packaging and pushing the chart 
+#### 3.package & push :  at build machine for packaging and pushing the chart 
 ```
 helm plugin install https://github.com/chartmuseum/helm-push
 git clone https://github.com/naren4b/helm-charts.git
@@ -32,7 +29,7 @@ helm repo add nks http://nks-charts:8080
 helm cm-push nks-web nks --version 0.1.0 --app-version 0.1.0
 ```
 
-#### At Deployment 
+#### 4.deploy: to a kind demo cluster
 ```
 helm repo add nks-charts http://nks-charts:8080/
 helm repo update
@@ -43,8 +40,8 @@ helm install nks/nks-web --generate-name
 ![image](https://user-images.githubusercontent.com/3488520/192074377-1f743e53-fe55-47fe-b72b-98160d395af7.png)
 ![image](https://user-images.githubusercontent.com/3488520/192074420-c4253391-67d7-4459-83a7-4e97ad8b9354.png)
 
-
-
+#### Assumption
+- Server url http://nks-charts:8080
 #### ref: 
 - https://github.com/helm/chartmuseum/blob/main/README.md
 - https://github.com/chartmuseum/helm-push
