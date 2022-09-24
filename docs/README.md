@@ -1,14 +1,14 @@
 ![image](https://user-images.githubusercontent.com/3488520/192076676-3bd58fa4-db2c-4470-9619-d8c62a1135fc.png)
 
 # How to create,build,push,host,deploy Private Helm Charts using Chartmuseum 
-#### 1.host : Hosting the chartmuseum via Docker 
+#### 1.host: Hosting the chartmuseum via Docker 
 ```
 mkdir charts
 chmod 667 charts
 docker run --rm -it -d -p 8080:8080   -e DEBUG=1   -e STORAGE=local   -e STORAGE_LOCAL_ROOTDIR=/charts   -v $(pwd)/charts:/charts ghcr.io/helm/chartmuseum:v0.14.0
 ```
 
-#### 2.create at Developer Machine creating arranging helm templates and values 
+#### 2.create: at Developer Machine creating arranging helm templates and values 
 ```
 git clone https://github.com/naren4b/helm-charts.git
 cd helm-charts/charts
