@@ -1,6 +1,6 @@
 ![image](https://user-images.githubusercontent.com/3488520/192076676-3bd58fa4-db2c-4470-9619-d8c62a1135fc.png)
 
-# How to create,build,push,host,deploy Private Helm Charts using Chartmuseum 
+# How to create,package,push,host,deploy Private Helm Charts using Chartmuseum 
 #### 1.host: Hosting the chartmuseum via Docker 
 ```
 mkdir charts
