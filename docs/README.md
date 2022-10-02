@@ -8,7 +8,7 @@ chmod 667 charts
 docker run --rm -it -d -p 8080:8080   -e DEBUG=1   -e STORAGE=local   -e STORAGE_LOCAL_ROOTDIR=/charts   -v $(pwd)/charts:/charts ghcr.io/helm/chartmuseum:v0.14.0
 ```
 
-#### 2.create: at Developer Machine creating arranging helm templates and values 
+#### 2.create: at Developer Machine creating/arranging a helm templates with values 
 ```
 git clone https://github.com/naren4b/helm-charts.git
 cd helm-charts/charts
@@ -17,7 +17,7 @@ git add -A
 git commit -m "nks-web chart added"
 git push
 ```
-#### 3.package & push :  at build machine for packaging and pushing the chart 
+#### 3.package & push :  at build machine packaging and pushing the helm chart 
 ```
 helm plugin install https://github.com/chartmuseum/helm-push
 git clone https://github.com/naren4b/helm-charts.git
