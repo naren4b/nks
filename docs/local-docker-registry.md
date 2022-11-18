@@ -1,5 +1,5 @@
 
-# Setup secureed local registry in local docker or k8s kind cluster 
+# Setting up a secured local registry (local docker or k8s kind cluster)
 ![https://raw.githubusercontent.com/docker-library/docs/b09c592af0d6061629e02e4f674d22848f8236e8/registry/logo.png](https://raw.githubusercontent.com/docker-library/docs/b09c592af0d6061629e02e4f674d22848f8236e8/registry/logo.png)
 ### Prepare the certs 
 ```
