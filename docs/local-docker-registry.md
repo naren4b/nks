@@ -57,6 +57,38 @@ docker push docker-registry:5000/httpbin
 ![image](https://user-images.githubusercontent.com/3488520/202600528-2e5ff735-ac30-40f2-ab7b-19a6ad3a15d8.png)
 
 
+### Let's do some more images that needs to be pushed to local-registry
+```
+cat > images.txt <<EOF 
+ghcr.io/siderolabs/flannel:v0.19.2
+ghcr.io/siderolabs/install-cni:v1.2.0-2-gf14175f
+docker.io/coredns/coredns:1.9.3
+gcr.io/etcd-development/etcd:v3.5.5
+k8s.gcr.io/kube-apiserver:v1.25.2
+k8s.gcr.io/kube-controller-manager:v1.25.2
+k8s.gcr.io/kube-scheduler:v1.25.2
+k8s.gcr.io/kube-proxy:v1.25.2
+ghcr.io/siderolabs/kubelet:v1.25.2
+ghcr.io/siderolabs/installer:v1.2.5
+k8s.gcr.io/pause:3.6
+EOF
+```
+### Push the images 
+```
+for image in `cat images.txt`; do docker pull $image; done
+
+for image in `cat images`; do \
+    docker tag $image `echo $image | sed -E 's#^[^/]+/#docker-registry:5000/#'`; \
+  done
+  
+for image in `cat images.txt`; do \
+    docker push `echo $image | sed -E 's#^[^/]+/#docker-registry:6000/#'`; \
+  done
+
+```
+
+
+
 # Setuping up same in a kubernetes cluster (kind)
 ### Let's setup certficate and password for docker pod in k8s 
 ```
@@ -148,3 +180,5 @@ kubectl get pod,svc
 kubectl port-forward docker-registry-pod 5000 --address 0.0.0.0
 ```
 ![image](https://user-images.githubusercontent.com/3488520/202592241-d55698b5-c28b-4cb2-a4fe-02cb71a15096.png)
+
+Demo at : https://killercoda.com/killer-shell-cks/scenario/container-namespaces-docker 
