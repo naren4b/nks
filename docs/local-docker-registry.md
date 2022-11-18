@@ -1,5 +1,6 @@
 
-# Setup a local registry in kind cluster 
+# Setup secureed local registry in local docker or k8s kind cluster 
+![https://raw.githubusercontent.com/docker-library/docs/b09c592af0d6061629e02e4f674d22848f8236e8/registry/logo.png](https://raw.githubusercontent.com/docker-library/docs/b09c592af0d6061629e02e4f674d22848f8236e8/registry/logo.png)
 ### Prepare the certs 
 ```
 CURRENT_PATH=${PWD}
@@ -15,6 +16,23 @@ docker run --rm --entrypoint htpasswd registry:2.6.2 -Bbn $username ${password} 
 ls ${CURRENT_PATH}/registry/auth/htpasswd
 ```
 
+# To setup in docker 
+```
+docker run -d \
+   -p 5000:5000 \
+   --restart=always \
+   --name docker-registry \
+   -v ${CURRENT_PATH}/registry/auth:/auth \
+   -e "REGISTRY_AUTH=htpasswd" \
+   -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
+   -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd \
+   -v ${CURRENT_PATH}/registry/certs:/certs \
+   -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/tls.crt \
+   -e REGISTRY_HTTP_TLS_KEY=/certs/tls.key \
+   registry:2.6.2
+
+```
+# Setup in k8s cluster (kind)
 ### Let's setup certficate and password for docker pod in k8s 
 ```
 kubectl create secret tls certs-secret --cert=${CURRENT_PATH}/registry/certs/tls.crt --key=${CURRENT_PATH}/registry/certs/tls.key
@@ -98,7 +116,6 @@ spec:
       secretName: auth-secret
 EOF
 ```
-
 
 ### Check the pod, service and files
 ```
