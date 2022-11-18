@@ -9,12 +9,15 @@ openssl req -x509 -newkey rsa:4096 -days 365 -nodes -sha256 -keyout ${CURRENT_PA
 ```
 ### Prepare the user credentials 
 ```
-mkdir ${CURRENT_PATH}/registry/auth
-read -p  "Enter User Name" $username
-read -ps "Enter Password" $password
-docker run --rm --entrypoint htpasswd registry:2.6.2 -Bbn $username ${password} > ${CURRENT_PATH}/registry/auth/htpasswd
+mkdir -p ${CURRENT_PATH}/registry/auth
+read -p  "Enter User Name: " username
+read -s -p "Enter Password: " password
+echo ""
+docker run --rm --entrypoint htpasswd registry:2.6.2 -Bbn ${username} ${password} > ${CURRENT_PATH}/registry/auth/htpasswd
 ls ${CURRENT_PATH}/registry/auth/htpasswd
 ```
+
+![image](https://user-images.githubusercontent.com/3488520/202599219-4e51c3ad-4d96-47e3-88c3-73c1cd1a0a07.png)
 
 # To setup in docker 
 ```
@@ -124,7 +127,6 @@ kubectl port-forward docker-registry-pod 5000 --address 0.0.0.0
 ```
 ![image](https://user-images.githubusercontent.com/3488520/202592241-d55698b5-c28b-4cb2-a4fe-02cb71a15096.png)
 
-![image](https://user-images.githubusercontent.com/3488520/202592039-12c4822d-4e12-4df3-9263-5e04974d415b.png)
 
 
 ### Let's check the client part 
@@ -136,7 +138,8 @@ sudo mkdir -p /etc/docker/certs.d/docker-registry:5000
 sudo cp ${CURRENT_PATH}/registry/certs/tls.crt /etc/docker/certs.d/docker-registry:5000/ca.crt
 sudo docker login docker-registry:5000
 ```
-![image](https://user-images.githubusercontent.com/3488520/202591844-27eb3c73-1e4e-4a8d-9c3e-6e45302847d4.png)
+![image](https://user-images.githubusercontent.com/3488520/202599108-3833f8d5-657f-4ac5-983b-2d9d14762cc9.png)
+
 
 ### Let's try some operation 
 ```
