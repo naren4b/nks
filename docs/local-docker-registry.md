@@ -35,7 +35,29 @@ docker run -d \
    registry:2.6.2
 
 ```
-# Setup in k8s cluster (kind)
+### Let's check the client part 
+```
+export REGISTRY_NAME="docker-registry"
+export REGISTRY_IP="127.0.0.1"
+echo '$REGISTRY_IP $REGISTRY_NAME' >> /etc/hosts
+sudo mkdir -p /etc/docker/certs.d/docker-registry:5000
+sudo cp ${CURRENT_PATH}/registry/certs/tls.crt /etc/docker/certs.d/docker-registry:5000/ca.crt
+sudo docker login docker-registry:5000
+```
+![image](https://user-images.githubusercontent.com/3488520/202599108-3833f8d5-657f-4ac5-983b-2d9d14762cc9.png)
+
+
+### Let's try some operation 
+```
+docker pull kennethreitz/httpbin
+docker tag kennethreitz/httpbin docker-registry:5000/httpbin
+docker push docker-registry:5000/httpbin
+```
+![image](https://user-images.githubusercontent.com/3488520/202599900-66372490-f2ed-4fd9-85d4-bcb28d401d69.png)
+![image](https://user-images.githubusercontent.com/3488520/202600528-2e5ff735-ac30-40f2-ab7b-19a6ad3a15d8.png)
+
+
+# Setuping up same in a kubernetes cluster (kind)
 ### Let's setup certficate and password for docker pod in k8s 
 ```
 kubectl create secret tls certs-secret --cert=${CURRENT_PATH}/registry/certs/tls.crt --key=${CURRENT_PATH}/registry/certs/tls.key
@@ -126,24 +148,3 @@ kubectl get pod,svc
 kubectl port-forward docker-registry-pod 5000 --address 0.0.0.0
 ```
 ![image](https://user-images.githubusercontent.com/3488520/202592241-d55698b5-c28b-4cb2-a4fe-02cb71a15096.png)
-
-
-
-### Let's check the client part 
-```
-export REGISTRY_NAME="docker-registry"
-export REGISTRY_IP="127.0.0.1"
-echo '$REGISTRY_IP $REGISTRY_NAME' >> /etc/hosts
-sudo mkdir -p /etc/docker/certs.d/docker-registry:5000
-sudo cp ${CURRENT_PATH}/registry/certs/tls.crt /etc/docker/certs.d/docker-registry:5000/ca.crt
-sudo docker login docker-registry:5000
-```
-![image](https://user-images.githubusercontent.com/3488520/202599108-3833f8d5-657f-4ac5-983b-2d9d14762cc9.png)
-
-
-### Let's try some operation 
-```
-docker pull kennethreitz/httpbin
-docker tag kennethreitz/httpbin docker-registry:5000/httpbin
-docker push docker-registry:5000/httpbin
-```
