@@ -5,7 +5,11 @@
 ```
 CURRENT_PATH=${PWD}
 mkdir -p ${CURRENT_PATH}/registry/certs && cd "$_"
-openssl req -x509 -newkey rsa:4096 -days 365 -nodes -sha256 -keyout ${CURRENT_PATH}/registry/certs/tls.key -out ${CURRENT_PATH}/registry/certs/tls.crt -subj "/CN=docker-registry" -addext "subjectAltName = DNS:docker-registry"
+openssl req -x509 -newkey rsa:4096 -days 365 -nodes -sha256 \
+            -keyout ${CURRENT_PATH}/registry/certs/tls.key \
+            -out ${CURRENT_PATH}/registry/certs/tls.crt -subj "/CN=docker-registry" 
+            -addext "subjectAltName = DNS:docker-registry" \
+            
 ```
 ### Prepare the user credentials 
 ```
