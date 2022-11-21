@@ -3,95 +3,113 @@
 ![https://raw.githubusercontent.com/docker-library/docs/b09c592af0d6061629e02e4f674d22848f8236e8/registry/logo.png](https://raw.githubusercontent.com/docker-library/docs/b09c592af0d6061629e02e4f674d22848f8236e8/registry/logo.png)
 ### Prepare the certs 
 ```
+REGISTRY_URL=registry.nks.local
+
+rm -rf registry/
 CURRENT_PATH=${PWD}
 mkdir -p ${CURRENT_PATH}/registry/certs && cd "$_"
-openssl req -x509 -newkey rsa:4096 -days 365 -nodes -sha256 \
-            -keyout ${CURRENT_PATH}/registry/certs/tls.key \
-            -out ${CURRENT_PATH}/registry/certs/tls.crt -subj "/CN=docker-registry" \
-            -addext "subjectAltName = DNS:docker-registry" 
+openssl req -x509 -newkey rsa:4096 -days 365 -nodes -sha256             -keyout ${CURRENT_PATH}/registry/certs/tls.key             -out ${CURRENT_PATH}/registry/certs/tls.crt -subj "/CN=$REGISTRY_URL"             -addext "subjectAltName = DNS:$REGISTRY_URL" 
+cd ..
+
+
             
 ```
 ### Prepare the user credentials 
 ```
-mkdir -p ${CURRENT_PATH}/registry/auth
-read -p  "Enter User Name: " username
-read -s -p "Enter Password: " password
-echo ""
-docker run --rm --entrypoint htpasswd registry:2.6.2 -Bbn ${username} ${password} > ${CURRENT_PATH}/registry/auth/htpasswd
-ls ${CURRENT_PATH}/registry/auth/htpasswd
+mkdir auth
+docker run \
+  --entrypoint htpasswd \
+  httpd:2 -Bbn testuser testpassword > auth/htpasswd
+  
 ```
+![image](https://user-images.githubusercontent.com/3488520/203063122-cd361841-b9f5-4c19-8f23-112ddc69a0ab.png)
 
-![image](https://user-images.githubusercontent.com/3488520/202599219-4e51c3ad-4d96-47e3-88c3-73c1cd1a0a07.png)
+
 
 # To setup in docker 
 ```
 docker run -d \
-   -p 5000:5000 \
-   --restart=always \
-   --name docker-registry \
-   -v ${CURRENT_PATH}/registry/auth:/auth \
-   -e "REGISTRY_AUTH=htpasswd" \
-   -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
-   -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd \
-   -v ${CURRENT_PATH}/registry/certs:/certs \
-   -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/tls.crt \
-   -e REGISTRY_HTTP_TLS_KEY=/certs/tls.key \
-   registry:2.6.2
+  --restart=always \
+  --name registry \
+  -v "$(pwd)"/certs:/certs \
+  -e REGISTRY_HTTP_ADDR=0.0.0.0:443 \
+  -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/tls.crt \
+  -e REGISTRY_HTTP_TLS_KEY=/certs/tls.key \
+  -v "$(pwd)"/auth:/auth \
+  -e "REGISTRY_AUTH=htpasswd" \
+  -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
+  -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd \
+  -p 443:443 \
+  registry:2
+  
+# https://docs.docker.com/registry/insecure/#deploy-a-plain-http-registry
+
 
 ```
 ### Let's check the client part 
 ```
-export REGISTRY_NAME="docker-registry"
-export REGISTRY_IP="127.0.0.1"
-echo '$REGISTRY_IP $REGISTRY_NAME' >> /etc/hosts
-sudo mkdir -p /etc/docker/certs.d/docker-registry:5000
-sudo cp ${CURRENT_PATH}/registry/certs/tls.crt /etc/docker/certs.d/docker-registry:5000/ca.crt
-sudo docker login docker-registry:5000
+
+mkdir -p /etc/docker/certs.d/$REGISTRY_URL
+cp certs/tls.crt  /etc/docker/certs.d/$REGISTRY_URL/ca.crt
+cp certs/tls.crt /usr/local/share/ca-certificates/$REGISTRY_URL.crt
+echo "127.0.0.1 $REGISTRY_URL" >> /etc/hosts
+
+echo $REGISTRY_URL
+vi /etc/docker/daemon.json
+
+{
+  "insecure-registries" : ["registry.nks.local"]
+}
+
+systemctl restart docker 
 ```
 ![image](https://user-images.githubusercontent.com/3488520/202599108-3833f8d5-657f-4ac5-983b-2d9d14762cc9.png)
 
 
 ### Let's try some operation 
 ```
-docker pull kennethreitz/httpbin
-docker tag kennethreitz/httpbin docker-registry:5000/httpbin
-docker push docker-registry:5000/httpbin
+systemctl restart docker 
+
+
+docker pull alpine:3.14
+docker tag alpine:3.14 $REGISTRY_URL/my-alpine:3.14
+
+export REGISTRY_AUTH_USER=testuser
+export REGISTRY_AUTH_PASSWORD=testpassword 
+docker login $REGISTRY_URL -u $REGISTRY_AUTH_USER -p $REGISTRY_AUTH_PASSWORD
+
+docker push $REGISTRY_URL/my-alpine:3.14
+docker pull $REGISTRY_URL/my-alpine:3.14
+
 ```
-![image](https://user-images.githubusercontent.com/3488520/202599900-66372490-f2ed-4fd9-85d4-bcb28d401d69.png)
-![image](https://user-images.githubusercontent.com/3488520/202600528-2e5ff735-ac30-40f2-ab7b-19a6ad3a15d8.png)
+![image](https://user-images.githubusercontent.com/3488520/203063815-8f5806fa-9d6d-4d0c-afd7-48d8bdbadce0.png)
+![image](https://user-images.githubusercontent.com/3488520/203063931-ce91496a-0b04-4cfa-9006-cb1419da50c7.png)
 
 
 ### Let's do some more images that needs to be pushed to local-registry
 ```
 cat > images.txt <<EOF 
 ghcr.io/siderolabs/flannel:v0.19.2
-ghcr.io/siderolabs/install-cni:v1.2.0-2-gf14175f
-docker.io/coredns/coredns:1.9.3
-gcr.io/etcd-development/etcd:v3.5.5
-k8s.gcr.io/kube-apiserver:v1.25.2
-k8s.gcr.io/kube-controller-manager:v1.25.2
-k8s.gcr.io/kube-scheduler:v1.25.2
-k8s.gcr.io/kube-proxy:v1.25.2
-ghcr.io/siderolabs/kubelet:v1.25.2
-ghcr.io/siderolabs/installer:v1.2.5
-k8s.gcr.io/pause:3.6
 EOF
 ```
 ### Push the images 
 ```
 for image in `cat images.txt`; do docker pull $image; done
 
-for image in `cat images`; do \
-    docker tag $image `echo $image | sed -E 's#^[^/]+/#docker-registry:5000/#'`; \
+for image in `cat images.txt`; do \
+    docker tag $image `echo $image | sed -E 's#^[^/]+/#registry.nks.local/#'`; \
   done
   
 for image in `cat images.txt`; do \
-    docker push `echo $image | sed -E 's#^[^/]+/#docker-registry:6000/#'`; \
+    docker push `echo $image | sed -E 's#^[^/]+/#registry.nks.local/#'`; \
   done
 
 ```
 ### Check 
-![image](https://user-images.githubusercontent.com/3488520/202604971-46e30bc5-27ac-4a22-81c5-4df7eb5a7d7d.png)
+```
+docker exec -it registry ls /var/lib/registry/docker/registry/v2/repositories
+```
+![image](https://user-images.githubusercontent.com/3488520/203064898-f1bd705c-bbe2-4e3e-8634-18efa489d893.png)
 
 
 
