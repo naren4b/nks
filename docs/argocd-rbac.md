@@ -1,7 +1,5 @@
 # Setting up local User for ArgoCD
-
-ws: https://killercoda.com/kubernetes/scenario/a-playground
-
+![argocd](https://github.com/argoproj/argo-cd/blob/master/docs/assets/argo.png)
 
 #### Install the argocd
 ```
@@ -36,7 +34,5 @@ argocd account list
 ![image](https://user-images.githubusercontent.com/3488520/204011839-a2d042b0-0f8e-4864-803a-97753443432d.png)
 ![image](https://user-images.githubusercontent.com/3488520/204012094-354261a1-bf4a-4bf9-be46-30a17c41b06e.png)
 
-
-
-
+ws: https://killercoda.com/kubernetes/scenario/a-playground
 
