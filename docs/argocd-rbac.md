@@ -1,5 +1,5 @@
 # Setting up ArgoCD with local User & RBAC 
-![argocd](https://github.com/argoproj/argo-cd/blob/master/docs/assets/argo.png)
+![ArgoCD](https://github.com/argoproj/argo-cd/blob/ba8931b67d940f1276618b2261098e5e9e2b9128/docs/assets/argo.png)
 
 #### Install the argocd
 ```
