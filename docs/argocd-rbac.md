@@ -1,5 +1,7 @@
-# Setting up ArgoCD with local User & RBAC 
-![ArgoCD](https://argo-cd.readthedocs.io/en/stable/assets/logo.png)
+# Setting up ArgoCD in k8s cluster with local User & RBAC 
+| ![k8s](https://global.discourse-cdn.com/business6/uploads/kubernetes/original/1X/fff22d6fa6d9f59c79c7dae9b3296369789f1ff5.png) |![ArgoCD](https://argo-cd.readthedocs.io/en/stable/assets/logo.png)|
+|:---:|:---:|
+
 
 #### Install the argocd
 ```
