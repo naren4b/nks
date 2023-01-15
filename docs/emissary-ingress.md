@@ -1,4 +1,6 @@
 # Emissary-ingress quick start in KIND Cluster (Windows)
+![emissary](https://user-images.githubusercontent.com/3488520/212543711-92b75407-23ae-4e00-b448-b6f3c34361c6.jpg)
+
 ## Create KIND cluster 
 ```
 cat > emissary-ingress-kind-config.yaml <<EOF
