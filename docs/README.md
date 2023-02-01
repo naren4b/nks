@@ -4,6 +4,7 @@
 |20-Nov-2022 | [Setting up a secured local registry (local docker or k8s kind cluster)](local-docker-registry.md)|
 |25-Nov-2022 | [Setting up local User for ArgoCD](argocd-rbac.md)|
 |15-Jan-2023 | [Emissary-ingress quick start in KIND Cluster (Windows)](emissary-ingress.md)|
+|01-Feb-2023 | [Setting up your Own PKI with OpenSSL](openssl-certificate.md)|
 
 
 _by nks[^note]_
