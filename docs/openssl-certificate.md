@@ -1,4 +1,4 @@
-# Generate OpenSSL Certificates 
+# Setting up your Own PKI with OpenSSL
 ```
 CA_NAME="NKS Certificate Authority"
 CERT_NAME="Dummy Server"
