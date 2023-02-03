@@ -1,4 +1,8 @@
 # Setting up your Own PKI with OpenSSL
+
+![misc-open-ssl](https://user-images.githubusercontent.com/3488520/216543035-7dfd337c-34fd-4210-897f-97f99b843ae9.jpg)
+
+# Input 
 ```
 CA_NAME="NKS Certificate Authority"
 CERT_NAME="Dummy Server"
