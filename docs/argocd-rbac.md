@@ -26,6 +26,8 @@ argocd account update-password
 ### Set up default policy,role
 ```
 kubectl patch -n argocd cm argocd-cm --patch='{"data":{"policy.default": "role:readonly" }}'
+kubectl patch -n argocd cm argocd-rbac-cm --patch='{"data":{"policy.default": "role:readonly" }}'
+
 ```
 
 ### Create a local user 
