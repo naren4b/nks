@@ -46,3 +46,20 @@ argocd account update-password  --current-password=${curentpassword} --new-passw
 
 ws: https://killercoda.com/kubernetes/scenario/a-playground
 
+### Create new group 
+```
+cat<< EOF > argocd-patch.yaml
+data:
+  policy.csv: |
+    p, role:org-admin, applications, get, */*, allow
+    p, role:org-admin, applications, sync, */*, allow
+    p, role:org-admin, logs, get, *, allow
+
+    g, naren, role:org-admin
+  policy.default: role:readonly
+EOF
+
+kubectl patch cm -n argocd argocd-rbac-cm --patch-file argocd-patch.yaml
+
+```
+
