@@ -32,8 +32,13 @@ kubectl patch -n argocd cm argocd-rbac-cm --patch='{"data":{"policy.default": "r
 
 ### Create a local user 
 ```
-kubectl patch -n argocd cm argocd-cm --patch='{"data":{"accounts.naren": "apikey,login" }}'
+username=naren
+newpassword=newpassword
+curentpassword=curentpassword
+
+kubectl patch -n argocd cm argocd-cm --patch='{"data":{"accounts.${username}": "apikey,login" }}'
 argocd account list 
+argocd account update-password  --current-password=${curentpassword} --new-password=${newpassword} --account=${username}
 
 ```
 ![image](https://user-images.githubusercontent.com/3488520/204011839-a2d042b0-0f8e-4864-803a-97753443432d.png)
