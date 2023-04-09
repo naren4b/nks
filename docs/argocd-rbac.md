@@ -110,5 +110,6 @@ data:
 EOF
 kubectl patch secret -n argocd argocd-secret --patch-file argocd-secret-oidc.yaml
 
-
 ```
+![image](https://user-images.githubusercontent.com/3488520/230786901-6d8d39fb-e09e-4bef-b912-651b1d60505c.png)
+
