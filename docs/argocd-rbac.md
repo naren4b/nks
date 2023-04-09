@@ -62,4 +62,53 @@ EOF
 kubectl patch cm -n argocd argocd-rbac-cm --patch-file argocd-patch.yaml
 
 ```
+### Enable OIDC login 
+```
+# Add OIDC config
 
+directory_tenant_id=YYYYAAAA
+azure_ad_application_client_id=XXXXXXX
+
+cat<<EOF > argocd-oidc-values.yaml
+data:
+    oidc.config: |
+             name: Azure
+             issuer: https://login.microsoftonline.com/${directory_tenant_id}/v2.0
+             clientID: ${azure_ad_application_client_id}
+             clientSecret: ".azure.clientSecret"
+             requestedIDTokenClaims:
+                groups:
+                   essential: true
+             requestedScopes:
+                - openid
+                - profile
+                - email
+EOF
+kubectl patch cm -n argocd argocd-cm --patch-file argocd-oidc-values.yaml
+
+#Add the ArgoCD RBAC
+group_id=AAAAABBBBB12222
+cat<< EOF > argocd-patch.yaml
+data:
+  policy.csv: |
+    p, role:org-admin, applications, get, */*, allow
+    p, role:org-admin, applications, sync, */*, allow
+    p, role:org-admin, logs, get, *, allow
+
+    g, $group_id, role:org-admin
+  policy.default: role:readonly
+EOF
+
+kubectl patch cm -n argocd argocd-rbac-cm --patch-file argocd-patch.yaml
+
+#Add the secret 
+client_secret=AAAAAAAASSSSSSSSSSS23434535
+client_secret=$(echo -n ${client_secret} | base64)
+cat<<EOF >argocd-secret-oidc.yaml
+data:
+ oidc.azure.clientSecret: ${client_secret}
+EOF
+kubectl patch secret -n argocd argocd-secret --patch-file argocd-secret-oidc.yaml
+
+
+```
