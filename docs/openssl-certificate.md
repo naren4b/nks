@@ -47,7 +47,7 @@ IP.1 = $NODE_IP
 [ v3_ext ]
 authorityKeyIdentifier=keyid,issuer:always
 basicConstraints=CA:FALSE
-keyUsage=keyEncipherment,dataEncipherment
+keyUsage=keyEncipherment,dataEncipherment,digitalSignature,nonRepudiation
 extendedKeyUsage=serverAuth,clientAuth
 subjectAltName=@alt_names
 EOF
