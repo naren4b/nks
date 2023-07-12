@@ -5,6 +5,7 @@
 |25-Nov-2022 | [Setting up local User for ArgoCD](argocd-rbac.md)|
 |15-Jan-2023 | [Emissary-ingress quick start in KIND Cluster (Windows)](emissary-ingress.md)|
 |01-Feb-2023 | [Setting up your Own PKI with OpenSSL](openssl-certificate.md)|
+|12-Jul-2023 | [Resource Management for Pods and Containers](k8s-resource-management.md)|
 
 
 _by nks[^note]_
