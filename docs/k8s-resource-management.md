@@ -1,7 +1,7 @@
 # Kubernetes Resource Management 
  ![image](https://github.com/naren4b/nks/assets/3488520/569a3368-f664-49d3-a5d1-02c72086a5e7)
 
-## Resource Management for Pods and Containers</Summary>
+## Resource Management for Pods and Containers
 
 ### Request:
   When you specify the resource request for containers in a Pod, the kube-scheduler uses this information to decide which node to place the Pod on
