@@ -9,8 +9,8 @@
 
 _by nks[^note]_
 
-
 [^note]:
     To me, giving back is so important. It makes others feel good which then in return makes me feel good.
     
-    :yellow_heart: nks(Naren Kubernetes Solutions)
+    ❤nks(Naren Kubernetes Solutions)
+      https://github.com/naren4b/nks
