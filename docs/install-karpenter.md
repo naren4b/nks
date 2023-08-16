@@ -1,7 +1,7 @@
-https://repost.aws/knowledge-center/eks-install-karpenter
+# Setup Karpenter in the EKS cluster 
 
 # Step 1. Setup Environment 
-```
+```bash
 export KARPENTER_VERSION=v0.29.2 #todo change
 
 
@@ -40,7 +40,7 @@ AmazonSSMManagedInstanceCore
 
 ### 2.2 KarpenterControllerRole
 #### 2.2.1 policy file 
-```
+```bash
 echo '{
     "Statement": [
         {
@@ -83,16 +83,15 @@ echo '{
 }' > controller-policy.json
 ```
 #### 2.2.  Apply the policy
-```
+```bash
 aws iam create-policy --policy-name KarpenterControllerPolicy-${CLUSTER_NAME} --policy-document file://controller-policy.json
 ```
 
 ### 2.3. Create an IAM OIDC identity provider for your cluster using this eksctl command
 ref: https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html
-```
-```
+
 ### 2.4.  Create the IAM role for Karpenter Controller using the eksctl command. Associate the Kubernetes Service Account and the IAM role using IRSA.
-```
+```bash
 eksctl create iamserviceaccount \
   --cluster "${CLUSTER_NAME}" --name karpenter --namespace karpenter \
   --role-name "KarpenterControllerRole-${CLUSTER_NAME}" \
@@ -100,12 +99,9 @@ eksctl create iamserviceaccount \
   --role-only \
   --approve
 ```
-
-
 # Step 3. Add tags to subnets and security groups
-
 ### 3.1. Add tags to node group subnets so that Karpenter knows the subnets to use.
-```
+```bash
 # Check 
 for NODEGROUP in $(aws eks list-nodegroups --cluster-name ${CLUSTER_NAME} \
     --query 'nodegroups' --output text); do echo aws ec2 create-tags \
@@ -114,21 +110,20 @@ for NODEGROUP in $(aws eks list-nodegroups --cluster-name ${CLUSTER_NAME} \
         --nodegroup-name $NODEGROUP --query 'nodegroup.subnets' --output text )
 done
 
-# Check 
+# Apply  
 for NODEGROUP in $(aws eks list-nodegroups --cluster-name ${CLUSTER_NAME} \
     --query 'nodegroups' --output text); do aws ec2 create-tags \
         --tags "Key=karpenter.sh/discovery,Value=${CLUSTER_NAME}" \
         --resources $(aws eks describe-nodegroup --cluster-name ${CLUSTER_NAME} \
         --nodegroup-name $NODEGROUP --query 'nodegroup.subnets' --output text )
 done
-
 ```
 
 ### 3.2. Add tags to security groups.
 The following commands add tags only to the security groups of the first node group. 
 If you have multiple node groups or multiple security groups, you must decide the security group that Karpenter will use
 
-```
+```bash
 NODEGROUP=$(aws eks list-nodegroups --cluster-name ${CLUSTER_NAME} --query 'nodegroups[0]' --output text)
  
 LAUNCH_TEMPLATE=$(aws eks describe-nodegroup --cluster-name ${CLUSTER_NAME} \
@@ -153,29 +148,33 @@ aws ec2 create-tags \
 
 # Step 4. Update aws-auth ConfigMap
 ### 4.1. Update the aws-auth ConfigMap in the cluster to allow the nodes that use the KarpenterInstanceNodeRole IAM role to join the cluster. Run the following command:
-```
+```bash
 kubectl edit configmap aws-auth -n kube-system
+
 ```
 
 ### 4.2. Add a section to mapRoles that looks similar to this example:    
 Note: Replace the ${AWS_ACCOUNT_ID} variable with your account, but don't replace {{EC2PrivateDNSName}}.
-```
+```bash
+
 - groups:
   - system:bootstrappers
   - system:nodes
   rolearn: arn:aws:iam::${AWS_ACCOUNT_ID}:role/KarpenterInstanceNodeRole
   username: system:node:{{EC2PrivateDNSName}}
+
 ```
 
 # Step 5. Install Karpenter , Set nodeAffinity
-```
+```bash
+
 helm template karpenter oci://public.ecr.aws/karpenter/karpenter --version ${KARPENTER_VERSION} --namespace karpenter \
     --set settings.aws.defaultInstanceProfile=KarpenterInstanceProfile \
     --set settings.aws.clusterEndpoint="${CLUSTER_ENDPOINT}" \
     --set settings.aws.clusterName=${CLUSTER_NAME} \
     --set serviceAccount.annotations."eks\.amazonaws\.com/role-arn"="arn:aws:iam::${AWS_ACCOUNT_ID}:role/KarpenterControllerRole-${CLUSTER_NAME}" > karpenter.yaml
 
-
+# Set the node affinity
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
@@ -198,7 +197,7 @@ kubectl apply -f karpenter.yaml
 ```
 
 # Step 6.  Create sample Provisioner & AWSNodeTemplate
-```
+```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: karpenter.sh/v1alpha5
 kind: Provisioner
@@ -230,15 +229,19 @@ EOF
 
 
 # Step 7. Keep reserved nodes for the critial services 
-```
+```bash
 aws eks update-nodegroup-config --cluster-name ${CLUSTER_NAME} \
     --nodegroup-name ${NODEGROUP} \
     --scaling-config "minSize=2,maxSize=2,desiredSize=2"
 ```
 
 # Step 8. Check the karpenter logs 
-```
-
+```bash
 kubectl logs -f -n karpenter -c controller -l app.kubernetes.io/name=karpenter
-
 ```
+
+ref: 
+- https://repost.aws/knowledge-center/eks-install-karpenter
+- https://karpenter.sh/docs/getting-started/getting-started-with-karpenter/
+
+
