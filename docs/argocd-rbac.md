@@ -1,9 +1,5 @@
 # Setting up ArgoCD in k8s cluster with local User & RBAC 
 ![argocd-rbac](https://user-images.githubusercontent.com/3488520/204094103-33ed7434-efe4-489b-afc5-c4971ef37d90.jpg)
-
-
-
-
 ### Install the argocd
 ```
 kubectl create namespace argocd
@@ -62,16 +58,24 @@ EOF
 kubectl patch cm -n argocd argocd-rbac-cm --patch-file argocd-patch.yaml
 ```
 ### OIDC setup 
+![image](https://github.com/naren4b/nks/assets/3488520/e0c06390-2d68-4322-a2a4-1f41f985c02a)
+Follow the details given here : for azure-ad app registration:  https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/microsoft/#azure-ad-app-registration-auth-using-oidc
 ```
 client_id=d454545436543-erewr-erewr-34323532535
 tenant_id=43423-9675-428d-917b-454353dfdft5
 client_secret=rrtretet~fdgfdgdgfdgdfgccccccccccc
+url=argocd.local.testing.com #your choice of argocd url 
 ```
+
+
 
 ### Add the config
 ```
 cat<<EOF > argocd-cm-oidc-patch.yaml
 data:
+    oidc.tls.insecure.skip.verify: "true" # If you have inscure setup 
+    policy.default: role:readonly
+    url: https://$url
     oidc.config: |
              name: Azure
              issuer: https://login.microsoftonline.com/${tenant_id}/v2.0
@@ -100,11 +104,11 @@ kubectl patch secret -n argocd argocd-secret --patch-file argocd-secret-oidc.yam
 ```
 ### Add the ArgoCD RBAC
 ```
-group_id=dsfsdfsdfsdfsdf34354345-345353
+object_id=xxxxxxxxx-dyyyyy-4021e1-c04a-1333e1ad1982
 cat<< EOF > argocd-rbac-cm-patch.yaml
 data:
   policy.csv: |
-    g, $group_id, role:admin
+    g, $object_id, role:admin
   policy.default: role:readonly
 EOF
 
