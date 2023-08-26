@@ -1,5 +1,6 @@
 #!/bin/sh
 set -o errexit
+set -x 
 source config.sh
 
 if [ "$(docker inspect -f '{{.State.Running}}' "${reg_name}" 2>/dev/null || true)" != 'true' ]; then

@@ -4,6 +4,4 @@ Cluster Autoscaler - a component that automatically adjusts the size of a Kubern
 
 Vertical Pod Autoscaler - a set of components that automatically adjust the amount of CPU and memory requested by pods running in the Kubernetes Cluster. Current state - beta.
 
-
-
 reference: https://github.com/kubernetes/autoscaler/tree/master

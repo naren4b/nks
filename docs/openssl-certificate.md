@@ -2,7 +2,8 @@
 
 ![misc-open-ssl](https://user-images.githubusercontent.com/3488520/216543035-7dfd337c-34fd-4210-897f-97f99b843ae9.jpg)
 
-# Input 
+# Input
+
 ```
 CA_NAME="NKS Certificate Authority"
 CERT_NAME="Dummy Server"
@@ -54,26 +55,29 @@ EOF
 ```
 
 # Generate ca.key and ca.crt
+
 ```
 openssl genrsa -out ca.key 2048
 openssl req -x509 -new -nodes -key ca.key -subj "/CN=${CA_NAME}" -days 10000 -out ca.crt
 ```
+
 ![image](https://user-images.githubusercontent.com/3488520/215917544-6589747a-0787-4d88-8fa0-f7bf696fe30e.png)
 
 # Generate Server Key & Server crt
+
 ```
 openssl genrsa -out server.key 2048
 openssl req -new -key server.key -out server.csr -config csr.conf
 openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key     -CAcreateserial -out server.crt -days 10000     -extensions v3_ext -extfile csr.conf -sha256
 ```
+
 ![image](https://user-images.githubusercontent.com/3488520/215917579-ba038caf-b827-4998-beaa-664c893ffd61.png)
 
 # View the certificate
+
 ```
 openssl req  -noout -text -in ./server.csr
 openssl x509  -noout -text -in ./server.crt
 ```
+
 ![image](https://user-images.githubusercontent.com/3488520/215917656-ffb4f441-5a79-4e2c-8770-a90779d70fe0.png)
-
-
-

@@ -1,7 +1,9 @@
 # Emissary-ingress quick start in KIND Cluster (Windows)
+
 ![emissary](https://user-images.githubusercontent.com/3488520/212543711-92b75407-23ae-4e00-b448-b6f3c34361c6.jpg)
 
-## Create KIND cluster 
+## Create KIND cluster
+
 ```
 cat > emissary-ingress-kind-config.yaml <<EOF
 kind: Cluster
@@ -12,20 +14,22 @@ nodes:
   extraPortMappings:
   - containerPort: 443
     hostPort: 443
-    listenAddress: "0.0.0.0"	
+    listenAddress: "0.0.0.0"
   - containerPort: 80
     hostPort: 80
-    listenAddress: "0.0.0.0"	
+    listenAddress: "0.0.0.0"
 EOF
-kind create cluster --name emissary-ingress-k8s --config emissary-ingress-kind-config.yaml 
-kubectl get nodes -o wide 
+kind create cluster --name emissary-ingress-k8s --config emissary-ingress-kind-config.yaml
+kubectl get nodes -o wide
 ```
-## Install emissary-ingress 
+
+## Install emissary-ingress
+
 ```
 # Add the Repo:
 helm repo add datawire https://app.getambassador.io
 helm repo update
- 
+
 # Create Namespace and Install:
 kubectl create namespace emissary && \
 kubectl apply -f https://app.getambassador.io/yaml/emissary/3.4.0/emissary-crds.yaml
@@ -34,7 +38,9 @@ helm install emissary-ingress --namespace emissary datawire/emissary-ingress --s
 kubectl -n emissary wait --for condition=available --timeout=90s deploy -lapp.kubernetes.io/instance=emissary-ingress
 
 ```
-## Install emissary-ingress Listener 
+
+## Install emissary-ingress Listener
+
 ```
 kubectl apply -f - <<EOF
 ---
@@ -66,12 +72,15 @@ spec:
       from: ALL
 EOF
 ```
+
 ## Install test Application `quickstart/qotm.yaml`
+
 ```
 kubectl apply -f https://app.getambassador.io/yaml/v2-docs/3.4.0/quickstart/qotm.yaml
 ```
 
 ## Install emissary-ingress Host
+
 ```
 
 kubectl apply -f - <<EOF
@@ -91,6 +100,7 @@ EOF
 ```
 
 ## Install emissary-ingress Mapping
+
 ```
 kubectl apply -f - <<EOF
 ---
@@ -108,13 +118,16 @@ EOF
 
 ```
 
-## Test the http link 
+## Test the http link
+
 ```
 curl -i http://localhost/backend/
 ```
 
-## Secure communication 
-#### Create the Certificate 
+## Secure communication
+
+#### Create the Certificate
+
 ```
 #Linux
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -subj '/CN=ambassador-cert' -nodes
@@ -122,22 +135,25 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -subj '/CN=amba
 #Windows (git-bash)
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -subj '//CN=ambassador-cert' -nodes
 
-#Verifiy 
+#Verifiy
 ls *.pem
 
 ```
-#### Create the TLS secret 
+
+#### Create the TLS secret
+
 ```
 kubectl create secret tls tls-cert --cert=cert.pem --key=key.pem
 ```
 
-## Test the https link 
+## Test the https link
+
 ```
 curl -Lk https://localhost:8443/backend/
 ```
 
-## Uninstall 
+## Uninstall
+
 ```
 kind delete cluster --name=emissary-ingress-k8s
 ```
-

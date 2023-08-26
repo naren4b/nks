@@ -6,14 +6,13 @@ metadata:
 spec:
   destination:
     namespace: argocd
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
   project: nks
   source:
-    path: 'nks/apps/argo-cd'
-    repoURL: 'https://github.com/naren4b/nks.git'
+    path: "nks/apps/argo-cd"
+    repoURL: "https://github.com/naren4b/nks.git"
     targetRevision: dev
     helm:
       valueFiles:
         - values.yaml
         - nks-values.yaml
-
