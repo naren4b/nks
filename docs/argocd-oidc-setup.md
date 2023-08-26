@@ -1,8 +1,9 @@
-# Azure AD App Registration Auth using OIDC(insecure)
+# Setting up ArgoCD with OIDC login in development environment (insecure ) 
 
 ![misc-argocd-oidc](https://github.com/naren4b/nks/assets/3488520/367bee69-8c63-4475-b58b-d0a12f91ebfe)
 This functionality is clearly explained in the ArgoCD documentation, but there are still a few aspects that have been overlooked, potentially causing issues when applied in a development environment. For someone who is new or inexperienced, resolving these matters might prove to be a challenging task. 
-refer [#azure-ad-app-registration-auth-using-oidc](https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/microsoft/#azure-ad-app-registration-auth-using-oidc) for detailed step. 
+
+Refer [#azure-ad-app-registration-auth-using-oidc](https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/microsoft/#azure-ad-app-registration-auth-using-oidc) for detailed step. 
 
 ### Collect these informations after Azure App is created [^note]_
 ```bash
@@ -39,7 +40,7 @@ EOF
 kubectl patch cm -n argocd argocd-cm --patch-file argocd-cm-oidc-patch.yaml
 ```
 
-### Add the secret 
+### Add Client Secret to the ArgoCD secret 
 ```bash
 client_secret=$(echo -n $client_secret | base64)
 cat<<EOF >argocd-secret-oidc.yaml
@@ -64,7 +65,7 @@ kubectl patch cm -n argocd argocd-rbac-cm --patch-file argocd-rbac-cm-patch.yaml
 ![image](https://user-images.githubusercontent.com/3488520/230786901-6d8d39fb-e09e-4bef-b912-651b1d60505c.png)
 
 <HR>
-
+#argocd #OIDC #k8s #local #rookie #learning #weekend #beginners #secrets 
 
 _[1]Collect configuration from Azure App_ 
 ![image](https://github.com/naren4b/nks/assets/3488520/e0c06390-2d68-4322-a2a4-1f41f985c02a)
