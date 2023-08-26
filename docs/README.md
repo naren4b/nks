@@ -6,7 +6,7 @@
 |15-Jan-2023 | [Emissary-ingress quick start in KIND Cluster (Windows)](emissary-ingress.md)|
 |01-Feb-2023 | [Setting up your Own PKI with OpenSSL](openssl-certificate.md)|
 |12-Jul-2023 | [Resource Management for Pods and Containers](k8s-resource-management.md)|
-|26-Aug-2023 | [Azure AD App Registration Auth using OIDC(insecure)](argocd-oidc-setup.md)|
+|26-Aug-2023 | [Setting up ArgoCD with OIDC login in development environment (insecure) ](argocd-oidc-setup.md)|
 
 
 _by nks[^note]_
