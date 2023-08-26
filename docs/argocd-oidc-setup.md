@@ -65,7 +65,7 @@ kubectl patch cm -n argocd argocd-rbac-cm --patch-file argocd-rbac-cm-patch.yaml
 ![image](https://user-images.githubusercontent.com/3488520/230786901-6d8d39fb-e09e-4bef-b912-651b1d60505c.png)
 
 <HR>
-#argocd #OIDC #k8s #local #rookie #learning #weekend #beginners #secrets 
+#argocd #OIDC #k8s #local #rookie #learning #weekend #beginners #secrets #devopsengineer #devops #sre #cicd #gitops 
 
 _[1]Collect configuration from Azure App_ 
 ![image](https://github.com/naren4b/nks/assets/3488520/e0c06390-2d68-4322-a2a4-1f41f985c02a)
