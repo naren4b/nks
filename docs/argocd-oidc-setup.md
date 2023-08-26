@@ -1,4 +1,4 @@
-# Azure AD App Registration Auth using OIDC
+# Azure AD App Registration Auth using OIDC(insecure)
 
 ![misc-argocd-oidc](https://github.com/naren4b/nks/assets/3488520/367bee69-8c63-4475-b58b-d0a12f91ebfe)
 This functionality is clearly explained in the ArgoCD documentation, but there are still a few aspects that have been overlooked, potentially causing issues when applied in a development environment. For someone who is new or inexperienced, resolving these matters might prove to be a challenging task. 
