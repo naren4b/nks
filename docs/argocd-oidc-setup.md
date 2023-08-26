@@ -49,8 +49,8 @@ EOF
 kubectl patch secret -n argocd argocd-secret --patch-file argocd-secret-oidc.yaml
 ```
 ### Add the ArgoCD RBAC
-```
-object_id=xxxxxxxxx-dyyyyy-4021e1-c04a-1333e1ad1982
+```bash
+object_id==12121212-4368-40ed-b07a-4e4e4r4r5r5r5
 cat<< EOF > argocd-rbac-cm-patch.yaml
 data:
   policy.csv: |
@@ -60,6 +60,6 @@ EOF
 
 kubectl patch cm -n argocd argocd-rbac-cm --patch-file argocd-rbac-cm-patch.yaml
 ```
-
+# That's it check your page [argocd.example.naren4biz.in](https://argocd.example.naren4biz.in)
 ![image](https://user-images.githubusercontent.com/3488520/230786901-6d8d39fb-e09e-4bef-b912-651b1d60505c.png)
 * ![image](https://github.com/naren4b/nks/assets/3488520/e0c06390-2d68-4322-a2a4-1f41f985c02a)
