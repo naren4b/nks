@@ -1,4 +1,5 @@
 # Configure users for your Kubernetes cluster
+Trying to give steps for giving access to users to a kubernetes cluster 
 ![image](https://github.com/naren4b/nks/assets/3488520/80a608b7-0c85-4a24-b6ac-97fca764b354)
 
 
@@ -106,5 +107,7 @@ ls -lrt
 ![image](https://github.com/naren4b/nks/assets/3488520/dde1b35c-c89f-403a-810b-9543a8189dca)
 
 ref: 
-- https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#approval-rejection-api-client
-- https://killercoda.com/playgrounds/scenario/kubernetes
+- [add-user.sh](https://gist.github.com/naren4b/3df4834e31ae6ad9fb1ce7f65915d12d.js)
+- [Doc reference for kubernetes.io](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#approval-rejection-api-client)
+- [Demo cluster killercoda.com](https://killercoda.com/playgrounds/scenario/kubernetes)
+
