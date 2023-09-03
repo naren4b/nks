@@ -104,3 +104,7 @@ echo delete pod -- $(kubectl auth can-i delete pod --as ${username})
 ls -lrt 
 ```
 ![image](https://github.com/naren4b/nks/assets/3488520/dde1b35c-c89f-403a-810b-9543a8189dca)
+
+ref: 
+- https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#approval-rejection-api-client
+- https://killercoda.com/playgrounds/scenario/kubernetes
