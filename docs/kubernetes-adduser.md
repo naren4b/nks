@@ -1,6 +1,8 @@
-# Configure users for your Kubernetes cluster
-Trying to give steps for giving access to users to a kubernetes cluster 
-![image](https://github.com/naren4b/nks/assets/3488520/80a608b7-0c85-4a24-b6ac-97fca764b354)
+# Configuring User Access to Your Kubernetes Cluster: A Step-by-Step Guide
+In this guide, I'll walk you through the essential steps for configuring user access to your Kubernetes cluster. Whether you're managing a single-node cluster or a multi-cluster environment, ensuring secure and fine-grained access for your team members is crucial. We'll cover everything from creating user accounts and generating client certificates to setting RBAC (Role-Based Access Control) policies and implementing authentication mechanisms. By the end of this tutorial, you'll be able to grant and manage user access, enhancing the security and productivity of your Kubernetes deployments.
+#csr #k8s #openssl #user #kubernetes #rbac 
+
+[![Watch the video](https://github.com/naren4b/nks/assets/3488520/80a608b7-0c85-4a24-b6ac-97fca764b354)](https://youtu.be/0wxgmuGu0hk)
 
 
 ```bash
