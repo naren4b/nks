@@ -8,7 +8,7 @@
 - Store the data in a CSV file (Load)
 
 ## Python program for pulling a REST API data
-```get_data.py
+```python
 # python get_json_data.py
 import requests;
 
