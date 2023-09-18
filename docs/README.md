@@ -7,7 +7,8 @@
 | 01-Feb-2023 | [Setting up your Own PKI with OpenSSL](openssl-certificate.md)                                              |
 | 12-Jul-2023 | [Resource Management for Pods and Containers](k8s-resource-management.md)                                   |
 | 26-Aug-2023 | [Setting up ArgoCD with OIDC login in development environment (insecure) ](argocd-oidc-setup.md)            |
-| 03-Sep-2023 | [Configuring User Access to Your Kubernetes Cluster: A Step-by-Step Guide](kubernetes-adduser.md)            |
+| 03-Sep-2023 | [Configuring User Access to Your Kubernetes Cluster: A Step-by-Step Guide](kubernetes-adduser.md)           |
+| 18-Sep-2023 | [Extract, transform, and load (ETL) of the data using python(1/n)](python_requests-1.md)           |
 
 
 _by nks[^note]_
