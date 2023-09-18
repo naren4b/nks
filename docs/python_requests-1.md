@@ -132,4 +132,11 @@ print(response.text)
 ```
 
 
+## ref: 
+- https://www.scrapingbee.com/blog/best-python-http-clients/
+- https://youtu.be/XtwK8Dq0ZiU
+- https://requests.readthedocs.io/en/latest/
+- https://requests.readthedocs.io/en/latest/user/quickstart/#make-a-request
+- https://swapi.dev/
+
 
