@@ -9,7 +9,7 @@
 
 ## Python program for pulling a REST API data
 ```python
-# python get_json_data.py
+# python get_json_data.py1
 import requests;
 
 def getData(url):
