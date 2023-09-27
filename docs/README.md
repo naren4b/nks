@@ -1,3 +1,8 @@
+
+## Naren Kubernetes Solutions 
+
+
+
 | Date        | Topic                                                                                                       |
 | ----------- | ----------------------------------------------------------------------------------------------------------- |
 | 02-Oct-2022 | [How to create, package , push, host, deploy Private Helm Charts using Chartmuseum](private-helm-charts.md) |
@@ -8,13 +13,13 @@
 | 12-Jul-2023 | [Resource Management for Pods and Containers](k8s-resource-management.md)                                   |
 | 26-Aug-2023 | [Setting up ArgoCD with OIDC login in development environment (insecure) ](argocd-oidc-setup.md)            |
 | 03-Sep-2023 | [Configuring User Access to Your Kubernetes Cluster: A Step-by-Step Guide](kubernetes-adduser.md)           |
-| 18-Sep-2023 | [Extract, transform, and load (ETL) of the data using python(1/n)](python_requests-1.md)           |
+| 18-Sep-2023 | [Extract, transform, and load (ETL) of the data using python(1/n)](python_requests-1.md)                    |
 
 
 _by nks[^note]_
 
 [^note]:
-    To me, giving back is so important. It makes others feel good which then in return makes me feel good.
+    To me, giving back is so important. It makes others feel good which then in return makes me feel good :heartpulse:
+    at [https://github.com/naren4b/nks](https://github.com/naren4b/nks).
 
-    ❤nks(Naren Kubernetes Solutions)
-    https://github.com/naren4b/nks
+    
