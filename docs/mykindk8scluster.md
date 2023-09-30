@@ -93,7 +93,7 @@ cat > error.html <<EOF
 <!DOCTYPE html>
 <html>
 <body>
-<img src="https://github.com/naren4b/nks/assets/3488520/08e281f5-640e-4fe6-915d-6c11526b79b2"  width="600" height="500">
+<p style="color:red;">You don't have access to this page at ${HOST} </p>
 </body>
 </html>
 EOF
