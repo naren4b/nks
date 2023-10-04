@@ -10,6 +10,10 @@ HOST=$NAME.local.com
 APP_NAME=$NAME-app
 NAMESPACE=$NAME-demo
 echo $CLUSTER_NAME, $HOST,$APP_NAME,$NAMESPACE
+
+mkdir ${APP_NAME}
+cd ${APP_NAME}
+
 ```
 
 # Create KIND cluster
@@ -72,10 +76,7 @@ $ ls /var/lib/rancher/k3s/storage/
 
 # Build a sample application
 
-```bsh
-mkdir ${APP_NAME}
-cd ${APP_NAME}
-
+```bash
 # Create an index page
 
 cat > index.html <<EOF
@@ -188,9 +189,9 @@ for windows update the same line in "C:\Windows\System32\drivers\etc\hosts file"
 
 ```
 
-# Create Certificates 
+# Create Certificates inside a container (Optional)
 ```bash
-docker run -it --rm -v ${HOME}:/root/ -v ${PWD}:/work -w /work --net host quay.io/jitesoft/alpine:3.17.1 sh
+docker run -it --rm -e HOST=${HOST} -v ${HOME}:/root/ -v ${PWD}:/work -w /work --net host quay.io/jitesoft/alpine:3.17.1 sh
 apk add openssl
 openssl req -x509 -sha256 -newkey rsa:4096 -keyout ca.key -out ca.crt -days 356 -nodes -subj "/CN=${HOST} Cert Authority"
 openssl req -new -newkey rsa:4096 -keyout ${HOST}.key -out ${HOST}.csr -nodes -subj "/CN=${HOST}"
