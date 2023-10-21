@@ -1,9 +1,9 @@
 # Configuring User Access to Your Kubernetes Cluster: A Step-by-Step Guide
+
 In this guide, I'll walk you through the essential steps for configuring user access to your Kubernetes cluster. Whether you're managing a single-node cluster or a multi-cluster environment, ensuring secure and fine-grained access for your team members is crucial. We'll cover everything from creating user accounts and generating client certificates to setting RBAC (Role-Based Access Control) policies and implementing authentication mechanisms. By the end of this tutorial, you'll be able to grant and manage user access, enhancing the security and productivity of your Kubernetes deployments.
-#csr #k8s #openssl #user #kubernetes #rbac 
+#csr #k8s #openssl #user #kubernetes #rbac
 
 [![Watch the video](https://github.com/naren4b/nks/assets/3488520/80a608b7-0c85-4a24-b6ac-97fca764b354)](https://youtu.be/0wxgmuGu0hk)
-
 
 ```bash
 username="${1:-my-user}"
@@ -14,23 +14,32 @@ cd ${username}
 
 ```
 
-# Generate a key 
+# Generate a key
+
 ```bash
-openssl genrsa -out ${username}.key 2048 
+openssl genrsa -out ${username}.key 2048
 ```
+
 # For git-for-windows
+
 ```bash
 export MSYS_NO_PATHCONV=1
 ```
+
 # Create the CSR
+
 ```bash
 openssl req -new -key ${username}.key -out ${username}.csr -subj "/CN=${username}/O=${group}"
 ```
-# Verify the CSR 
+
+# Verify the CSR
+
 ```bash
 openssl req -in ${username}.csr -noout -text
 ```
+
 # Create the CertificateSigningRequest
+
 ```bash
 cat <<EOF >${username}.yaml
 apiVersion: certificates.k8s.io/v1
@@ -45,12 +54,15 @@ spec:
   - client auth
 EOF
 ```
-# Check all files are available 
+
+# Check all files are available
+
 ![image](https://github.com/naren4b/nks/assets/3488520/189fc3e4-76a3-413f-85ec-9076e8a56833)
 
-
 # Approve the CSR
-### Connect to your cluster 
+
+### Connect to your cluster
+
 ```bash
 if kubectl config current-context &>/dev/null; then
     current_context=$(kubectl config current-context)
@@ -65,14 +77,17 @@ if [ ! -e ${username}.yaml ]; then
     echo "CertificateSigningRequest for ${username}.yaml file does not exist."
 fi
 ```
+
 ### Apply and approve the CSR
+
 ```bash
 kubectl apply -f ${username}.yaml
 kubectl certificate approve ${username}
 kubectl get csr ${username}  -o jsonpath='{.status.certificate}'| base64 -d > ${username}.crt
 ```
 
-# Set up the User kubeconfig 
+# Set up the User kubeconfig
+
 ```bash
 currentContext=$(kubectl config get-contexts | grep "*" | awk '{print $2}')
 currentCluster=$(kubectl config get-contexts | grep "*" | awk '{print $3}')
@@ -85,7 +100,8 @@ kubectl config view --raw --minify --flatten > ${username}-kubeconfig
 kubectl config use-context     ${currentContext}
 ```
 
-# Setup the RBAC for the user 
+# Setup the RBAC for the user
+
 ```bash
 read -p "Choose cluster role [admin, edit, view] " role
 
@@ -102,14 +118,17 @@ echo list pod -- $(kubectl auth can-i list pod --as ${username})
 echo create pod -- $(kubectl auth can-i create pod --as ${username})
 echo delete pod -- $(kubectl auth can-i delete pod --as ${username})
 ```
+
 # Share the details kubeconfig file
+
 ```bash
-ls -lrt 
+ls -lrt
 ```
+
 ![image](https://github.com/naren4b/nks/assets/3488520/dde1b35c-c89f-403a-810b-9543a8189dca)
 
-ref: 
+ref:
+
 - [add-user.sh](https://gist.github.com/naren4b/3df4834e31ae6ad9fb1ce7f65915d12d#file-add-user-sh)
 - [Doc reference for kubernetes.io](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#approval-rejection-api-client)
 - [Demo cluster killercoda.com](https://killercoda.com/playgrounds/scenario/kubernetes)
-

@@ -1,0 +1,78 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  labels:
+    app: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: quay.io/keycloak/keycloak
+          args: ["start"]
+          env:
+            - name: KEYCLOAK_ADMIN
+              value: "admin"
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              value: "admin"
+            - name: KC_HOSTNAME
+              value: "keycloak.127.0.0.1.nip.io"
+            - name: KC_PROXY
+              value: "edge"
+            - name: KC_HTTPS_CERTIFICATE_KEY_FILE
+              value: /etc/x509/tls.key
+            - name: KC_HTTPS_CERTIFICATE_FILE
+              value: /etc/x509/tls.crt
+            - name: KC_DB
+              value: postgres
+            - name: KC_DB_URL_HOST
+              value: postgres-db
+            - name: KC_DB_URL_PORT
+              value: "5432"
+            - name: KC_DB_USERNAME
+              value: naren
+            - name: KC_DB_PASSWORD
+              value: naren123
+            # - name: KC_HTTPS_TRUST_STORE_FILE
+            #   value: /etc/x509/ca.crt
+            # - name: KC_HTTPS_TRUST_STORE_PASSWORD
+            #   value: password
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /realms/master
+              port: 8080
+          volumeMounts:
+            - name: keycloak-tls
+              mountPath: "/etc/x509"
+              readOnly: true
+      volumes:
+        - name: keycloak-tls
+          secret:
+            secretName: keycloak-tls
+            optional: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak
+  labels:
+    app: keycloak
+spec:
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+  selector:
+    app: keycloak

@@ -1,6 +1,5 @@
 ![IMG_E5385](https://github.com/naren4b/nks/assets/3488520/08e281f5-640e-4fe6-915d-6c11526b79b2)
 
-
 # Create the Certificates
 
 ```bash
@@ -45,7 +44,7 @@ EOF
 
 kind create cluster --name ${CLUSTER_NAME} --config ${CLUSTER_NAME}-config.yaml
 
-kubectl cluster-info --context kind-${CLUSTER_NAME}  
+kubectl cluster-info --context kind-${CLUSTER_NAME}
 
 kubectl label nodes ${CLUSTER_NAME}-control-plane ingress-ready="true"
 
@@ -58,10 +57,11 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main
 kubectl get pod -n ingress-nginx
 ```
 
-# Deploy Storage class 
+# Deploy Storage class
+
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
-# For tetsing 
+# For tetsing
 kubectl create -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/examples/pvc/pvc.yaml
 kubectl create -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/examples/pod/pod.yaml
 kubectl get pv
@@ -171,6 +171,7 @@ EOF
 ```
 
 # Apply the Manifest file
+
 ```bash
 k create -f ${APP_NAME}.yaml -n ${NAMESPACE}
 
@@ -182,7 +183,8 @@ curl -ks https://$HOST
 
 ```
 
-# Special Notes 
+# Special Notes
+
 ```bash
 echo "127.0.0.1 ${HOST}" >> /etc/hosts
 for windows update the same line in "C:\Windows\System32\drivers\etc\hosts file"
@@ -190,6 +192,7 @@ for windows update the same line in "C:\Windows\System32\drivers\etc\hosts file"
 ```
 
 # Create Certificates inside a container (Optional)
+
 ```bash
 docker run -it --rm -e HOST=${HOST} -v ${HOME}:/root/ -v ${PWD}:/work -w /work --net host quay.io/jitesoft/alpine:3.17.1 sh
 apk add openssl
@@ -197,7 +200,9 @@ openssl req -x509 -sha256 -newkey rsa:4096 -keyout ca.key -out ca.crt -days 356 
 openssl req -new -newkey rsa:4096 -keyout ${HOST}.key -out ${HOST}.csr -nodes -subj "/CN=${HOST}"
 openssl x509 -req -sha256 -days 365 -in ${HOST}.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out ${HOST}.crt
 ```
-# Delete the cluster 
+
+# Delete the cluster
+
 ```bash
 kind delete clusters ${CLUSTER_NAME}
 

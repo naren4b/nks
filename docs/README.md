@@ -1,7 +1,4 @@
-
-## Naren Kubernetes Solutions 
-
-
+## Naren Kubernetes Solutions
 
 | Date        | Topic                                                                                                       |
 | ----------- | ----------------------------------------------------------------------------------------------------------- |
@@ -14,13 +11,11 @@
 | 26-Aug-2023 | [Setting up ArgoCD with OIDC login in development environment (insecure) ](argocd-oidc-setup.md)            |
 | 03-Sep-2023 | [Configuring User Access to Your Kubernetes Cluster: A Step-by-Step Guide](kubernetes-adduser.md)           |
 | 18-Sep-2023 | [Extract, transform, and load (ETL) of the data using python(1/n)](python_requests-1.md)                    |
-| 30-Sep-2023 | [Host your test kubernetes cluster ](mykindk8scluster.md)                    |
-
+| 30-Sep-2023 | [Host your test kubernetes cluster ](mykindk8scluster.md)                                                   |
+| 21-Oct-2023 | [Setup Production Grade Keycloak in Kubernetes(1/n) ](install-keycloak.md)                                  |
 
 _by nks[^note]_
 
 [^note]:
     To me, giving back is so important. It makes others feel good which then in return makes me feel good :heartpulse:
     at [https://github.com/naren4b/nks](https://github.com/naren4b/nks).
-
-    
