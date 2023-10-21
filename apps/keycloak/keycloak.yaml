@@ -39,9 +39,15 @@ spec:
             - name: KC_DB_URL_PORT
               value: "5432"
             - name: KC_DB_USERNAME
-              value: naren
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-db-secret
+                  key: username
             - name: KC_DB_PASSWORD
-              value: naren123
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-db-secret
+                  key: password
             # - name: KC_HTTPS_TRUST_STORE_FILE
             #   value: /etc/x509/ca.crt
             # - name: KC_HTTPS_TRUST_STORE_PASSWORD
