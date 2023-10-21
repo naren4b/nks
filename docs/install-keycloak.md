@@ -25,7 +25,8 @@ kubectl get pod
 ```
 kubectl apply -f https://raw.githubusercontent.com/naren4b/nks/main/apps/keycloak/ingress.yaml
 kubectl apply -f https://raw.githubusercontent.com/naren4b/nks/main/apps/keycloak/keycloak-tls.yaml
-kubectl apply -f https://raw.githubusercontent.com/naren4b/nks/main/apps/keycloak/keycloak.yaml
+kubectl apply -f https://raw.githubusercontent.com/naren4b/nks/main/apps/keycloak/keycloak-deploy.yaml
+kubectl apply -f https://raw.githubusercontent.com/naren4b/nks/main/apps/keycloak/keycloak-svc.yaml
 
 kubectl get pod
 kubectl get ing
