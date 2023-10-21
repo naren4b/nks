@@ -1,4 +1,5 @@
-![misc-Keycloak.jpg](../images/misc-Keycloak.jpg)
+![misc-Keycloak](https://github.com/naren4b/nks/assets/3488520/f2aa3155-91f1-43f8-b3db-748a3e9af937)
+
 
 # Setup Production Grade Keycloak in Kubernetes(1/n)
 
