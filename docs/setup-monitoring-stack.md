@@ -77,7 +77,7 @@ default_value="demo"
 name=${name:-$default_value}
 node_exporter_name=${name}-node-exporter
 node_exporter_host_port=9100
-text_collector_dir=/var/lib/node_exporter/textfile_collector
+text_collector_dir=/var/lib/node-exporter/textfile_collector
 docker rm ${node_exporter_name} -f
 mkdir -p ${text_collector_dir}
 
@@ -130,6 +130,7 @@ docker run -d --restart unless-stopped --network host \
     -v prometheus-data:/prometheus \
     prom/prometheus
 docker ps -l
+
 ```
 
 # Install the moitoring stack | install.sh
@@ -164,4 +165,3 @@ docker ps | grep $name | awk '{print $1}' | xargs docker rm -f
 ```
 
 ![image](https://github.com/naren4b/nks/assets/3488520/fe1004f0-b547-4108-a2b2-c17e5462b9f2)
-![image](https://github.com/naren4b/nks/assets/3488520/d4dafc9e-4c85-4ec0-9d87-14d42a2efab3)
