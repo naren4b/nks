@@ -1,7 +1,9 @@
 # Check all running images's vulnerability & size running in k8s cluster
+![image](https://github.com/naren4b/nks/assets/3488520/df32215b-9252-4d49-91b5-40b9d3729129)
 
 ### Collect the list of images 
 ```bash
+mkdir -p /tmp/k8s-image-list/
   kubectl get pods --all-namespaces -o jsonpath='{range .items[*]}{"\n"}{.metadata.namespace}{"\t"}{range .spec.containers[*]}{.image}{", "}{end}{end}' |sort | uniq -c | awk '{print $2, $3, $4}' | tr "," " done" > /tmp/k8s-image-list/k8s-images-details.txt
 ```
 ### Segregate the images 
@@ -66,7 +68,7 @@ if __name__ == "__main__":
       
 ```
 
-# Scan Image List 
+### Scan Image List 
 ```bash
 #!/bin/bash
 
@@ -98,7 +100,7 @@ echo "" >$logs_dir/failed-images.log
 echo "" >$logs_dir/images-exists.log
 echo "" >$logs_dir/processed-images.log
 metric_prefix=$2
-default_value="my_image"
+default_value="my"
 metric_prefix=${metric_prefix:-$default_value}
 number=0
 if [ -e "$image_list_file" ]; then
@@ -143,18 +145,19 @@ if [ -e "$image_list_file" ]; then
                 )' | jq .[0].Size)
 
                 repository=$(cat $reports_dir/$image_report-docker.json | jq '.Repository')
+                image_registry=$(cat $reports_dir/$image_report-docker.json |jq -r '.Repository' | awk -F'/' '{print $1}' )
                 tag=$(cat $reports_dir/$image_report-docker.json | jq '.Tag')
                 IMAGE_ID=$(cat $reports_dir/$image_report-docker.json | jq -r ".ID")
 
-                echo "${metric_prefix}_info{image_digest=$digests,image_name=\"$image_name\",image_registry=\"$source\",image_repository=$repository,image_tag=$tag} 1" >>$prom_file_name
-                echo "${metric_prefix}_vulnerability_severity_count{image_digest=$digests,severity=\"Critical\"} $C_vul" >>$prom_file_name
-                echo "${metric_prefix}_vulnerability_severity_count{image_digest=$digests,severity=\"High\"} $H_vul" >>$prom_file_name
-                echo "${metric_prefix}_vulnerability_severity_count{image_digest=$digests,severity=\"Medium\"} $M_vul" >>$prom_file_name
-                echo "${metric_prefix}_vulnerability_severity_count{image_digest=$digests,severity=\"Low\"} $L_vul" >>$prom_file_name
-                echo "${metric_prefix}_vulnerability_severity_count{image_digest=$digests,severity=\"Negligible\"} $N_vul" >>$prom_file_name
-                echo "${metric_prefix}_size_in_bytes{image_digest=$digests} $size" >>$prom_file_name
+                echo "${metric_prefix}_image_info{image_digest=$digests,image_name=\"$image_name\",image_registry=\"$image_registry\",image_repository=$repository,image_tag=$tag} 1" >>$prom_file_name
+                echo "${metric_prefix}_image_vulnerability_severity_count{image_digest=$digests,severity=\"Critical\"} $C_vul" >>$prom_file_name
+                echo "${metric_prefix}_image_vulnerability_severity_count{image_digest=$digests,severity=\"High\"} $H_vul" >>$prom_file_name
+                echo "${metric_prefix}_image_vulnerability_severity_count{image_digest=$digests,severity=\"Medium\"} $M_vul" >>$prom_file_name
+                echo "${metric_prefix}_image_vulnerability_severity_count{image_digest=$digests,severity=\"Low\"} $L_vul" >>$prom_file_name
+                echo "${metric_prefix}_image_vulnerability_severity_count{image_digest=$digests,severity=\"Negligible\"} $N_vul" >>$prom_file_name
+                echo "${metric_prefix}_image_size_in_bytes{image_digest=$digests} $size" >>$prom_file_name
                 docker rmi $IMAGE_ID >/dev/null 2>&1
-                echo image_id=$IMAGE_ID, image_digest=$digests,image_name=\"$image_name\",image_registry=\"$source\",image_repository=$repository,image_tag=$tag >>$logs_dir/processed-images.log
+                echo image_id=$IMAGE_ID, image_digest=$digests,image_name=\"$image_name\",image_registry=\"$image_registry\",image_repository=$repository,image_tag=$tag >>$logs_dir/processed-images.log
             fi
         fi
 
@@ -176,3 +179,10 @@ else
 fi
 
 ```
+### Visulaize the metrics 
+- [Setting up Monitoring Stack in a Node (docker container)](setup-monitoring-stack.md)
+  - Node-exporter: http://localhost:9100/metrics
+  - Prometheus   : http://localhost:9090/graph?g0.expr=my_image_info&g0.tab=1&g0.stacked=0&g0.show_exemplars=0&g0.range_input=1h
+  - Grafana      : https://github.com/naren4b/nks/tree/main/apps/image-scanner 
+
+
