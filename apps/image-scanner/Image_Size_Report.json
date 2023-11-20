@@ -24,73 +24,10 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1,
+  "id": 2,
   "links": [],
   "liveNow": false,
   "panels": [
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PXY0cLIIk"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
-      "id": 5,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.2.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PXY0cLIIk"
-          },
-          "editorMode": "code",
-          "expr": "sum(my_image_vulnerability_severity_count) by (severity)",
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Image Vulnerability",
-      "type": "stat"
-    },
     {
       "datasource": {
         "type": "prometheus",
@@ -161,7 +98,7 @@
         "h": 16,
         "w": 6,
         "x": 0,
-        "y": 8
+        "y": 0
       },
       "id": 2,
       "options": {
@@ -243,48 +180,24 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Image "
+              "options": "Image Size"
             },
             "properties": [
               {
-                "id": "custom.width",
-                "value": 480
+                "id": "unit",
+                "value": "bytes"
               }
             ]
           },
           {
             "matcher": {
               "id": "byName",
-              "options": "image_digest"
+              "options": "Name"
             },
             "properties": [
               {
-                "id": "custom.width",
-                "value": 105
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Registry "
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 124
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Digest"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 112
+                "id": "custom.align",
+                "value": "left"
               }
             ]
           }
@@ -294,7 +207,7 @@
         "h": 16,
         "w": 18,
         "x": 6,
-        "y": 8
+        "y": 0
       },
       "id": 3,
       "options": {
@@ -304,7 +217,12 @@
           "show": true
         },
         "showHeader": true,
-        "sortBy": []
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Image Size"
+          }
+        ]
       },
       "pluginVersion": "9.2.0",
       "targets": [
@@ -314,7 +232,7 @@
             "uid": "PXY0cLIIk"
           },
           "exemplar": false,
-          "expr": "my_image_info{image_registry=~\".*$image_registry.*\",image_name=~\"$image_name\",image_cluster=~\"$image_cluster\",image_namespace=~\"$image_namespace\",image_repository=~\"$image_repository\",image_tag=~\"$image_tag\"}",
+          "expr": "sum by (image_digest,image_name, image_namespace, image_registry, image_repository, image_tag,image_cluster) (\r\n    my_image_size_in_bytes{}\r\n  * on (image_digest) group_left(image_name, image_namespace, image_registry, image_repository, image_tag,image_cluster) \r\n   sum without(image_namespace,image_cluster) (my_image_info{image_registry=~\"$image_registry\",image_cluster=~\"$image_cluster\"}) \r\n)",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -329,38 +247,19 @@
           "options": {
             "excludeByName": {
               "Time": true,
-              "Value": true,
-              "Value #A": true,
               "__name__": true,
-              "image_cluster": false,
-              "image_namespace": false,
+              "image_digest": true,
+              "image_registry": true,
+              "image_repository": true,
               "instance": true,
               "job": true
             },
-            "indexByName": {
-              "Time": 0,
-              "Value #A": 7,
-              "__name__": 9,
-              "image_cluster": 1,
-              "image_digest": 15,
-              "image_name": 4,
-              "image_namespace": 5,
-              "image_registry": 2,
-              "image_repository": 3,
-              "image_tag": 6,
-              "instance": 10,
-              "job": 11
-            },
+            "indexByName": {},
             "renameByName": {
-              "Value #A": "Count",
-              "image_cluster": "Cluster Type",
+              "Value #A": "Image Size",
               "image_digest": "Digest",
               "image_name": "Name",
-              "image_namespace": "Namespace",
-              "image_registry": "Registry ",
-              "image_repository": "Repository",
-              "image_tag": "Tag",
-              "severity": "Severity"
+              "image_tag": "Tag"
             }
           }
         }
@@ -376,9 +275,9 @@
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
+          "selected": true,
+          "text": ["All"],
+          "value": ["$__all"]
         },
         "datasource": {
           "type": "prometheus",
@@ -430,9 +329,9 @@
       },
       {
         "current": {
-          "selected": true,
-          "text": ["All"],
-          "value": ["$__all"]
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
         },
         "datasource": {
           "type": "prometheus",
@@ -544,8 +443,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Image Info Report",
-  "uid": "zzFwaRG4z",
-  "version": 9,
+  "title": "Image Size Report",
+  "uid": "ySOvsgMVz",
+  "version": 3,
   "weekStart": ""
 }
