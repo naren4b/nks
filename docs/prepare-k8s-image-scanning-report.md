@@ -1,8 +1,10 @@
-# Collect the list of images 
+# Check all running images's vulnerability & size running in k8s cluster
+
+### Collect the list of images 
 ```bash
-  kubectl get pods --all-namespaces -o jsonpath='{range .items[*]}{"\n"}{.metadata.namespace}{"\t"}{range .spec.containers[*]}{.image}{", "}{end}{end}' |sort | uniq -c | awk '{print $2, $3, $4}' | tr "," " done"
+  kubectl get pods --all-namespaces -o jsonpath='{range .items[*]}{"\n"}{.metadata.namespace}{"\t"}{range .spec.containers[*]}{.image}{", "}{end}{end}' |sort | uniq -c | awk '{print $2, $3, $4}' | tr "," " done" > /tmp/k8s-image-list/k8s-images-details.txt
 ```
-# Segregate the images 
+### Segregate the images 
 ```py
 import os
 
@@ -56,7 +58,7 @@ def prepare_image_file(output_file, unique_images):
 
     
 if __name__ == "__main__":
-    directory = "/img/image-scan/list"  # Replace with your directory path
+    directory = "/tmp/k8s-image-list"  # Replace with your directory path
     unique_images=process_dc_image_txt_files(directory)
     output_file = "images.txt"
     prepare_image_file(output_file,unique_images)
