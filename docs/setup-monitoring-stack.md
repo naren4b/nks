@@ -1,4 +1,8 @@
-# AlertManager Setup | run-alertmanager.sh
+# Setting up Monitoring Stack in a Node (docker container)
+![misc-Monitoring-Stack](https://github.com/naren4b/nks/assets/3488520/01d43a95-6e67-4da4-8ba5-ce84a3a7aa34)
+
+
+### AlertManager Setup | run-alertmanager.sh
 
 ```bash
 #! /bin/bash
@@ -40,7 +44,7 @@ docker ps -l
 
 ```
 
-# Grafana setup
+###  Grafana setup
 
 ```bash
 #! /bin/bash
@@ -64,7 +68,7 @@ docker ps -l
 
 ```
 
-# node-exporter setup | run-node-exporter.sh
+###  node-exporter setup | run-node-exporter.sh
 
 ```bash
 #! /bin/bash
@@ -90,7 +94,7 @@ docker ps -l
 
 ```
 
-# Prometheus setup | run-prometheus.sh
+###  Prometheus setup | run-prometheus.sh
 
 ```bash
 #! /bin/bash
@@ -133,7 +137,7 @@ docker ps -l
 
 ```
 
-# Install the moitoring stack | install.sh
+###  Install the moitoring stack | install.sh
 
 ```bash
 #! /bin/bash
@@ -152,7 +156,7 @@ docker ps | grep -E "STATUS|$name"
 
 ```
 
-# Uninstall the moitoring stack | uninstall.sh
+###  Uninstall the moitoring stack | uninstall.sh
 
 ```
 #! /bin/bash
