@@ -14,6 +14,7 @@
 | 30-Sep-2023 | [Host your test kubernetes cluster ](mykindk8scluster.md)                                                   |
 | 21-Oct-2023 | [Setup Production Grade Keycloak in Kubernetes(1/n) ](install-keycloak.md)                                  |
 | 20-Nov-2023 | [Setting up Monitoring Stack in a Node (docker container)](setup-monitoring-stack.md)                       |
+| 20-Nov-2023 | [Check all running images's vulnerability & size running in k8s cluster](prepare-k8s-image-scanning-report.md)                       |
 
 _by nks[^note]_
 
