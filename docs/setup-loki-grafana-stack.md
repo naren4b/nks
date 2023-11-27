@@ -1,4 +1,8 @@
-# Have a KIND cluster
+# Install basic Loki Promtail Grafana stack in KIND cluster 
+![misc-loki-grafana](https://github.com/naren4b/nks/assets/3488520/fcb23a61-c6b7-4d5c-adda-0c5d744f355d)
+
+
+#### Have a KIND cluster
 
 ref: [mykindk8scluster](https://naren4b.github.io/nks/mykindk8scluster.html) or [Demo Environment](https://killercoda.com/killer-shell-ckad/scenario/playground)
 
@@ -70,11 +74,14 @@ kubectl port-forward svc/grafana 3000:3000 --address 0.0.0.0
 
 ```
 
-#### ![Add Loki data source ](image.png)
-
+#### [Add Loki data source ]
+![image](https://github.com/naren4b/nks/assets/3488520/d1c20e4e-586d-4365-bbfb-c050fb7d9c5d)
+_url: http://loki:3100_
 Visit http://localhost:3000/connections/datasources/loki
 
-#### ![Add basic dashboard](image-1.png)
+#### [Add basic dashboard](https://github.com/naren4b/nks/blob/main/apps/loki/loki-general-dashboard.json)
+![image-1](https://github.com/naren4b/nks/assets/3488520/818cff38-598f-4e3b-b8da-4f1ecc254b63)
 
 Visit http://localhost:3000/dashboard/new?orgId=1
+
 Add example: [loki-general-dashboard.json](../apps/loki/loki-general-dashboard.json)
