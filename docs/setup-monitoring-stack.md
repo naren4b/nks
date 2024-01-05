@@ -1,6 +1,6 @@
 # Setting up Monitoring Stack in a Node (docker container)
-![misc-Monitoring-Stack](https://github.com/naren4b/nks/assets/3488520/bf901652-f83b-4a27-9ecf-39b82d96ea06)
 
+![misc-Monitoring-Stack](https://github.com/naren4b/nks/assets/3488520/bf901652-f83b-4a27-9ecf-39b82d96ea06)
 
 ### AlertManager Setup | run-alertmanager.sh
 
@@ -44,7 +44,7 @@ docker ps -l
 
 ```
 
-###  Grafana setup
+### Grafana setup | run-grafana.sh
 
 ```bash
 #! /bin/bash
@@ -64,11 +64,9 @@ docker run -d --restart unless-stopped --network host \
     grafana/grafana
 
 docker ps -l
-
-
 ```
 
-###  node-exporter setup | run-node-exporter.sh
+### node-exporter setup | run-node-exporter.sh
 
 ```bash
 #! /bin/bash
@@ -92,9 +90,10 @@ docker run -d --restart unless-stopped --network host \
 
 docker ps -l
 
+
 ```
 
-###  Prometheus setup | run-prometheus.sh
+### Prometheus setup | run-prometheus.sh
 
 ```bash
 #! /bin/bash
@@ -102,6 +101,7 @@ name=$1
 default_value="demo"
 name=${name:-$default_value}
 prometheus_name=${name}-prometheus
+mkdir -p ${PWD}/$prometheus_name
 cat <<EOF >${PWD}/$prometheus_name/prometheus.yml
 global:
   scrape_interval: 15s
@@ -122,45 +122,40 @@ scrape_configs:
           - localhost:9100
 EOF
 
-
 prometheus_host_port=9090
 docker volume create prometheus-data
 mkdir -p ${prometheus_name}
 docker rm ${prometheus_name} -f
 docker run -d --restart unless-stopped --network host \
-    --name=${prometheus_name} \
-    -v ${PWD}/$prometheus_name/:/etc/prometheus/ \
-    -v prometheus-data:/prometheus \
-    prom/prometheus
+  --name=${prometheus_name} \
+  -v ${PWD}/$prometheus_name/:/etc/prometheus/ \
+  -v prometheus-data:/prometheus \
+  prom/prometheus
 docker ps -l
 
 ```
 
 ### Install vmagent | run-vmagent.sh
+
 ```bash
+#! /bin/bash
 name=$1
 default_value="demo"
 name=${name:-$default_value}
 vmagent_name=${name}-vmagent
-vmagent_host_port=8429
 mkdir -p ${PWD}/$vmagent_name
 
-remoteWrite_url="https://localhost:8428/api/v1/write"
-cd
-cat <<EOF >Dockerfile
+remoteWrite_url="http://localhost:8428/api/v1/write"
+cat <<EOF >${PWD}/$vmagent_name/Dockerfile
 FROM victoriametrics/vmagent
 ENTRYPOINT ["/vmagent-prod"]
-CMD ["-remoteWrite.url=$remoteWrite_url"]
+CMD ["-remoteWrite.url=$remoteWrite_url" , "-remoteWrite.forceVMProto","-promscrape.config=/etc/prometheus/prometheus.yml"]
 EOF
 
-docker build -t victoriametrics/vmagent:$vmagent_name .
-rm -rf Dockerfile
+docker build -t victoriametrics/vmagent:$vmagent_name ${PWD}/$vmagent_name/
+rm -rf ${PWD}/$vmagent_name/Dockerfile
 
 cat <<EOF >${PWD}/$vmagent_name/prometheus.yml
-global:
-  scrape_interval: 15s
-  scrape_timeout: 10s
-  evaluation_interval: 15s
 scrape_configs:
   - job_name: prometheus
     metrics_path: /metrics
@@ -182,7 +177,7 @@ docker rm ${vmagent_name} -f
 
 docker run -d --restart unless-stopped --network host \
   --name=${vmagent_name} \
-  -v ${PWD}/$vmagent_name/:/etc/prometheus/ \
+  -v ${PWD}/$vmagent_name:/etc/prometheus/ \
   -v vmagentdata:/vmagentdata \
   victoriametrics/vmagent:$vmagent_name
 
@@ -190,7 +185,7 @@ docker ps -l
 
 ```
 
-###  Install the moitoring stack | install.sh
+### Install victoria-metrics | run-victoria-metrics.sh
 
 ```bash
 #! /bin/bash
@@ -198,20 +193,58 @@ docker ps -l
 name=$1
 default_value="demo"
 name=${name:-$default_value}
+docker volume create victoria-metrics-data
+# victoria-metrics
+victoria_metrics_name=${name}-victoria-metrics
+victoria_metrics_host_port=8428
+docker rm ${victoria_metrics_name} -f
+docker run -d --restart unless-stopped --network host \
+    --name=${victoria_metrics_name} \
+    -v victoria-metrics-data:/victoria-metrics-data \
+    victoriametrics/victoria-metrics
 
-source run-alertmanager.sh $name
-source run-prometheus.sh $name
-source run-node-exporter.sh $name
-source run-grafana.sh $name
-source run-vmagent.sh $name
-source run-victoria-metrics.sh $name
-
-docker ps | grep -E "STATUS|$name"
+docker ps -l
 
 
 ```
 
-###  Uninstall the moitoring stack | uninstall.sh
+### Install the moitoring stack | install.sh
+
+```bash
+
+name=$1
+default_value="demo"
+name=${name:-$default_value}
+
+echo run-alertmanager.sh $name
+source run-alertmanager.sh $name 1>/dev/null
+echo "---"
+
+echo run-prometheus.sh $name
+source run-prometheus.sh $name 1>/dev/null
+echo "---"
+
+echo run-node-exporter.sh $name
+source run-node-exporter.sh $name 1>/dev/null
+echo "---"
+
+echo run-victoria-metrics.sh $name
+source run-victoria-metrics.sh $name 1>/dev/null
+echo "---"
+
+echo run-vmagent.sh $name
+source run-vmagent.sh $name 1>/dev/null
+echo "---"
+
+echo run-grafana.sh $name
+source run-grafana.sh $name 1>/dev/null
+echo "---"
+
+docker ps | grep -E "STATUS|$name"
+
+```
+
+### Uninstall the moitoring stack | uninstall.sh
 
 ```
 #! /bin/bash
@@ -223,9 +256,9 @@ docker ps | grep $name | awk '{print $1}' | xargs docker rm -f
 
 ```
 
+![image](https://github.com/naren4b/nks/assets/3488520/42d31709-ef8b-4289-b9d3-7eaef8775f63)
 
+### Ref:
 
-
-![image](https://github.com/naren4b/nks/assets/3488520/fe1004f0-b547-4108-a2b2-c17e5462b9f2)
-
-[Demo Environment](https://killercoda.com/killer-shell-cks/scenario/container-namespaces-docker)
+- [Demo Environment](https://killercoda.com/killer-shell-cks/scenario/container-namespaces-docker)
+- [monitoring-stack.git](https://github.com/naren4b/monitoring-stack.git)
