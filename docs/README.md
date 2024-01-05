@@ -16,6 +16,7 @@
 | 20-Nov-2023 | [Setting up Monitoring Stack in a Node (docker container)](setup-monitoring-stack.md)                          |
 | 20-Nov-2023 | [Check all running images's vulnerability & size running in k8s cluster](prepare-k8s-image-scanning-report.md) |
 | 27-Nov-2023 | [Install basic Loki Promtail Grafana stack in KIND cluster ](setup-loki-grafana-stack.md)                      |
+| 05-Jan-2024 | [Local setup for testing vmbackup and vmrestore ](vmbackup_and_vmrestore.md)                                   |
 
 _by nks[^note]_
 
