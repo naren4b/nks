@@ -1,6 +1,7 @@
 # Setting up Monitoring Stack in a Node (docker container)
 
-![misc-Monitoring-Stack](https://github.com/naren4b/nks/assets/3488520/bf901652-f83b-4a27-9ecf-39b82d96ea06)
+![monitoring-stack](https://github.com/naren4b/nks/assets/3488520/29d46422-4466-4af4-8621-218ca18ff224)
+
 
 ### AlertManager Setup | run-alertmanager.sh
 
