@@ -158,18 +158,11 @@ rm -rf ${PWD}/$vmagent_name/Dockerfile
 cat <<EOF >${PWD}/$vmagent_name/prometheus.yml
 scrape_configs:
   - job_name: prometheus
-    metrics_path: /metrics
+    metrics_path: /federate
     scheme: http
     static_configs:
       - targets:
           - localhost:9090
-  - job_name: node-exporter
-    metrics_path: /metrics
-    scheme: http
-    static_configs:
-      - targets:
-          - localhost:9100
-
 EOF
 
 docker volume create vmagentdata
