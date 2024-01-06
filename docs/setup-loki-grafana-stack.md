@@ -73,7 +73,7 @@ REPO_PATH=loki
 CHART_VERSION=5.38.0
 CHART_APP_VERSION=loki
 helm install loki ${REPO_NAME}/${REPO_PATH}  --version ${CHART_VERSION} -f $PWD/loki-demo-values.yaml
-helm uninstall loki
+#helm uninstall loki
 ```
 
 #### Install promtail
