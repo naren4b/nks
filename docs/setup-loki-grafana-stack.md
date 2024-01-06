@@ -79,11 +79,25 @@ helm uninstall loki
 #### Install promtail
 
 ```bash
-cat<<EOF >$PWD/promtail-demo-values.yaml
 config:
   clients:
     - url: http://loki:3100/loki/api/v1/push
-EOF
+extraPorts: 
+   syslog:
+     name: tcp-syslog
+     annotations: {}
+     labels: {}
+     containerPort: 8514
+     protocol: TCP
+     service:
+       type: ClusterIP
+       clusterIP: null
+       port: 8514
+       externalIPs: []
+       nodePort: null
+       loadBalancerIP: null
+       loadBalancerSourceRanges: []
+       externalTrafficPolicy: null
 ```
 
 ```bash
