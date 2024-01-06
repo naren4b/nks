@@ -1,5 +1,6 @@
 # Install basic Loki Promtail Grafana stack in KIND cluster 
-![misc-loki-grafana](https://github.com/naren4b/nks/assets/3488520/fcb23a61-c6b7-4d5c-adda-0c5d744f355d)
+![loki](https://github.com/naren4b/nks/assets/3488520/fa0674db-f45c-43da-98a1-2ca77c24d345)
+
 
 
 #### Have a KIND cluster
