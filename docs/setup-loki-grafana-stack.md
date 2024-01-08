@@ -1,4 +1,5 @@
-# Install basic Loki Promtail Grafana stack in KIND cluster 
+# Install basic Loki Promtail Grafana stack in KIND cluster
+
 ![loki](https://github.com/naren4b/nks/assets/3488520/fa0674db-f45c-43da-98a1-2ca77c24d345)
 
 In this blog post, we explore a quick and efficient way to set up a basic Loki-Promtail-Grafana stack in a KIND (Kubernetes in Docker) cluster. The tutorial provides a step-by-step guide, ensuring a seamless installation process. By leveraging these open-source tools, users can enhance their log monitoring and visualization capabilities within a Kubernetes environment. The simplicity of KIND makes it an ideal platform for testing and development, allowing users to easily deploy and manage the Loki logging system, Promtail agent, and Grafana dashboard for effective log analysis. Dive into the details and streamline your Kubernetes log management with this concise guide.
@@ -8,6 +9,16 @@ In this blog post, we explore a quick and efficient way to set up a basic Loki-P
 ref: [mykindk8scluster](https://naren4b.github.io/nks/mykindk8scluster.html) or [Demo Environment](https://killercoda.com/killer-shell-ckad/scenario/playground)
 
 #### Install Loki
+Build and Load the image (ref: https://github.com/naren4b/monitoring-stack/tree/main/loki )
+
+```bash
+docker build -t loki-curator:1.1 .
+kind create cluster 
+kind load docker-image loki-curator:1.1
+
+```
+
+Loki custom helm value file
 
 ```bash
 cat<<EOF >$PWD/loki-demo-values.yaml
@@ -24,7 +35,7 @@ singleBinary:
   replicas: 1
   extraContainers:
     - name: curator
-      image: "loki-curator:1.9" # https://github.com/grafana/loki/issues/2314#issuecomment-1028637269 
+      image: "loki-curator:1.1" # https://github.com/grafana/loki/issues/2314#issuecomment-1028637269
       imagePullPolicy: IfNotPresent
       env:
         - name: SPACEMONITORING_FOLDER
@@ -83,7 +94,7 @@ cat<<EOF >$PWD/promtail-demo-values.yaml
 config:
   clients:
     - url: http://loki:3100/loki/api/v1/push
-extraPorts: 
+extraPorts:
    syslog:
      name: tcp-syslog
      annotations: {}
@@ -123,11 +134,13 @@ kubectl port-forward svc/grafana 3000:3000 --address 0.0.0.0
 ```
 
 #### [Add Loki data source ]
+
 ![image](https://github.com/naren4b/nks/assets/3488520/d1c20e4e-586d-4365-bbfb-c050fb7d9c5d)
 _url: http://loki:3100_
 Visit http://localhost:3000/connections/datasources/loki
 
 #### [Add basic dashboard](https://github.com/naren4b/nks/blob/main/apps/loki/loki-general-dashboard.json)
+
 ![image-1](https://github.com/naren4b/nks/assets/3488520/818cff38-598f-4e3b-b8da-4f1ecc254b63)
 
 Visit http://localhost:3000/dashboard/new?orgId=1
