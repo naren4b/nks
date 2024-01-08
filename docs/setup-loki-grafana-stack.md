@@ -93,7 +93,7 @@ extraPorts:
      service:
        type: ClusterIP
        clusterIP: null
-       port: 8514
+       port: 1514
        externalIPs: []
        nodePort: null
        loadBalancerIP: null
