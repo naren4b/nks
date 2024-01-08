@@ -78,8 +78,8 @@ helm install loki ${REPO_NAME}/${REPO_PATH}  --version ${CHART_VERSION} -f $PWD/
 
 #### Install promtail
 
-```yaml
-
+```bash
+cat<<EOF >$PWD/promtail-demo-values.yaml
 config:
   clients:
     - url: http://loki:3100/loki/api/v1/push
@@ -99,6 +99,8 @@ extraPorts:
        loadBalancerIP: null
        loadBalancerSourceRanges: []
        externalTrafficPolicy: null
+EOF
+
 ```
 
 ```bash
