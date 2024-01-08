@@ -9,11 +9,12 @@ In this blog post, we explore a quick and efficient way to set up a basic Loki-P
 ref: [mykindk8scluster](https://naren4b.github.io/nks/mykindk8scluster.html) or [Demo Environment](https://killercoda.com/killer-shell-ckad/scenario/playground)
 
 #### Install Loki
+
 Build and Load the image (ref: https://github.com/naren4b/monitoring-stack/tree/main/loki )
 
 ```bash
 docker build -t loki-curator:1.1 .
-kind create cluster 
+kind create cluster
 kind load docker-image loki-curator:1.1
 
 ```
