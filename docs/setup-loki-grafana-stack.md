@@ -78,7 +78,8 @@ helm install loki ${REPO_NAME}/${REPO_PATH}  --version ${CHART_VERSION} -f $PWD/
 
 #### Install promtail
 
-```bash
+```yaml
+
 config:
   clients:
     - url: http://loki:3100/loki/api/v1/push
