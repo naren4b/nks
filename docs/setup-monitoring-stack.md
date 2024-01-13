@@ -121,6 +121,18 @@ scrape_configs:
     static_configs:
       - targets:
           - localhost:9100
+  - job_name: victoria-metrics 
+    metrics_path: /metrics
+    scheme: http
+    static_configs:
+      - targets:
+          - localhost:8428
+  - job_name: vmagent 
+    metrics_path: /metrics
+    scheme: http
+    static_configs:
+      - targets:
+          - localhost:8429
 EOF
 
 prometheus_host_port=9090
@@ -172,7 +184,7 @@ scrape_configs:
     params:
       'match[]':
         - '{service="naren"}'
-        - '{__name__="up"}'
+        - '{__name__=~"up|vm_.*"}'
     static_configs:
       - targets:
           - localhost:9090
