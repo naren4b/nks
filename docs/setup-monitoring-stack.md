@@ -75,7 +75,7 @@ text_collector_dir=/var/lib/node-exporter/textfile_collector
 mkdir -p ${text_collector_dir}
 
 cat <<EOF >/etc/cron.d/directory_size
-*/5 * * * * root du -sb /var/log /var/cache/apt /var/lib/prometheus | sed -ne 's/^\([0-9]\+\)\t\(.*\)$/node_directory_size_bytes{directory="\2"} \1/p' > ${text_collector_dir}/directory_size.prom.$$ && mv ${text_collector_dir}/directory_size.prom.$$ ${text_collector_dir}/directory_size.prom
+*/5 * * * * root du -sb /var/log /var/cache/apt /var/lib/prometheus | sed -ne 's/^\([0-9]\+\)\t\(.*\)$/node_directory_size_bytes{service="naren",directory="\2"} \1/p' > ${text_collector_dir}/directory_size.prom.$$ && mv ${text_collector_dir}/directory_size.prom.$$ ${text_collector_dir}/directory_size.prom
 EOF
 name=$1
 default_value="demo"
@@ -137,7 +137,7 @@ docker ps -l
 ```
 
 ### Install vmagent | run-vmagent.sh
-
+VM Agent which will scrape selected time series from local Prometheus server, where `service="naren"`
 ```bash
 #! /bin/bash
 name=$1
@@ -150,17 +150,29 @@ remoteWrite_url="http://localhost:8428/api/v1/write"
 cat <<EOF >${PWD}/$vmagent_name/Dockerfile
 FROM victoriametrics/vmagent
 ENTRYPOINT ["/vmagent-prod"]
-CMD ["-remoteWrite.url=$remoteWrite_url" , "-remoteWrite.forceVMProto","-promscrape.config=/etc/prometheus/prometheus.yml"]
+CMD ["-remoteWrite.url=$remoteWrite_url" ,"-remoteWrite.urlRelabelConfig=/etc/prometheus/relabel.yml", "-remoteWrite.forceVMProto","-promscrape.config=/etc/prometheus/prometheus.yml"]
 EOF
 
 docker build -t victoriametrics/vmagent:$vmagent_name ${PWD}/$vmagent_name/
 rm -rf ${PWD}/$vmagent_name/Dockerfile
 
+cat <<EOF > ${PWD}/$vmagent_name/relabel.yml
+- target_label: "node"
+  replacement: "local"
+EOF
+
 cat <<EOF >${PWD}/$vmagent_name/prometheus.yml
 scrape_configs:
-  - job_name: prometheus
-    metrics_path: /federate
-    scheme: http
+  - job_name: 'federate'
+    scrape_interval: 15s
+
+    honor_labels: true
+    metrics_path: '/federate'
+
+    params:
+      'match[]':
+        - '{service="naren"}'
+        - '{__name__="up"}'
     static_configs:
       - targets:
           - localhost:9090
