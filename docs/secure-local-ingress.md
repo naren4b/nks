@@ -102,5 +102,6 @@ echo "127.0.0.1 ${SERVICE_NAME}.$ENV_ROOT_DOMAIN" >> /etc/hosts
 ### Ref:
 - [Demo Environment](https://killercoda.com/killer-shell-cks/scenario/container-namespaces-docker)
 - [nks-k8s-ingress.git](https://github.com/naren4b/nks-k8s-ingress.git)
+- [direct-run-script](https://raw.githubusercontent.com/naren4b/nks-k8s-ingress/main/run.sh)
 
 [Home](https://naren4b.github.io/nks/)
