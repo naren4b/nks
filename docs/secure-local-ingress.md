@@ -1,4 +1,4 @@
-# Setting up ingress controller with self-signed certificate & access service with mTLS setup 
+# Securing Kubernetes Traffic: A Step-by-Step Guide to Setting up Ingress Controller with Self-Signed Certificates and mTLS
 ![mtls-ingress](https://github.com/naren4b/nks/assets/3488520/f3b3b0b3-e6eb-4504-b2ec-03a3b84898cc)
 
 ## 1. Generate Keys & Certificates:
