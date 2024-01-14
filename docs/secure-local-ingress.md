@@ -1,7 +1,6 @@
-# Setting up ingress controller with self-signed certificate 
-```bash
-run.sh my-service-name
-```
+# Setting up ingress controller with self-signed certificate & access service with mTLS setup 
+![mtls-ingress](https://github.com/naren4b/nks/assets/3488520/f3b3b0b3-e6eb-4504-b2ec-03a3b84898cc)
+
 
 ### Generate the keys & certificates
 ```bash
@@ -10,7 +9,11 @@ ENV_ROOT_DOMAIN=127.0.0.1.nip.io
 ROOT_CERT_DIR="/tmp/mycrts"
 mkdir -p $ROOT_CERT_DIR
 
-SERVICE_NAME=$1
+
+default_value="demo"
+SERVICE_NAME=$1 # Give the service name 
+SERVICE_NAME=${SERVICE_NAME:-$default_value}
+
 mkdir -p $SERVICE_NAME
 
 SERVICE_CERT_DIR=$ROOT_CERT_DIR/$SERVICE_NAME
@@ -98,6 +101,6 @@ echo "127.0.0.1 ${SERVICE_NAME}.$ENV_ROOT_DOMAIN" >> /etc/hosts
 ```
 ### Ref:
 - [Demo Environment](https://killercoda.com/killer-shell-cks/scenario/container-namespaces-docker)
-- [monitoring-stack.git](https://github.com/naren4b/nks-k8s-ingress.git)
+- [nks-k8s-ingress.git](https://github.com/naren4b/nks-k8s-ingress.git)
 
 [Home](https://naren4b.github.io/nks/)
