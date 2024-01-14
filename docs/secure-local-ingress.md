@@ -1,8 +1,9 @@
 # Setting up ingress controller with self-signed certificate & access service with mTLS setup 
 ![mtls-ingress](https://github.com/naren4b/nks/assets/3488520/f3b3b0b3-e6eb-4504-b2ec-03a3b84898cc)
 
+## 1. Generate Keys & Certificates:
+Begin by creating cryptographic keys and self-signed certificates for secure communication.
 
-### Generate the keys & certificates
 ```bash
 ENV_ROOT_DOMAIN=127.0.0.1.nip.io
 
@@ -40,7 +41,9 @@ openssl x509 -req -CA $ROOT_CERT_DIR/rootCA.crt -CAkey $ROOT_CERT_DIR/rootCA.key
                   -days 365  -set_serial 01 -CAcreateserial -extfile $ROOT_CERT_DIR/domain.ext \
                   -in $SERVICE_CERT_DIR/${SERVICE_NAME}.csr -out $SERVICE_CERT_DIR/${SERVICE_NAME}.crt
 ```
-### Install nginx ingress controller 
+# 2. Install Nginx Ingress Controller:
+Deploy the Nginx Ingress Controller to manage incoming traffic to Kubernetes services.
+
 ```bash
 wget https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml 
 kubectl label nodes controlplane ingress-ready="true"
@@ -48,7 +51,9 @@ kubectl apply -f deploy.yaml
 kubectl wait --for=condition=ready pod -n ingress-nginx -l app.kubernetes.io/component=controller
 ```
 
-### Deploy http-echo:0.2.3 service (pod,svc,ing)
+## 3. Deploy http-echo:0.2.3 Service: 
+Set up the http-echo service, including the pod, service, and ingress resources.
+
 ```bash
 NS=default
 kubectl run -n $NS $SERVICE_NAME  --image hashicorp/http-echo:0.2.3 -- -text="Hello $SERVICE_NAME"
@@ -58,7 +63,8 @@ kubectl create secret generic -n $NS ${SERVICE_NAME}-tls \
             --from-file=tls.key=$SERVICE_CERT_DIR/${SERVICE_NAME}.key \
             --from-file=ca.crt=$ROOT_CERT_DIR/rootCA.crt  -o yaml --dry-run=client > ${SERVICE_NAME}/secret.yaml
 ```
-### Create the ingress and tls secrets 
+## 4. Create Ingress and TLS Secrets:
+Establish an Ingress resource and TLS secrets to secure communication with the http-echo service.
 ```bash
 cat > ${SERVICE_NAME}/ing.yaml <<EOF
 apiVersion: networking.k8s.io/v1
@@ -94,7 +100,8 @@ kubectl apply -n $NS -f ${SERVICE_NAME}/secret.yaml
 kubectl apply -n $NS -f ${SERVICE_NAME}/ing.yaml
 ```
 
-### Test the service 
+## 5. Test the Service:
+Verify the setup by accessing the service through the Ingress Controller, ensuring that both Ingress and mTLS configurations are functioning correctly.
 ```bash
 echo curl -L --cacert $ROOT_CERT_DIR/rootCA.crt  --key $SERVICE_CERT_DIR/${SERVICE_NAME}.key  --cert $SERVICE_CERT_DIR/${SERVICE_NAME}.crt  https://${SERVICE_NAME}.$ENV_ROOT_DOMAIN
 echo "127.0.0.1 ${SERVICE_NAME}.$ENV_ROOT_DOMAIN" >> /etc/hosts
