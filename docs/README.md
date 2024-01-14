@@ -17,7 +17,7 @@
 | 20-Nov-2023 | [Check all running images's vulnerability & size running in k8s cluster](prepare-k8s-image-scanning-report.md)         |
 | 27-Nov-2023 | [Install basic Loki Promtail Grafana stack in KIND cluster ](setup-loki-grafana-stack.md)                              |
 | 05-Jan-2024 | [Local setup for testing vmbackup and vmrestore ](vmbackup_and_vmrestore.md)                                           |
-| 14-Jan-2024 | [Setting up ingress controller with self-signed certificate & access service with mTLS setup](secure-local-ingress.md) |
+| 14-Jan-2024 | [Securing Kubernetes Traffic: A Step-by-Step Guide to Setting up Ingress Controller with Self-Signed Certificates and mTLS](secure-local-ingress.md) |
 
 _by nks[^note]_
 
