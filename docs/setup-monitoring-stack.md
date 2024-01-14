@@ -1,4 +1,4 @@
-# Setting up Monitoring Stack in a Node (docker container)
+# Setting up Monitoring Stack in a Node (Docker Container):
 
 ![monitoring-stack](https://github.com/naren4b/nks/assets/3488520/29d46422-4466-4af4-8621-218ca18ff224)
 
@@ -226,7 +226,7 @@ docker ps -l
 
 ```
 
-### Install the moitoring stack | install.sh
+### Install the monitoring stack | install.sh
 
 ```bash
 
