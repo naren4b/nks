@@ -76,6 +76,8 @@ docker run  -v victoria-metrics-data:/victoria-metrics-data --network host victo
 
 ```
 
+https://github.com/VictoriaMetrics/VictoriaMetrics/issues/353
+
 ### Ref:
 
 - [Demo Environment](https://killercoda.com/killer-shell-cks/scenario/container-namespaces-docker)

@@ -1,4 +1,4 @@
-# Setting up Monitoring Stack in a Node (docker container)
+# Setting up Monitoring Stack in a Node (Docker Container):
 
 ![monitoring-stack](https://github.com/naren4b/nks/assets/3488520/29d46422-4466-4af4-8621-218ca18ff224)
 
@@ -159,15 +159,6 @@ vmagent_name=${name}-vmagent
 mkdir -p ${PWD}/$vmagent_name
 
 remoteWrite_url="http://localhost:8428/api/v1/write"
-cat <<EOF >${PWD}/$vmagent_name/Dockerfile
-FROM victoriametrics/vmagent
-ENTRYPOINT ["/vmagent-prod"]
-CMD ["-remoteWrite.url=$remoteWrite_url" ,"-remoteWrite.urlRelabelConfig=/etc/prometheus/relabel.yml", "-remoteWrite.forceVMProto","-promscrape.config=/etc/prometheus/prometheus.yml"]
-EOF
-
-docker build -t victoriametrics/vmagent:$vmagent_name ${PWD}/$vmagent_name/
-rm -rf ${PWD}/$vmagent_name/Dockerfile
-
 cat <<EOF > ${PWD}/$vmagent_name/relabel.yml
 - target_label: "node"
   replacement: "local"
@@ -196,8 +187,9 @@ docker rm ${vmagent_name} -f
 docker run -d --restart unless-stopped --network host \
   --name=${vmagent_name} \
   -v ${PWD}/$vmagent_name:/etc/prometheus/ \
+  -v ${PWD}/vma:/opt/ \
   -v vmagentdata:/vmagentdata \
-  victoriametrics/vmagent:$vmagent_name
+  victoriametrics/vmagent -remoteWrite.url=$remoteWrite_url -remoteWrite.urlRelabelConfig=/etc/prometheus/relabel.yml -remoteWrite.forceVMProto -promscrape.config=/etc/prometheus/prometheus.yml 
 
 docker ps -l
 
@@ -226,7 +218,7 @@ docker ps -l
 
 ```
 
-### Install the moitoring stack | install.sh
+### Install the monitoring stack | install.sh
 
 ```bash
 
@@ -262,7 +254,7 @@ docker ps | grep -E "STATUS|$name"
 
 ```
 
-### Uninstall the moitoring stack | uninstall.sh
+### Uninstall the monitoring stack | uninstall.sh
 
 ```
 #! /bin/bash
