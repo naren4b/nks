@@ -1,24 +1,83 @@
-## Naren Kubernetes Solutions
+# KIND localcluster
+```bash
+set -o errexit
+reg_name='kind-registry'
+reg_port='5001'
+if [ "$(docker inspect -f '{{.State.Running}}' "${reg_name}" 2>/dev/null || true)" != 'true' ]; then
+  docker run \
+    -d --restart=always -p "127.0.0.1:${reg_port}:5000" --network bridge --name "${reg_name}" \
+    registry:2
+fi
 
-| Date        | Topic                                                                                                          |
-| ----------- | -------------------------------------------------------------------------------------------------------------- |
-| 02-Oct-2022 | [How to create, package , push, host, deploy Private Helm Charts using Chartmuseum](private-helm-charts.md)    |
-| 20-Nov-2022 | [Setting up a secured local registry (local docker or k8s kind cluster)](local-docker-registry.md)             |
-| 25-Nov-2022 | [Setting up ArgoCD in k8s cluster with local User & RBAC](argocd-rbac.md)                                      |
-| 15-Jan-2023 | [Emissary-ingress quick start in KIND Cluster (Windows)](emissary-ingress.md)                                  |
-| 01-Feb-2023 | [Setting up your Own PKI with OpenSSL](openssl-certificate.md)                                                 |
-| 12-Jul-2023 | [Resource Management for Pods and Containers](k8s-resource-management.md)                                      |
-| 26-Aug-2023 | [Setting up ArgoCD with OIDC login in development environment (insecure) ](argocd-oidc-setup.md)               |
-| 03-Sep-2023 | [Configuring User Access to Your Kubernetes Cluster: A Step-by-Step Guide](kubernetes-adduser.md)              |
-| 18-Sep-2023 | [Extract, transform, and load (ETL) of the data using python(1/n)](python_requests-1.md)                       |
-| 30-Sep-2023 | [Host your test kubernetes cluster ](mykindk8scluster.md)                                                      |
-| 21-Oct-2023 | [Setup Production Grade Keycloak in Kubernetes(1/n) ](install-keycloak.md)                                     |
-| 20-Nov-2023 | [Setting up Monitoring Stack in a Node (docker container)](setup-monitoring-stack.md)                          |
-| 20-Nov-2023 | [Check all running images's vulnerability & size running in k8s cluster](prepare-k8s-image-scanning-report.md) |
-| 27-Nov-2023 | [Install basic Loki Promtail Grafana stack in KIND cluster ](setup-loki-grafana-stack.md)                      |
+cat <<EOF | kind create cluster --config=-
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+containerdConfigPatches:
+- |-
+  [plugins."io.containerd.grpc.v1.cri".registry]
+    config_path = "/etc/containerd/certs.d"
+nodes:
+- role: control-plane
+  kubeadmConfigPatches:
+  - |
+    kind: InitConfiguration
+    nodeRegistration:
+      kubeletExtraArgs:
+        node-labels: "ingress-ready=true"
+  extraPortMappings:
+  - containerPort: 80
+    hostPort: 80
+    protocol: TCP
+  - containerPort: 443
+    hostPort: 443
+    protocol: TCP
+EOF
 
-_by nks[^note]_
 
-[^note]:
-    To me, giving back is so important. It makes others feel good which then in return makes me feel good :heartpulse:
-    at [https://github.com/naren4b/nks](https://github.com/naren4b/nks).
+REGISTRY_DIR="/etc/containerd/certs.d/localhost:${reg_port}"
+for node in $(kind get nodes); do
+  docker exec "${node}" mkdir -p "${REGISTRY_DIR}"
+  cat <<EOF | docker exec -i "${node}" cp /dev/stdin "${REGISTRY_DIR}/hosts.toml"
+[host."http://${reg_name}:5000"]
+EOF
+done
+
+if [ "$(docker inspect -f='{{json .NetworkSettings.Networks.kind}}' "${reg_name}")" = 'null' ]; then
+  docker network connect "kind" "${reg_name}"
+fi
+
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: local-registry-hosting
+  namespace: kube-public
+data:
+  localRegistryHosting.v1: |
+    host: "localhost:${reg_port}"
+    help: "https://kind.sigs.k8s.io/docs/user/local-registry/"
+EOF
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+kubectl wait --namespace ingress-nginx \
+  --for=condition=ready pod \
+  --selector=app.kubernetes.io/component=controller \
+  --timeout=90s
+```
+# Install Utility
+```bash
+alias k=kubectl
+source <(kubectl completion bash)
+echo "source <(kubectl completion bash)" >>~/.bashrc
+complete -o default -F __start_kubectl k
+source /etc/bash_completion
+```
+
+# Test your environment
+```
+cat<<EOF >my-setup-ingess.yaml
+
+```
+
+
+
