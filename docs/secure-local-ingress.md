@@ -113,5 +113,5 @@ echo "127.0.0.1 ${SERVICE_NAME}.$ENV_ROOT_DOMAIN" >> /etc/hosts
   ```
   curl https://raw.githubusercontent.com/naren4b/nks-k8s-ingress/main/run.sh | bash 
   ```
-
+ref: https://haproxy-ingress.github.io/docs/getting-started/#deploy-and-expose
 [Home](https://naren4b.github.io/nks/)
