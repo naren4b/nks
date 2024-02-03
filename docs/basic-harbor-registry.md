@@ -37,6 +37,8 @@ docker tag nginx:latest $HARBOR_URL/library/nginx:latest
 docker push $HARBOR_URL/library/nginx:latest
 ```
 ### 
+[NEXT: Let's try basic Harbor API](harbor-api.md)
+
 
 Ref: 
 - [Demo Environment](https://killercoda.com/killer-shell-cks/scenario/container-namespaces-docker)
