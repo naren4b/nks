@@ -18,7 +18,7 @@
 | 27/11/2023 | [Install basic Loki Promtail Grafana stack in KIND cluster ](setup-loki-grafana-stack.md)                                                            |
 | 05/01/2024 | [Local setup for testing vmbackup and vmrestore ](vmbackup_and_vmrestore.md)                                                                         |
 | 14/01/2024 | [Securing Kubernetes Traffic: A Step-by-Step Guide to Setting up Ingress Controller with Self-Signed Certificates and mTLS](secure-local-ingress.md) |
-| 03/01/2024 | [Setting up Basic Harbor Registry in a Kubernetes Cluster](basic-harbor-registry.md) |
+| 03/01/2024 | [Setting up Basic Harbor Registry in a Kubernetes Cluster](basic-harbor-registry.md)                                                                 |
 _by nks[^note]_
 
 [^note]:
