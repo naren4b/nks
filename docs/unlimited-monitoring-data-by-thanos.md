@@ -160,7 +160,7 @@ docker run -d --net=host --rm \
     --http-address 0.0.0.0:19095
 ```
 
-
+- [Demo Environment](https://killercoda.com/killer-shell-cks/scenario/container-namespaces-docker)
 
 
 
