@@ -1,4 +1,5 @@
 # Setting up NKS PKI 
+![nks-pki](https://github.com/naren4b/nks/assets/3488520/d4ba7496-fbc5-423a-a9ba-01a290a6685d)
 
 ### Let's have kubernetes cluster
 ```bash
