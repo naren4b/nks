@@ -1,4 +1,4 @@
-# Setting up NKS PKI 
+#  Setting up NKS PKI (Own Certificate via Cert-Manager in a Kubernetes cluster)
 ![nks-pki](https://github.com/naren4b/nks/assets/3488520/d4ba7496-fbc5-423a-a9ba-01a290a6685d)
 
 ### Let's have kubernetes cluster
