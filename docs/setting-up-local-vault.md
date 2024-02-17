@@ -1,3 +1,4 @@
+```
 kubectl create namespace vault
 kubectl --namespace='vault' get all
 
@@ -10,9 +11,10 @@ helm install vault hashicorp/vault \
  --set "server.ha.enabled=true" \
  --set "server.ha.replicas=5" \
  --dry-run
+```
 
 # Override
-
+```
 cat << EOF > ./override-values.yml
 server:
 ha:
@@ -23,7 +25,8 @@ helm install vault hashicorp/vault \
  --namespace vault \
  -f override-values.yml \
  --dry-run
-
+```
+```
 cat << EOF > ./override-values.yml
 
 # Vault Helm Chart Value Overrides
@@ -178,9 +181,10 @@ externalPort: 8200
 # - < Your IP RANGE Ex. 10.0.0.0/16 >
 
 # - < YOUR SINGLE IP Ex. 1.78.23.3/32 >
-
 EOF
-
+```
+```
 kubectl --namespace='vault' create secret tls vault-ca-crt --cert ./tls-ca.cert --key ./tls-ca.key
 kubectl create secret generic consul-token --from-file=./consul_token
 kubectl --namespace='vault' create secret tls tls-secret --cert=path/to/tls.cert --key=path/to/tls.key
+```
