@@ -20,8 +20,8 @@
 | 14/01/2024 | [Securing Kubernetes Traffic: A Step-by-Step Guide to Setting up Ingress Controller with Self-Signed Certificates and mTLS](secure-local-ingress.md) |
 | 03/02/2024 | [Setting up Basic Harbor Registry in a Kubernetes Cluster](basic-harbor-registry.md)                                                                 |
 | 04/02/2024 | [Setting up Thanos for long term storage of prometheus metrics](unlimited-monitoring-data-by-thanos.md)                                              |
-| 04/02/2024 | [Setting up NKS PKI (Own Certificate via Cert-Manager in a Kubernetes cluster)](k8s-nks-pki-cert-manager.md)                                              |
-
+| 04/02/2024 | [Setting up NKS PKI (Own Certificate via Cert-Manager in a Kubernetes cluster)](k8s-nks-pki-cert-manager.md)                                         |
+| 20/02/2024 | [Deploying Basic Kafka cluster with the help of Strimzi operators (1/n)](kafka-setup.md)                                                             |
 
 _by nks[^note]_
 
