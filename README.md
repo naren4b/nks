@@ -1,83 +1,30 @@
-# KIND localcluster
-```bash
-set -o errexit
-reg_name='kind-registry'
-reg_port='5001'
-if [ "$(docker inspect -f '{{.State.Running}}' "${reg_name}" 2>/dev/null || true)" != 'true' ]; then
-  docker run \
-    -d --restart=always -p "127.0.0.1:${reg_port}:5000" --network bridge --name "${reg_name}" \
-    registry:2
-fi
+## Naren Kubernetes Solutions
 
-cat <<EOF | kind create cluster --config=-
-kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-containerdConfigPatches:
-- |-
-  [plugins."io.containerd.grpc.v1.cri".registry]
-    config_path = "/etc/containerd/certs.d"
-nodes:
-- role: control-plane
-  kubeadmConfigPatches:
-  - |
-    kind: InitConfiguration
-    nodeRegistration:
-      kubeletExtraArgs:
-        node-labels: "ingress-ready=true"
-  extraPortMappings:
-  - containerPort: 80
-    hostPort: 80
-    protocol: TCP
-  - containerPort: 443
-    hostPort: 443
-    protocol: TCP
-EOF
+| Date       | Topic                                                                                                                                                     |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 02/10/2022 | [How to create, package , push, host, deploy Private Helm Charts using Chartmuseum](docs/private-helm-charts.md)                                          |
+| 20/11/2022 | [Setting up a secured local registry (local docker or k8s kind cluster)](docs/local-docker-registry.md)                                                   |
+| 25/11/2022 | [Setting up ArgoCD in k8s cluster with local User & RBAC](docs/argocd-rbac.md)                                                                            |
+| 15/01/2023 | [Emissary-ingress quick start in KIND Cluster (Windows)](docs/emissary-ingress.md)                                                                        |
+| 01/02/2023 | [Setting up your Own PKI with OpenSSL](docs/openssl-certificate.md)                                                                                       |
+| 12/07/2023 | [Resource Management for Pods and Containers](docs/k8s-resource-management.md)                                                                            |
+| 26/08/2023 | [Setting up ArgoCD with OIDC login in development environment (insecure) ](docs/argocd-oidc-setup.md)                                                     |
+| 03/09/2023 | [Configuring User Access to Your Kubernetes Cluster: A Step-by-Step Guide](docs/kubernetes-adduser.md)                                                    |
+| 18/09/2023 | [Extract, transform, and load (ETL) of the data using python(1/n)](docs/python_requests/1.md)                                                             |
+| 30/09/2023 | [Host your test kubernetes cluster ](docs/mykindk8scluster.md)                                                                                            |
+| 21/10/2023 | [Setup Production Grade Keycloak in Kubernetes(1/n) ](docs/install-keycloak.md)                                                                           |
+| 20/11/2023 | [Setting up Monitoring Stack in a Node (docker container)](docs/setup-monitoring-stack.md)                                                                |
+| 20/11/2023 | [Check all running images's vulnerability & size running in k8s cluster](docs/prepare-k8s-image-scanning-report.md)                                       |
+| 27/11/2023 | [Install basic Loki Promtail Grafana stack in KIND cluster ](docs/setup-loki-grafana-stack.md)                                                            |
+| 05/01/2024 | [Local setup for testing vmbackup and vmrestore ](docs/vmbackup_and_vmrestore.md)                                                                         |
+| 14/01/2024 | [Securing Kubernetes Traffic: A Step-by-Step Guide to Setting up Ingress Controller with Self-Signed Certificates and mTLS](docs/secure-local-ingress.md) |
+| 03/02/2024 | [Setting up Basic Harbor Registry in a Kubernetes Cluster](docs/basic-harbor-registry.md)                                                                 |
+| 04/02/2024 | [Setting up Thanos for long term storage of prometheus metrics](docs/unlimited-monitoring-data-by-thanos.md)                                              |
+| 04/02/2024 | [Setting up NKS PKI (Own Certificate via Cert-Manager in a Kubernetes cluster)](docs/k8s-nks-pki-cert-manager.md)                                         |
+| 20/02/2024 | [Deploying Basic Kafka cluster with the help of Strimzi operators (1/n)](docs/kafka-setup.md)                                                             |
 
+_by nks[^note]_
 
-REGISTRY_DIR="/etc/containerd/certs.d/localhost:${reg_port}"
-for node in $(kind get nodes); do
-  docker exec "${node}" mkdir -p "${REGISTRY_DIR}"
-  cat <<EOF | docker exec -i "${node}" cp /dev/stdin "${REGISTRY_DIR}/hosts.toml"
-[host."http://${reg_name}:5000"]
-EOF
-done
-
-if [ "$(docker inspect -f='{{json .NetworkSettings.Networks.kind}}' "${reg_name}")" = 'null' ]; then
-  docker network connect "kind" "${reg_name}"
-fi
-
-cat <<EOF | kubectl apply -f -
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: local-registry-hosting
-  namespace: kube-public
-data:
-  localRegistryHosting.v1: |
-    host: "localhost:${reg_port}"
-    help: "https://kind.sigs.k8s.io/docs/user/local-registry/"
-EOF
-
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
-kubectl wait --namespace ingress-nginx \
-  --for=condition=ready pod \
-  --selector=app.kubernetes.io/component=controller \
-  --timeout=90s
-```
-# Install Utility
-```bash
-alias k=kubectl
-source <(kubectl completion bash)
-echo "source <(kubectl completion bash)" >>~/.bashrc
-complete -o default -F __start_kubectl k
-source /etc/bash_completion
-```
-
-# Test your environment
-```
-cat<<EOF >my-setup-ingess.yaml
-
-```
-
-
-
+[^note]:
+    To me, giving back is so important. It makes others feel good which then in return makes me feel good :heartpulse:
+    at [https://github.com/naren4b/nks](docs/https://github.com/naren4b/nks).
