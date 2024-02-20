@@ -3,12 +3,12 @@
 
 ### Let's have kubernetes cluster
 ```bash
-curl https://raw.githubusercontent.com/naren4b/dotfiles/main/ws/install.sh | bash
+curl -s https://raw.githubusercontent.com/naren4b/dotfiles/main/ws/install.sh | bash
 ```
 
 ### Setup Harbor Helm-Chart 
 ```
-https://raw.githubusercontent.com/naren4b/harbor-registry/main/setup.sh
+curl -s https://raw.githubusercontent.com/naren4b/harbor-registry/main/setup.sh | bash
 ```
 
 ### Install harbor 
