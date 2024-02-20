@@ -1,4 +1,7 @@
+# Setup Minio S3 with Transport Layer Security (TLS) 1.2+ encryption
+
 ## Install minio certgen tool
+
 ```bash
 curl https://github.com/minio/certgen/releases/latest/download/certgen-linux-amd64 \
    --create-dirs \
@@ -6,20 +9,24 @@ curl https://github.com/minio/certgen/releases/latest/download/certgen-linux-amd
 chmod +x $HOME/minio-binaries/certgen
 export PATH=$PATH:$HOME/minio-binaries/
 ```
-## Install minio server 
+
+## Install minio server
+
 ```bash
 mkdir -p ~/minio/data
 mkdir -p ~/minio/certs
 
 cd ~/minio/certs
 certgen -host "127.0.0.1,localhost"
-ls 
+ls
 cd ../..
 
 MINIO_ROOT_USER=minio
 MINIO_ROOT_PASSWORD=minio123
 ```
-Install the server 
+
+Install the server
+
 ```bash
 docker run  -d --rm --name minio  \
                     -p 9000:9000 \
@@ -31,8 +38,7 @@ docker run  -d --rm --name minio  \
                     quay.io/minio/minio server /data --console-address ":9001" --certs-dir /opts/certs
 ```
 
-
-## Access bucket via  minio client mc
+## Access bucket via minio client mc
 
 ```bash
 curl https://dl.min.io/client/mc/release/linux-amd64/mc \
@@ -48,9 +54,11 @@ echo "Hello My S3 "> demo.txt
 mc cp demo.txt myminio/demo-bucket
 mc ls myminio/demo-bucket
 ```
+
 ![image](https://github.com/naren4b/nks/assets/3488520/c031d629-1139-4beb-9247-987b5c685547)
 
-## Access the bucket via  s3cmd client 
+## Access the bucket via s3cmd client
+
 ```
 sudo apt install s3cmd
 
@@ -73,11 +81,8 @@ s3cmd -c ~/.s3cfg --ca-certs=~/minio/certs/public.crt ls s3://demo-bucket
 
 ```
 
-![image](https://github.com/naren4b/nks/assets/3488520/dd735419-f89f-43f7-9253-d0234d29e01c)
-
-
 [Demo Environment](https://killercoda.com/killer-shell-ckad/scenario/playground)
 
+ref:
 
-
-					
+- https://min.io/docs/minio/container/operations/network-encryption.html
