@@ -10,7 +10,13 @@ curl -s https://raw.githubusercontent.com/naren4b/dotfiles/main/ws/install.sh | 
 ```
 curl -s https://raw.githubusercontent.com/naren4b/harbor-registry/main/setup.sh | bash
 ```
-
+### Install Ingress controller
+```bash
+curl -s  https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml 
+kubectl label nodes controlplane ingress-ready="true"
+kubectl apply -f deploy.yaml 
+kubectl wait --for=condition=ready pod -n ingress-nginx -l app.kubernetes.io/component=controller
+```
 ### Install harbor 
 ```
 curl -O https://raw.githubusercontent.com/naren4b/harbor-registry/main/harbor-values.yaml #change the values if you want 
