@@ -1,3 +1,5 @@
+![misc-Copy of Multiple ArgoCD Source](https://github.com/naren4b/nks/assets/3488520/6e8cd133-7b90-4fbb-a76c-9d6ddf359a44)
+
 # Multiple Sources for an ArgoCD Application
 
 ref: Argo CD has the ability to specify multiple sources for a single Application. Argo CD compiles all the sources and reconciles the combined resources. 
