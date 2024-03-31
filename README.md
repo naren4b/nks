@@ -23,7 +23,7 @@
 | 04/02/2024 | [Setting up NKS PKI (Own Certificate via Cert-Manager in a Kubernetes cluster)](docs/k8s-nks-pki-cert-manager.md)                                         |
 | 20/02/2024 | [Deploying Basic Kafka cluster with the help of Strimzi operators (1/n)](docs/kafka-setup.md)                                                             |
 | 20/02/2024 | [Setup Minio S3 with Transport Layer Security (TLS) 1.2+ encryption](docs/secure-s3-minio.md)                                                             |
-| 31/04/2024 | [utility tool to Decode Multi-Source Argocd Application](docs/argocd-multi-source.md)                                                                     |
+| 31/04/2024 | [Multiple Sources for an ArgoCD Application](docs/argocd-multi-source.md)                                                                     |
 
 _by nks[^note]_
 
