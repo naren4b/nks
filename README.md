@@ -23,7 +23,9 @@
 | 04/02/2024 | [Setting up NKS PKI (Own Certificate via Cert-Manager in a Kubernetes cluster)](docs/k8s-nks-pki-cert-manager.md)                                         |
 | 20/02/2024 | [Deploying Basic Kafka cluster with the help of Strimzi operators (1/n)](docs/kafka-setup.md)                                                             |
 | 20/02/2024 | [Setup Minio S3 with Transport Layer Security (TLS) 1.2+ encryption](docs/secure-s3-minio.md)                                                             |
-| 31/04/2024 | [Multiple Sources for an ArgoCD Application](docs/argocd-multi-source.md)                                                                     |
+| 31/03/2024 | [Multiple Sources for an ArgoCD Application](docs/argocd-multi-source.md)                                                                                 |
+| 11/04/2024 | [Install Simple Scalable Loki Promtail Grafana stack in KIND cluster](docs/setup-loki-grafana-stack-simple-scalable.md)                                   |
+
 
 _by nks[^note]_
 
