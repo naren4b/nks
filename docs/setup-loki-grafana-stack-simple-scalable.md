@@ -1,9 +1,8 @@
 # Install Simple Scalable Loki Promtail Grafana stack in KIND cluster
 
+<img src="https://github.com/naren4b/nks/assets/3488520/e0162460-3ca4-420b-8850-444054fcc268"  width="50%" height="60%">
 
-<img src="https://github.com/naren4b/nks/assets/3488520/02f117c1-135e-4b83-b594-e78200f13460"  width="50%" height="60%">
-
-Loki’s simple scalable deployment mode separates execution paths into read, write, and backend targets. These targets can be scaled independently, letting you customize your Loki deployment to meet your business needs for log ingestion and log query so that your infrastructure costs better match how you use Loki.
+<p>Loki’s simple scalable deployment mode separates execution paths into read, write, and backend targets. These targets can be scaled independently, letting you customize your Loki deployment to meet your business needs for log ingestion and log query so that your infrastructure costs better match how you use Loki. </p>
 
 The three execution paths in simple scalable mode are each activated by appending the following arguments to Loki on startup:
 - `-target=write` - The write target is stateful and is controlled by a Kubernetes StatefulSet. It contains the following components: – Distributor – Ingester
