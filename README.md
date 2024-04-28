@@ -25,6 +25,8 @@
 | 20/02/2024 | [Setup Minio S3 with Transport Layer Security (TLS) 1.2+ encryption](docs/secure-s3-minio.md)                                                             |
 | 31/03/2024 | [Multiple Sources for an ArgoCD Application](docs/argocd-multi-source.md)                                                                                 |
 | 11/04/2024 | [Install Simple Scalable Loki Promtail Grafana stack in KIND cluster](docs/setup-loki-grafana-stack-simple-scalable.md)                                   |
+| 28/04/2024 | [Deploy a batch monitoring stack with Prometheus PushGateway in Kubernetes cluster](docs/prometheus_pushgateway.md)                                       |
+
 
 
 _by nks[^note]_
