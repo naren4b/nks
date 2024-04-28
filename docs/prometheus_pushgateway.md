@@ -1,4 +1,4 @@
-# Deploy a batch monitoring stack with Prometheus PushGateway
+# Deploy a batch monitoring stack with Prometheus PushGateway in Kubernetes cluster
 
 ![k8s-prom-pushgateway](https://github.com/naren4b/nks/assets/3488520/ee960052-abca-4860-838b-285ce88d0c33)
 
