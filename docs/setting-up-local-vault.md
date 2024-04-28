@@ -1,9 +1,13 @@
 # Secret injection using Vault Agent and argocd-vault-plugin
 
+![image](https://github.com/naren4b/nks/assets/3488520/2c71e8b7-5502-46db-8428-7e9ac0aa7d59)
 - **Using Vault Agent** Injecting secrets into Kubernetes pods via Vault Agent containers
 - **Argocd-vault-plugin** This plugin is aimed at helping to solve the issue of secret management with GitOps and Argo CD. We wanted to find a simple way to utilize Vault without having to rely on an operator or custom resource definition. This plugin can be used not just for secrets but also for deployments, configMaps or any other Kubernetes resource.
 
-![image](https://github.com/naren4b/nks/assets/3488520/2c71e8b7-5502-46db-8428-7e9ac0aa7d59)
+# Using Vault Agent:  Injecting secrets into Kubernetes pods via Vault Agent containers
+- 
+![image](https://github.com/naren4b/nks/assets/3488520/9353da4b-a21d-467d-831a-f0a9ebd612c2)
+
 
 ### Install Vault 
 ```
@@ -91,7 +95,8 @@ kubectl exec \
       $(kubectl get pod -l app=orgchart -o jsonpath="{.items[0].metadata.name}") \
       --container orgchart -- cat /vault/secrets/database-config.txt
 ```
-
+# Argocd-vault-plugin This plugin is aimed at helping to solve the issue of secret management with GitOps and Argo CD. We wanted to find a simple way to utilize Vault without having to rely on an operator or custom resource definition. This plugin can be used not just for secrets but also for deployments, configMaps or any other Kubernetes resource.
+![image](https://github.com/naren4b/nks/assets/3488520/f3852901-4bbc-466d-828f-54f0b942b0af)
 
 # Inside the vault
 ```
