@@ -31,7 +31,7 @@ vault kv put internal/database/config username="naren" password="mypassword"
 vault kv get internal/database/config
 
 ```
-#### Set up kubernetes authentication
+#### Set up kubernetes authentication*
 Vault provides a Kubernetes authentication method that enables clients to authenticate with a Kubernetes Service Account Token. This token is provided to each pod when it is created.
 
 ```bash
@@ -280,7 +280,7 @@ EOF
 ```
 
 # Secret Yaml file 
-```
+```yaml
 apiVersion: v1
 kind: Secret
 metadata:
@@ -292,6 +292,10 @@ stringData:
   TOKEN: <password>
 ```
 
-
-
+^ Vault Authentication Methods
+**Token Authentication:**
+Overview: Token authentication is the simplest and most commonly used method. When Vault is initialized or unsealed, it generates a root token by default. This root token has full access to Vault and should be securely stored and used only for administrative tasks.
+Usage: Besides the root token, Vault can generate and manage other tokens with limited access and lifetimes. Tokens can be used to authenticate users, applications, or services to access secrets or perform actions within Vault.
+Authentication Process: Users provide their token to Vault when accessing resources or performing operations. Vault validates the token against its internal token store and grants access based on the token's policies and capabilities.
+Use Cases: Token authentication is suitable for various scenarios, including initial setup, administrative tasks, and user or application authentication.
 
