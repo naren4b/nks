@@ -1,5 +1,4 @@
 # Secret injection using Vault Agent and argocd-vault-plugin
-
 ![image](https://github.com/naren4b/nks/assets/3488520/2c71e8b7-5502-46db-8428-7e9ac0aa7d59)
 - **Using Vault Agent** Injecting secrets into Kubernetes pods via Vault Agent containers
 - **Argocd-vault-plugin** This plugin is aimed at helping to solve the issue of secret management with GitOps and Argo CD. We wanted to find a simple way to utilize Vault without having to rely on an operator or custom resource definition. This plugin can be used not just for secrets but also for deployments, configMaps or any other Kubernetes resource.
@@ -55,6 +54,13 @@ vault write auth/kubernetes/role/internal-app \
       bound_service_account_namespaces=default \
       policies=internal-app \
       ttl=24h
+
+# Create a Kubernetes authentication role named argocd.
+vault write auth/kubernetes/role/argocd \
+      bound_service_account_names=argocd \
+      bound_service_account_namespaces=argocd \
+      policies=internal-app \
+      ttl=24h
 exit
 ```
 ### Set up in Kubernetes Create service account
@@ -95,165 +101,63 @@ kubectl exec \
       $(kubectl get pod -l app=orgchart -o jsonpath="{.items[0].metadata.name}") \
       --container orgchart -- cat /vault/secrets/database-config.txt
 ```
-# Argocd-vault-plugin This plugin is aimed at helping to solve the issue of secret management with GitOps and Argo CD. We wanted to find a simple way to utilize Vault without having to rely on an operator or custom resource definition. This plugin can be used not just for secrets but also for deployments, configMaps or any other Kubernetes resource.
+# Argocd-vault-plugin 
+ This plugin is aimed at helping to solve the issue of secret management with GitOps and Argo CD. We wanted to find a simple way to utilize Vault without having to rely on an operator or custom resource definition. This plugin can be used not just for secrets but also for deployments, configMaps or any other Kubernetes resource.
 ![image](https://github.com/naren4b/nks/assets/3488520/f3852901-4bbc-466d-828f-54f0b942b0af)
 
-# Inside the vault
 ```
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl edit deployments.apps -n argocd argocd-server  // argument --insecure 
+nohup kubectl  port-forward -n argocd svc/argocd-server 8080:443 --address 0.0.0.0 & 
+
+curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+rm argocd-linux-amd64
+
+argocd_password=$(kubectl get secrets -n argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
+argocd login localhost:8080  --insecure --username=admin --password=$argocd_password 
+kubectl create secret generic -n argocd argocd-vault-plugin-credentials \
+	--from-literal=AVP_TYPE=vault \
+	--from-literal=VAULT_ADDR=http://vault-internal.default.svc.cluster.local:8200 \
+	--from-literal=AVP_AUTH_TYPE=k8s \
+	--from-literal=AVP_K8S_ROLE=argocd
+wget https://raw.githubusercontent.com/argoproj-labs/argocd-vault-plugin/main/manifests/cmp-configmap/argocd-repo-server-deploy.yaml
+kubectl patch deployment argocd-repo-server  -n argocd --patch-file argocd-repo-server-deploy.yaml
+wget https://raw.githubusercontent.com/argoproj-labs/argocd-vault-plugin/main/manifests/cmp-configmap/argocd-cm.yaml
+kubectl patch cm argocd-cm  -n argocd --patch-file argocd-cm.yaml
+
+
+```
+
+
+
+# 1. Create argocd-vault-plugin-credentials 
+```
+kubectl exec -it vault-0 -- /bin/sh
 export VAULT_ADDR=http://127.0.0.1:8200
 vault login root 
-vault token create
+vault token create // copy the token 
+exit
+
 ```
 # Create the Access for argocd 
 ```
-k create secret generic vault-configuration --from-literal=AVP_AUTH_TYPE=token --from-literal=VAULT_ADDR=http://127.0.0.1:8200 --from-literal=AVP_TYPE=vault --from-literal=VAULT_TOKEN=hvs.HtIpb
-qbXh2bPkQ5Bm7OUuoR0  --dry-run=client -o yaml
+# curl -v vault-internal.default.svc.cluster.local:8200
+k create secret generic argocd-vault-plugin-credentials \
+                 --from-literal=AVP_AUTH_TYPE=token\
+                 --from-literal=VAULT_ADDR=http://vault-internal.default.svc.cluster.local:8200\ 
+                 --from-literal=AVP_TYPE=vault\
+                 --from-literal=VAULT_TOKEN=<token> \
+                 --dry-run=client -o yaml>/tmp/secret.yaml
 
 ```
 ```
 cat<<EOF> /tmp/cmp-plugin.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: cmp-plugin
-  namespace: argocd
-data:
-  avp-helm.yaml: |
-    ---
-    apiVersion: argoproj.io/v1alpha1
-    kind: ConfigManagementPlugin
-    metadata:
-      name: argocd-vault-plugin-helm
-    spec:
-      allowConcurrency: true
-      discover:
-        find:
-          command:
-            - sh
-            - "-c"
-            - "find . -name 'Chart.yaml' && find . -name 'values.yaml'"
-      generate:
-        command:
-          - bash
-          - "-c"
-          - |
-            helm template $ARGOCD_APP_NAME -n $ARGOCD_APP_NAMESPACE -f <(echo "$ARGOCD_ENV_HELM_VALUES") . |
-            argocd-vault-plugin generate -s vault-configuration -
-      lockRepo: false
-  avp.yaml: |
-    apiVersion: argoproj.io/v1alpha1
-    kind: ConfigManagementPlugin
-    metadata:
-      name: argocd-vault-plugin
-    spec:
-      allowConcurrency: true
-      discover:
-        find:
-          command:
-            - sh
-            - "-c"
-            - "find . -name '*.yaml' | xargs -I {} grep \"<path\\|avp\\.kubernetes\\.io\" {} | grep ."
-      generate:
-        command:
-          - argocd-vault-plugin
-          - generate
-          - "."
-          - "-s"
-          - "vault-configuration"
-      lockRepo: false
----
-EOF
-```
-# Install argocd 
-```
-kubectl create ns argocd
-kubectl apply -f secret.yaml -n argocd
-kubectl apply -f cmp-plugin.yaml -n argocd
-```
-# Install the argocd helm chart
-```
-cat<<EOF > /tmp/argocd-values.yaml
-repoServer:
-  rbac:
-    - verbs:
-        - get
-        - list
-        - watch
-      apiGroups:
-        - ''
-      resources:
-        - secrets
-        - configmaps
-  initContainers:
-    - name: download-tools
-      image: registry.access.redhat.com/ubi8
-      env:
-        - name: AVP_VERSION
-          value: 1.11.0
-      command: [sh, -c]
-      args:
-        - >-
-          curl -L https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v$(AVP_VERSION)/argocd-vault-plugin_$(AVP_VERSION)_linux_amd64 -o argocd-vault-plugin &&
-          chmod +x argocd-vault-plugin &&
-          mv argocd-vault-plugin /custom-tools/
-      volumeMounts:
-        - mountPath: /custom-tools
-          name: custom-tools
 
-  extraContainers:
-    # argocd-vault-plugin with plain YAML
-    - name: avp
-      command: [/var/run/argocd/argocd-cmp-server]
-      image: quay.io/argoproj/argocd:v2.4.0
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 999
-      volumeMounts:
-        - mountPath: /var/run/argocd
-          name: var-files
-        - mountPath: /home/argocd/cmp-server/plugins
-          name: plugins
-        - mountPath: /tmp
-          name: tmp
-
-        # Register plugins into sidecar
-        - mountPath: /home/argocd/cmp-server/config/plugin.yaml
-          subPath: avp.yaml
-          name: cmp-plugin
-
-        # Important: Mount tools into $PATH
-        - name: custom-tools
-          subPath: argocd-vault-plugin
-          mountPath: /usr/local/bin/argocd-vault-plugin
-    
-    - name: avp-helm
-      command: [/var/run/argocd/argocd-cmp-server]
-      image: quay.io/argoproj/argocd:v2.5.3
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 999
-      volumeMounts:
-        - mountPath: /var/run/argocd
-          name: var-files
-        - mountPath: /home/argocd/cmp-server/plugins
-          name: plugins
-        - mountPath: /tmp
-          name: tmp
-        - mountPath: /home/argocd/cmp-server/config/plugin.yaml
-          subPath: avp-helm.yaml
-          name: cmp-plugin
-        - name: custom-tools
-          subPath: argocd-vault-plugin
-          mountPath: /usr/local/bin/argocd-vault-plugin
-      
-  volumes:
-    - configMap:
-        name: cmp-plugin
-      name: cmp-plugin
-    - name: custom-tools
-      emptyDir: {}
-EOF
 ```
+
+
 # Install Argocd helm chart
 ```
 helm repo add argo https://argoproj.github.io/argo-helm
@@ -261,8 +165,8 @@ helm install argocd argo/argo-cd -n argocd -f /tmp/argocd-values.yaml
 kubectl get pods -n argocd
 # note that the reposerver should show 2/2 pods as we added initContainers.
 # we can access UI and get password for the ArgoCD using the following command
-kubectl port-forward svc/argocd-server -n argocd 8080:443
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+kubectl port-forward svc/argocd-server -n argocd 8080:443 &
 ```
 
 # Inside the Vault
@@ -294,8 +198,14 @@ stringData:
 
 ^ Vault Authentication Methods
 **Token Authentication:**
-Overview: Token authentication is the simplest and most commonly used method. When Vault is initialized or unsealed, it generates a root token by default. This root token has full access to Vault and should be securely stored and used only for administrative tasks.
-Usage: Besides the root token, Vault can generate and manage other tokens with limited access and lifetimes. Tokens can be used to authenticate users, applications, or services to access secrets or perform actions within Vault.
-Authentication Process: Users provide their token to Vault when accessing resources or performing operations. Vault validates the token against its internal token store and grants access based on the token's policies and capabilities.
-Use Cases: Token authentication is suitable for various scenarios, including initial setup, administrative tasks, and user or application authentication.
+_Overview_: Token authentication is the simplest and most commonly used method. When Vault is initialized or unsealed, it generates a root token by default. This root token has full access to Vault and should be securely stored and used only for administrative tasks.
+_Usage_: Besides the root token, Vault can generate and manage other tokens with limited access and lifetimes. Tokens can be used to authenticate users, applications, or services to access secrets or perform actions within Vault.
+_Authentication Process_: Users provide their token to Vault when accessing resources or performing operations. Vault validates the token against its internal token store and grants access based on the token's policies and capabilities.
+_Use Cases_: Token authentication is suitable for various scenarios, including initial setup, administrative tasks, and user or application authentication.
+
+**Kubernetes Authentication:**
+_Overview_: Kubernetes authentication enables applications running in Kubernetes clusters to authenticate with Vault seamlessly. It uses Kubernetes Service Account Tokens for authentication.
+_Configuration_: Vault is configured to trust Kubernetes' token-based authentication system. Kubernetes Pods can authenticate with Vault by presenting their Service Account Token.
+_Dynamic Secrets_: Vault can dynamically generate short-lived credentials (e.g., database credentials) for applications based on Kubernetes authentication. This enhances security by minimizing the exposure of long-lived credentials.
+_Use Cases_: Kubernetes authentication is valuable in containerized environments where applications run in Kubernetes Pods. It streamlines access management and enhances security by integrating with Kubernetes' native authentication mechanisms.
 
