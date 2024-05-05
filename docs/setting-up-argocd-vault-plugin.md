@@ -62,6 +62,9 @@ rm argocd-linux-amd64
 kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 kubectl get pod -n argocd -w
+```
+
+```bash
 # edit the deployment for insecure installation in local
 #kubectl edit deployments.apps -n argocd argocd-server 
 nohup kubectl  port-forward -n argocd svc/argocd-server 8080:443 --address 0.0.0.0 & 
@@ -69,7 +72,9 @@ nohup kubectl  port-forward -n argocd svc/argocd-server 8080:443 --address 0.0.0
 argocd_password=$(kubectl get secrets -n argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
 echo $argocd_password
 argocd login localhost:8080  --insecure --username=admin --password=$argocd_password
+```
 
+```bash
 argocd repo add https://github.com/naren4b/demo-app.git
 
 argocd app create demo \
@@ -94,21 +99,26 @@ kubectl create secret generic -n argocd argocd-vault-plugin-credentials \
 ```
 ## Patch the argocd-repo-server 
 ```bash
-wget https://raw.githubusercontent.com/naren4b/demo-app/main/others/cmp-plugin.yaml
-kubectl create -f cmp-plugin.yaml
-
 wget https://raw.githubusercontent.com/naren4b/demo-app/main/others/argocd-repo-server-patch.yaml
-
 kubectl patch deployment argocd-repo-server -n argocd --patch-file argocd-repo-server-patch.yaml
-
+kubectl get pod -n argocd -w
 # edit and update the `serviceAccount` Name in the `argocd-repo-server` deployment to use `argocd-server`
- 
+# Restart all the pods
+k get pod -n argocd | awk '{print $1}' | xargs kubectl delete pod -n argocd
+
 ```
+![image](https://github.com/naren4b/nks/assets/3488520/97ca08db-c12b-4829-ae06-253499e7e342)
+
+![image](https://github.com/naren4b/nks/assets/3488520/b1bb357d-5be7-4b29-9137-04fccf264149)
+
 
 ## Check the secret value
 ```bash
 kubectl get secret mysecret -o jsonpath="{.data.password}" | base64 -d 
 ```
+![image](https://github.com/naren4b/nks/assets/3488520/efa5506c-14e3-4b60-bded-a55f3cd5e285)
+
+
 
 **ref**:
 - https://killercoda.com/killer-shell-ckad/scenario/playground
