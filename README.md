@@ -26,6 +26,7 @@
 | 31/03/2024 | [Multiple Sources for an ArgoCD Application](docs/argocd-multi-source.md)                                                                                 |
 | 11/04/2024 | [Install Simple Scalable Loki Promtail Grafana stack in KIND cluster](docs/setup-loki-grafana-stack-simple-scalable.md)                                   |
 | 28/04/2024 | [Deploy a batch monitoring stack with Prometheus PushGateway in Kubernetes cluster](docs/prometheus_pushgateway.md)                                       |
+| 05-05-2024 | [Securing Kubernetes Secrets with Argocd-vault-plugin](docs/setting-up-argocd-vault-plugin.md)                                                            |
 
 
 
