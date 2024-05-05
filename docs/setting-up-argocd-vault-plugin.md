@@ -103,9 +103,13 @@ kubectl patch deployment argocd-repo-server -n argocd --patch-file argocd-repo-s
 kubectl get pod -n argocd -w
 # edit and update the `serviceAccount` Name in the `argocd-repo-server` deployment to use `argocd-server`
 # Restart all the pods
-k get pod -n argocd | awk '{print $1}' | xargs kubectl delete pod -n argocd
-
+kubectl get pod -n argocd | awk '{print $1}' | xargs kubectl delete pod -n argocd
+# add the argocd-vault-plugin-helm
+kubectl apply -f https://raw.githubusercontent.com/naren4b/demo-app/main/others/demo-argocd-application.yaml
 ```
+![image](https://github.com/naren4b/nks/assets/3488520/c79e1304-1b2e-4bf6-be83-48b789c8d06b)
+
+
 ![image](https://github.com/naren4b/nks/assets/3488520/97ca08db-c12b-4829-ae06-253499e7e342)
 
 ![image](https://github.com/naren4b/nks/assets/3488520/b1bb357d-5be7-4b29-9137-04fccf264149)
