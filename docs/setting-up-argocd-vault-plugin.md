@@ -5,7 +5,7 @@
 **Argocd-vault-plugin**:
  This plugin is aimed at helping to solve the issue of secret management with GitOps and Argo CD. We wanted to find a simple way to utilize Vault without having to rely on an operator or custom resource definition. This plugin can be used not just for secrets but also for deployments, configMaps or any other Kubernetes resource.
 
-![image](https://github.com/naren4b/nks/assets/3488520/f3852901-4bbc-466d-828f-54f0b942b0af)
+![alt text](argocd-vault-argocd-vault-plugin.jpg)
 
 # Install Vault 
 ```bash
@@ -98,6 +98,8 @@ kubectl create -f cmp-plugin.yaml
 wget https://raw.githubusercontent.com/naren4b/demo-app/main/others/argocd-repo-server-patch.yaml
 
 kubectl patch deployment argocd-repo-server -n argocd --patch-file argocd-repo-server-patch.yaml
+
+# edit and update the `serviceAccount` Name in the `argocd-repo-server` deployment to use `argocd-server`
  
 ```
 
