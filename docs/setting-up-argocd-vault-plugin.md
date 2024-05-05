@@ -110,3 +110,8 @@ kubectl patch deployment argocd-repo-server -n argocd --patch-file argocd-repo-s
 kubectl get secret mysecret -o jsonpath="{.data.password}" | base64 -d 
 ```
 
+**ref**:
+- https://killercoda.com/killer-shell-ckad/scenario/playground
+- https://youtu.be/7L6nSuKbC2c?si=q_v-F9Qpv3x5pNQm
+- https://argocd-vault-plugin.readthedocs.io/en/stable/ 
+- https://medium.com/@raosharadhi11/argocd-with-vault-using-argocd-vault-plugin-dccbc302f0c2
