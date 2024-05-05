@@ -84,8 +84,7 @@ argocd app create demo \
      --dest-namespace default \
      --sync-policy  automated
 ```
-## Integrate the argocd-vault plugin 
-Create the plugin behavior 
+## Integrate the argocd-vault plugin as configmap
 ```
 kubectl create -f https://raw.githubusercontent.com/naren4b/demo-app/main/others/cmp-plugin.yaml -n argocd
 ```
