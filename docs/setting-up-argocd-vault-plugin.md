@@ -1,11 +1,13 @@
-# Secret injection using argocd-vault-plugin inside kubernetes cluster 
-
+# Securing Kubernetes Secrets with Argocd-vault-plugin
 ![image](https://github.com/naren4b/nks/assets/3488520/2c71e8b7-5502-46db-8428-7e9ac0aa7d59)
 
-**Argocd-vault-plugin**:
- This plugin is aimed at helping to solve the issue of secret management with GitOps and Argo CD. We wanted to find a simple way to utilize Vault without having to rely on an operator or custom resource definition. This plugin can be used not just for secrets but also for deployments, configMaps or any other Kubernetes resource.
+Managing secrets securely within Kubernetes clusters can be challenging, especially when following GitOps practices with tools like Argo CD. In this guide, we'll explore how to leverage the Argocd-vault-plugin to streamline secret management within Kubernetes clusters using Vault.
+
+## Introduction to Argocd-vault-plugin
+The Argocd-vault-plugin is designed to address the complexities of secret management in GitOps workflows with Argo CD. By integrating with Vault, it offers a simple yet robust solution for managing secrets, configurations, and deployments within Kubernetes clusters.
 
 ![alt text](argocd-vault-argocd-vault-plugin.jpg)
+The setup 
 
 # Install Vault 
 ```bash
