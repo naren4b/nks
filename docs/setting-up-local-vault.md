@@ -196,7 +196,94 @@ stringData:
   TOKEN: <password>
 ```
 
+
+```
+# Vault Part
+helm repo add hashicorp https://helm.releases.hashicorp.com
+helm repo update
+helm install vault hashicorp/vault --set "server.dev.enabled=true"
+
+kubectl exec -it vault-0 sh
+vault secrets enable -path=internal kv-v2
+vault kv put internal/database/config username="db-readonly-username" password="db-secret-password"
+vault auth enable kubernetes
+vault write auth/kubernetes/config \
+      kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443"
+vault policy write internal-app - <<EOF
+path "internal/data/database/config" {
+   capabilities = ["read"]
+}
+EOF
+vault write auth/kubernetes/role/internal-app \
+      bound_service_account_names=internal-app \
+      bound_service_account_namespaces=default \
+      policies=internal-app \
+      ttl=24h
+vault write auth/kubernetes/role/argocd-server \
+      bound_service_account_names=argocd-server \
+      bound_service_account_namespaces=argocd \
+      policies=internal-app \
+      ttl=24h
+exit
+
+# Argocd Part
+curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+rm argocd-linux-amd64
+
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl get pod -n argocd -w
+#kubectl edit deployments.apps -n argocd argocd-server 
+nohup kubectl  port-forward -n argocd svc/argocd-server 8080:443 --address 0.0.0.0 & 
+
+argocd_password=$(kubectl get secrets -n argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
+echo $argocd_password
+argocd login localhost:8080  --insecure --username=admin --password=$argocd_password
+
+argocd repo add https://github.com/naren4b/demo-app.git
+
+argocd app create demo \
+     --repo https://github.com/naren4b/demo-app.git \
+     --path helm-chart \
+     --dest-server https://kubernetes.default.svc \
+     --dest-namespace default \
+     --sync-policy  automated
+
+kubectl exec \
+      $(kubectl get pod -l app=orgchart -o jsonpath="{.items[0].metadata.name}") \
+      --container app -- cat /vault/secrets/database-config.txt
+
+cat<<EOF > cmp-plugin.yaml
+
+EOF
+
+k create secret generic -n argocd argocd-vault-plugin-credentials \
+	--from-literal=AVP_TYPE=vault \
+	--from-literal=VAULT_ADDR=http://vault-internal.default.svc.cluster.local:8200 \
+	--from-literal=AVP_AUTH_TYPE=k8s \
+	--from-literal=AVP_K8S_ROLE=argocd-server 
+
+
+
+
+k patch deployment argocd-repo-server -n argocd --patch-file argocd-repo-server.yaml
+
+k get pod -n argocd | awk '{print $1}' | xargs kubectl delete pod -n argocd 
+
+    plugin:
+     name: argocd-vault-plugin-helm
+
+
+
+ 
+```
+
+
+
+
 ^ Vault Authentication Methods
+
 **Token Authentication:**
 _Overview_: Token authentication is the simplest and most commonly used method. When Vault is initialized or unsealed, it generates a root token by default. This root token has full access to Vault and should be securely stored and used only for administrative tasks.
 _Usage_: Besides the root token, Vault can generate and manage other tokens with limited access and lifetimes. Tokens can be used to authenticate users, applications, or services to access secrets or perform actions within Vault.
