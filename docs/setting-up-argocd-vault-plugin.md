@@ -33,7 +33,7 @@ EOF
 
 ```
 ### Enable kubernetes authentication 
-```
+```bash
 # Enable the Kubernetes authentication method.
 vault auth enable kubernetes
 
