@@ -9,57 +9,43 @@ In this blog post, we explore a quick and efficient way to set up a basic Loki-P
 ref: [mykindk8scluster](https://naren4b.github.io/nks/mykindk8scluster.html) or [Demo Environment](https://killercoda.com/killer-shell-ckad/scenario/playground)
 
 #### Install Loki
-
-Build and Load the image (ref: https://github.com/naren4b/monitoring-stack/tree/main/loki )
-
-```bash
-docker build -t loki-curator:1.1 .
-kind create cluster
-kind load docker-image loki-curator:1.1
-
-```
-
 Loki custom helm value file
-
 ```bash
 cat<<EOF >$PWD/loki-demo-values.yaml
+---
 loki:
   commonConfig:
     replication_factor: 1
-  storage:
-    type: "filesystem"
-  auth_enabled: false
+  schemaConfig:
+    configs:
+      - from: 2024-04-01
+        store: tsdb
+        object_store: s3
+        schema: v13
+        index:
+          prefix: loki_index_
+          period: 24h
+  ingester:
+    chunk_encoding: snappy
+  tracing:
+    enabled: true
+  querier:
+    max_concurrent: 2
+
+
+deploymentMode: SingleBinary
 singleBinary:
-  persistence:
-    size: 1Gi
-    #storageClass: standard
   replicas: 1
-  extraContainers:
-    - name: curator
-      image: "loki-curator:1.1" # https://github.com/grafana/loki/issues/2314#issuecomment-1028637269
-      imagePullPolicy: IfNotPresent
-      env:
-        - name: SPACEMONITORING_FOLDER
-          value: "/data/loki/chunks"
-        - name: SPACEMONITORING_DELETINGITERATION
-          value: "5"
-        - name: SPACEMONITORING_MAXUSEDPERCENTE
-          value: "80"
-        - name: CLEANUP_INTERVAL
-          value: "60"
-      resources:
-        limits:
-          memory: 1Gi
-        requests:
-          memory: 10Mi
-      terminationMessagePath: /dev/termination-log
-      terminationMessagePolicy: File
-      volumeMounts:
-        - name: storage
-          mountPath: "/data"
-          subPath:
+  persistence:
+    size: 1Gi # Chageit
+chunksCache:
+  writebackSizeLimit: 10MB
+
+
 
 test:
+  enabled: false
+lokiCanary:
   enabled: false
 gateway:
   enabled: false
@@ -71,8 +57,44 @@ monitoring:
     grafanaAgent:
       installOperator: false
 
+# Enable minio for storage
+minio:
+  enabled: true
+
+# Zero out replica counts of other deployment modes
+backend:
+  replicas: 0
+read:
+  replicas: 0
+write:
+  replicas: 0
+
+ingester:
+  replicas: 0
+querier:
+  replicas: 0
+queryFrontend:
+  replicas: 0
+queryScheduler:
+  replicas: 0
+distributor:
+  replicas: 0
+compactor:
+  replicas: 0
+indexGateway:
+  replicas: 0
+bloomCompactor:
+  replicas: 0
+bloomGateway:
+  replicas: 0
+chunksCache:
+  enabled: false
+resultsCache:
+  enabled: false
+
 EOF
 ```
+
 
 ### Install helm-chart
 
@@ -82,10 +104,10 @@ helm repo update
 
 REPO_NAME=grafana
 REPO_PATH=loki
-CHART_VERSION=5.38.0
+CHART_VERSION=6.5.2
 CHART_APP_VERSION=loki
-helm install loki ${REPO_NAME}/${REPO_PATH}  --version ${CHART_VERSION} -f $PWD/loki-demo-values.yaml
-#helm uninstall loki
+helm upgrade --install loki ${REPO_NAME}/${REPO_PATH}  --version ${CHART_VERSION} -f $PWD/loki-values.yaml -n monitoring
+#helm uninstall loki  -n monitoring
 ```
 
 #### Install promtail
@@ -117,7 +139,6 @@ EOF
 ```
 
 ```bash
-
 REPO_NAME=grafana
 REPO_PATH=promtail
 CHART_VERSION=6.15.3
