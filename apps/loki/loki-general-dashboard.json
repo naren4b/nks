@@ -1,4 +1,35 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_LOKI",
+      "label": "loki",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "loki",
+      "pluginName": "Loki"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "10.4.1"
+    },
+    {
+      "type": "panel",
+      "id": "logs",
+      "name": "Logs",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "loki",
+      "name": "Loki",
+      "version": "1.0.0"
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -18,29 +49,29 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1,
+  "id": null,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "loki",
-        "uid": "dc0c21b1-3a26-49c4-a2c8-95dcf39d3a27"
+        "uid": "${DS_LOKI}"
       },
       "gridPos": {
-        "h": 19,
-        "w": 23,
+        "h": 9,
+        "w": 24,
         "x": 0,
         "y": 0
       },
       "id": 1,
       "options": {
-        "dedupStrategy": "none",
+        "dedupStrategy": "exact",
         "enableLogDetails": true,
-        "prettifyLogMessage": false,
+        "prettifyLogMessage": true,
         "showCommonLabels": false,
         "showLabels": false,
-        "showTime": false,
+        "showTime": true,
         "sortOrder": "Descending",
         "wrapLogMessage": false
       },
@@ -48,29 +79,28 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "dc0c21b1-3a26-49c4-a2c8-95dcf39d3a27"
+            "uid": "${DS_LOKI}"
           },
           "editorMode": "code",
-          "expr": "{container=~\"$container\"}",
-          "legendFormat": "",
+          "expr": "{container=\"$container\"}",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "loki",
+      "title": "Logs of my container",
       "type": "logs"
     }
   ],
   "refresh": "",
-  "schemaVersion": 38,
+  "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": [
       {
-        "current": {
-          "selected": true,
-          "text": "hazelcast",
-          "value": "hazelcast"
+        "current": {},
+        "datasource": {
+          "type": "loki",
+          "uid": "${DS_LOKI}"
         },
         "definition": "",
         "hide": 0,
@@ -101,6 +131,6 @@
   "timezone": "",
   "title": "Show my logs",
   "uid": "b841fcc2-8573-40bd-bfec-5093f4a3421b",
-  "version": 4,
+  "version": 2,
   "weekStart": ""
 }
