@@ -95,6 +95,7 @@ cat<<EOF >$PWD/promtail-demo-values.yaml
 config:
   clients:
     - url: http://loki:3100/loki/api/v1/push
+      tenant_id: 1
 extraPorts:
    syslog:
      name: tcp-syslog
@@ -128,16 +129,23 @@ helm install promtail ${REPO_NAME}/${REPO_PATH}  --version ${CHART_VERSION} -f $
 ##### Install Grafana
 
 ```bash
-kubectl run grafana --image=grafana/grafana --port=3000
-kubectl expose pod grafana --port=3000 --name=grafana
-kubectl port-forward svc/grafana 3000:3000 --address 0.0.0.0
+REPO_NAME=grafana
+REPO_PATH=grafana
+CHART_VERSION=7.3.11
+CHART_APP_VERSION=loki
+helm upgrade --install grafana ${REPO_NAME}/${REPO_PATH}  --version ${CHART_VERSION} -n monitoring
+kubectl  -n monitoring port-forward svc/grafana 3000:3000 --address 0.0.0.0
 
 ```
 
 #### [Add Loki data source ]
 
 ![image](https://github.com/naren4b/nks/assets/3488520/d1c20e4e-586d-4365-bbfb-c050fb7d9c5d)
-_url: http://loki:3100_
+```
+URL: http://loki:3100
+#ADD Http Header 
+X-Scope-OrgID: 1
+```
 Visit http://localhost:3000/connections/datasources/loki
 
 #### [Add basic dashboard](https://github.com/naren4b/nks/blob/main/apps/loki/loki-general-dashboard.json)
