@@ -11,6 +11,8 @@ ref: [mykindk8scluster](https://naren4b.github.io/nks/mykindk8scluster.html) or 
 #### Install Loki
 Loki custom helm value file
 ```bash
+kubectl create ns monitorig
+
 cat<<EOF >$PWD/loki-demo-values.yaml
 ---
 loki:
@@ -106,7 +108,7 @@ REPO_NAME=grafana
 REPO_PATH=loki
 CHART_VERSION=6.5.2
 CHART_APP_VERSION=loki
-helm upgrade --install loki ${REPO_NAME}/${REPO_PATH}  --version ${CHART_VERSION} -f $PWD/loki-values.yaml -n monitoring
+helm upgrade --install loki ${REPO_NAME}/${REPO_PATH}  --version ${CHART_VERSION} -f $PWD/loki-demo-values.yaml -n monitoring
 #helm uninstall loki  -n monitoring
 ```
 
@@ -137,13 +139,13 @@ extraPorts:
 EOF
 
 ```
-
+# Install Promtail 
 ```bash
 REPO_NAME=grafana
 REPO_PATH=promtail
 CHART_VERSION=6.15.3
 CHART_APP_VERSION=promtail
-helm install promtail ${REPO_NAME}/${REPO_PATH}  --version ${CHART_VERSION} -f $PWD/promtail-demo-values.yaml
+helm install promtail ${REPO_NAME}/${REPO_PATH}  --version ${CHART_VERSION} -f $PWD/promtail-demo-values.yaml -n monitoring 
 
 ```
 
@@ -155,7 +157,8 @@ REPO_PATH=grafana
 CHART_VERSION=7.3.11
 CHART_APP_VERSION=loki
 helm upgrade --install grafana ${REPO_NAME}/${REPO_PATH}  --version ${CHART_VERSION} -n monitoring
-kubectl  -n monitoring port-forward svc/grafana 3000:3000 --address 0.0.0.0
+kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+kubectl  -n monitoring port-forward svc/grafana 3000:80 --address 0.0.0.0 &
 
 ```
 
@@ -170,7 +173,11 @@ X-Scope-OrgID: 1
 Visit http://localhost:3000/connections/datasources/loki
 
 #### [Add basic dashboard](https://github.com/naren4b/nks/blob/main/apps/loki/loki-general-dashboard.json)
+```
+15141
+https://grafana.com/grafana/dashboards/15141-kubernetes-service-logs/
 
+```
 ![image-1](https://github.com/naren4b/nks/assets/3488520/818cff38-598f-4e3b-b8da-4f1ecc254b63)
 
 Visit http://localhost:3000/dashboard/new?orgId=1
