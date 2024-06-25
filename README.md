@@ -10,7 +10,7 @@
 | 12/07/2023 | [Resource Management for Pods and Containers](docs/k8s-resource-management.md)                                                                            |
 | 26/08/2023 | [Setting up ArgoCD with OIDC login in development environment (insecure) ](docs/argocd-oidc-setup.md)                                                     |
 | 03/09/2023 | [Configuring User Access to Your Kubernetes Cluster: A Step-by-Step Guide](docs/kubernetes-adduser.md)                                                    |
-| 18/09/2023 | [Extract, transform, and load (ETL) of the data using python(1/n)](docs/python_requests/1.md)                                                             |
+| 18/09/2023 | [Extract, transform, and load (ETL) of the data using python(1/n)](docs/python_requests-1.md)                                                             |
 | 30/09/2023 | [Host your test kubernetes cluster ](docs/mykindk8scluster.md)                                                                                            |
 | 21/10/2023 | [Setup Production Grade Keycloak in Kubernetes(1/n) ](docs/install-keycloak.md)                                                                           |
 | 20/11/2023 | [Setting up Monitoring Stack in a Node (docker container)](docs/setup-monitoring-stack.md)                                                                |
