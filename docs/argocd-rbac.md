@@ -41,7 +41,8 @@ username=naren
 newpassword=newpassword
 curentpassword=curentpassword
 
-kubectl patch -n argocd cm argocd-cm --patch='{"data":{"accounts.${username}": "apikey,login" }}'
+
+kubectl patch -n argocd cm argocd-cm --patch='{"data":{"accounts.'${username}'": "apikey,login" }}'
 argocd account list
 argocd account update-password  --current-password=${curentpassword} --new-password=${newpassword} --account=${username}
 
@@ -68,3 +69,5 @@ EOF
 
 kubectl patch cm -n argocd argocd-rbac-cm --patch-file argocd-patch.yaml
 ```
+
+source : https://github.com/naren4b/nks/edit/main/docs/argocd-rbac.md
