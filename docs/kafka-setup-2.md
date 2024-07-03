@@ -1,4 +1,4 @@
-# Interacting Kafka cluster Using via Strimzi Kafka Bridge(2/n)
+# Interacting with Strimzi Kafka cluster through Kafka Bridge(2/n)
 ![image](https://github.com/naren4b/nks/assets/3488520/fa8a559d-b85e-4ce4-947e-133ccd1c7dda)
 ![image](https://github.com/naren4b/nks/assets/3488520/00bde3f5-d946-41fb-abf8-8f9d8f91fdfd)
 
