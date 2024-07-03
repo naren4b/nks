@@ -27,6 +27,7 @@
 | 11/04/2024 | [Install Simple Scalable Loki Promtail Grafana stack in KIND cluster](docs/setup-loki-grafana-stack-simple-scalable.md)                                   |
 | 28/04/2024 | [Deploy a batch monitoring stack with Prometheus PushGateway in Kubernetes cluster](docs/prometheus_pushgateway.md)                                       |
 | 05-05-2024 | [Securing Kubernetes Secrets with Argocd-vault-plugin](docs/setting-up-argocd-vault-plugin.md)                                                            |
+| 03/07/2024 | [Interacting with Strimzi Kafka cluster through Kafka Bridge(2/n)](docs/kafka-setup-2.md)                                                             |
 
 
 
