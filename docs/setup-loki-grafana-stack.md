@@ -11,7 +11,7 @@ ref: [mykindk8scluster](https://naren4b.github.io/nks/mykindk8scluster.html) or 
 #### Install Loki
 Loki custom helm value file
 ```bash
-kubectl create ns monitorig
+kubectl create ns monitoring
 
 cat<<EOF >$PWD/loki-demo-values.yaml
 ---
