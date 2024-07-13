@@ -24,16 +24,37 @@ password=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath=
 argocd login localhost:8080 --username admin --password $password  | echo 'y'
 ```
 
-# How to git Repo to ArgoCD
+# Automation 
+```
+git clone https://github.com/naren4b/argo-cd.git
+cd argo-cd/zone-argocd-deploy-repo
+vi values.yaml 
+helm install zone-argocds .
+```
+# Configure Cluster, Repo , Applications 
+```
+git clone https://github.com/naren4b/argo-cd.git
+cd argo-cd/zone-argocd-configuration-repo
+vi values.yaml
+git commit -m "Configure other clusters"
+git push orgin main 
+```
+
+
+# Manual Setup 
+
+
+# How to add a git Repo to ArgoCD through argocd CLI
 ```bash
 argocd repo add https://argoproj.github.io/argo-helm --type helm --name argo
 ```
-# How to add Clusters to ArgoCD
+# How to add a Clusters to ArgoCD through CLI
 ```bash
 context=$(kubectl config get-contexts -o name)
 argocd cluster add $context | echo 'y'
 ```
-# Regional Argocd Application Template 
+
+# Install Regional Argocd Application Template 
 ```bash
 zone=us
 cat<<EOF > ${zone}-application.yaml
@@ -57,7 +78,7 @@ EOF
 kubectl create ns $zone
 kubectl apply -f ${zone}-application.yaml
 ```
-# Adding a Repo
+#### 1. Declaratively adding a git repo 
 
 ```bash
 gitUrl=https://github.com/naren4b/demo-app.git
@@ -81,7 +102,7 @@ stringData:
 EOF
 kubectl create -f git-repo-demo-app.yaml
 ```
-# Adding a cluster
+#### 2. Declaratively Adding a cluster
 ref: https://argo-cd.readthedocs.io/en/stable/getting_started/#5-register-a-cluster-to-deploy-apps-to-optional
 Connect to the cluster 
 ```
