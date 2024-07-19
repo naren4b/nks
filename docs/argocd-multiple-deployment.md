@@ -1,9 +1,7 @@
 # Controlling Multiple individual Kubernetes Cluster through ArgoCD Fleet(Scale and Automation)
 ![100_argocds-aws-region-az](https://github.com/naren4b/nks/assets/3488520/9b3a9443-c172-4c91-b926-2feb38896108)
 
-Deployment Model 
-```
-A: For Each SCM(git) Repo 
+# A: For Each SCM(git) Repo 
 ==============
 1. Create robot/service account user at SCM
 2. Create access Token for the User 
@@ -18,29 +16,23 @@ A: For Each SCM(git) Repo
       - my-app-repo-secrets.yaml
       - my-app-argocd-applicationset.yaml   
 
-B: In Each Cluster Setup
+# B: In Each Cluster Setup
 ================
 1. Create Service Account 
 2. Cluster Role
 3. Cluster Role Binding
 4. Collect Cluster Secrets (this will be refered Central Argocd/Step-1, Zone ArgoCD/Step-1)
 
-Central Argocd 
+# C: Central Argocd 
 ================
-1. Create Cluster Secret or Configure in the Value file of 
-2. Create and Apply git repo secret (ref: A.1 & A.2)
-3. Install Root ArgoCD via Helm install
-4. Create Argocd Application Deploy A.5 Helm 
-```
-
-## At the Control Plan (Admin Bay)
-### Install argocd cli
+#### 1. Install Root ArgoCD via Helm install
+##### Install argocd cli
 ```bash
 curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
 sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
 rm argocd-linux-amd64
 ```
-### Install Argocd to standalon kubernetes cluster
+##### Install Argocd to standalon kubernetes cluster
 ```bash
 helm repo add argo https://argoproj.github.io/argo-helm
 cat<<EOF >argocd-values.yaml 
@@ -54,15 +46,37 @@ nohup kubectl port-forward service/root-argocd-server -n argocd 8080:443 --addre
 password=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
 argocd login localhost:8080 --username admin --password $password  | echo 'y'
 ```
-
-# Automation 
+#### 2. Create Cluster Secret or Configure in the Value file of
+Check [Appendix](https://github.com/naren4b/nks/edit/main/docs/argocd-multiple-deployment.md#appendix) for Manual creation 
+#### 3. Create and Apply git repo secret (ref: A.1 & A.2)
+Check [Appendix](https://github.com/naren4b/nks/edit/main/docs/argocd-multiple-deployment.md#appendix) for Manual creation 
+##### 4. Create Argocd Application Deploy A.5 Helm 
+```
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: seed-application
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/naren4b/argo-cd.git
+    targetRevision: HEAD
+    path: charts/central-argocd
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+```
+# appendix 
+## At the Control Plan (Admin Bay)
+#### Automation 
 ```
 git clone https://github.com/naren4b/argo-cd.git
 cd argo-cd/zone-argocd-deploy-repo
 vi values.yaml 
 helm install zone-argocds .
 ```
-# Configure Cluster, Repo , Applications 
+#### Configure Cluster, Repo , Applications 
 ```
 git clone https://github.com/naren4b/argo-cd.git
 cd argo-cd/zone-argocd-configuration-repo
@@ -72,9 +86,7 @@ git push orgin main
 ```
 
 
-# Manual Setup 
-
-
+## Manual Setup 
 # How to add a git Repo to ArgoCD through argocd CLI
 ```bash
 argocd repo add https://argoproj.github.io/argo-helm --type helm --name argo
@@ -184,5 +196,4 @@ stringData:
     }
 EOF
 kubectl apply -f mycluster-secret.yaml
-
 ```
