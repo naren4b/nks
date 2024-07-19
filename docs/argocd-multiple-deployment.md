@@ -177,7 +177,18 @@ token=$(kubectl get secret argocd-agent -n kube-system -o json | jq -r .data.tok
 server=$(kubectl config view --raw -o jsonpath="{.clusters[0].cluster.server}")
 name=$(kubectl config view --raw -o jsonpath="{.clusters[0].name}")
 
-cat<<EOF >mycluster-secret.yaml
+cat<<EOF > my-zone-cluster-values.yaml  
+clusters:
+  ${name}: 
+    name: ${name}
+    server: ${server}
+    caData: ${caData}
+    token: ${token}
+    insecure: false
+	
+EOF
+# upload it here https://github.com/naren4b/argo-cd/charts/central-argocd/values.yaml
+cat<<EOF >my-cluster-secret.yaml
 apiVersion: v1
 kind: Secret
 metadata:
@@ -198,5 +209,5 @@ stringData:
       }
     }
 EOF
-kubectl apply -f mycluster-secret.yaml
+kubectl apply -f my-cluster-secret.yaml
 ```
