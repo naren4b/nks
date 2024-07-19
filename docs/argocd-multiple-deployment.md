@@ -52,6 +52,7 @@ Check [Appendix](https://github.com/naren4b/nks/edit/main/docs/argocd-multiple-d
 Check [Appendix](https://github.com/naren4b/nks/edit/main/docs/argocd-multiple-deployment.md#appendix) for Manual creation 
 ##### 4. Create Argocd Application Deploy A.5 Helm 
 ```
+cat<<EOF >seed-application.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -66,6 +67,8 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
+EOF
+kubectl apply -f seed-application.yaml
 ```
 # appendix 
 ## At the Control Plan (Admin Bay)
