@@ -1,6 +1,37 @@
-# Handling Multiple ArgoCD Manage 1000 of individual Kubernetes Cluster
+# Controlling Multiple individual Kubernetes Cluster through ArgoCD Fleet(Scale and Automation)
 ![100_argocds-aws-region-az](https://github.com/naren4b/nks/assets/3488520/9b3a9443-c172-4c91-b926-2feb38896108)
 
+Deployment Model 
+```
+A: For Each SCM(git) Repo 
+==============
+1. Create robot/service account user at SCM
+2. Create access Token for the User 
+3. Create Repo Secret (this will be refered Central Argocd/Step-2, Zone ArgoCD/Step-2)
+4. [My-App Helm Chart Repo ](https://github.com/naren4b/argo-cd/tree/main/demo-applications/myapp)
+    - My Application Menifests 
+5. Central Argocd Helm Chart Repo
+     - zone-cluster-secrets.yaml     
+     - zone-argocd-applicationset.yaml
+5. Zone Argocd Helm Chart Repo
+      - cluster-secrets.yaml
+      - my-app-repo-secrets.yaml
+      - my-app-argocd-applicationset.yaml   
+
+B: In Each Cluster Setup
+================
+1. Create Service Account 
+2. Cluster Role
+3. Cluster Role Binding
+4. Collect Cluster Secrets (this will be refered Central Argocd/Step-1, Zone ArgoCD/Step-1)
+
+Central Argocd 
+================
+1. Create Cluster Secret or Configure in the Value file of 
+2. Create and Apply git repo secret (ref: A.1 & A.2)
+3. Install Root ArgoCD via Helm install
+4. Create Argocd Application Deploy A.5 Helm 
+```
 
 ## At the Control Plan (Admin Bay)
 ### Install argocd cli
