@@ -14,7 +14,7 @@ ref: [Repository credentials, for using the same credentials in multiple reposit
 ```
 curl -sO https://gist.githubusercontent.com/naren4b/fae65efb90998cb46a3c9ebed16df880/raw/443682b34a4a5bc6a212cca93cd41e32873f2eb2/create-https-repo-creds-secret.sh
 # vi create-https-repo-creds-secret.sh
-export MY_GIT_TOKEN={token}
+# export MY_GIT_TOKEN={token}
 bash create-https-repo-creds-secret.sh
 ```
 #### 3. Add cluster credentials - declaratively(Otional)
@@ -48,6 +48,11 @@ spec:
 EOF
 ```
 
+#### To Check  zone Argocd
+```
+kubectl -n in-cluster-zone-argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+kubectl port-forward -n in-cluster-zone-argocd in-cluster-zone-argocd-server-cbd555c45-jdvh9 5000:8080 --address 0.0.0.0 
+```
 
 
 
