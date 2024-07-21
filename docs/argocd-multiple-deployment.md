@@ -1,14 +1,13 @@
-# Controlling Multiple individual Kubernetes Cluster through ArgoCD Fleet(Scale and Automation)
+# Controlling Multiple individual Kubernetes Cluster through Multiple ArgoCD Fleet(Scale and Automation)
 ![100_argocds-aws-region-az](https://github.com/naren4b/nks/assets/3488520/9b3a9443-c172-4c91-b926-2feb38896108)
 
 # A: For Each SCM(git) Repo 
 ==============
-1. Create robot/service account user at SCM
-2. Create access Token for the User 
-3. Create Repo Secret (this will be refered Central Argocd/Step-2, Zone ArgoCD/Step-2)
-4. [My-App Helm Chart Repo ](https://github.com/naren4b/argo-cd/tree/main/demo-applications/myapp)
+1. Create access Token for the User(RO) 
+2. Create Repo Secret (this will be refered Central Argocd/Step-2, Zone ArgoCD/Step-2)
+3. [My-App Helm Chart Repo ](https://github.com/naren4b/argo-cd/tree/main/demo-applications/myapp)
     - My Application Menifests 
-5. Central Argocd Helm Chart Repo
+4. Central Argocd Helm Chart Repo
      - zone-cluster-secrets.yaml     
      - zone-argocd-applicationset.yaml
 5. Zone Argocd Helm Chart Repo
@@ -33,18 +32,10 @@ sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
 rm argocd-linux-amd64
 ```
 ##### Install Argocd to standalon kubernetes cluster
+ref: [Install Argocd to standalon kubernetes cluster](https://gist.github.com/naren4b/ac834254f2d348d7b5e91ebc32fcba6e)
 ```bash
-helm repo add argo https://argoproj.github.io/argo-helm
-cat<<EOF >argocd-values.yaml 
-configs:
-  params:
-    server.insecure: true
-EOF
-helm upgrade --install root argo/argo-cd -n argocd -f argocd-values.yaml  --create-namespace 
-kubectl wait --for=condition=Ready -n argocd pod -l  app.kubernetes.io/name=argocd-server
-nohup kubectl port-forward service/root-argocd-server -n argocd 8080:443 --address 0.0.0.0  &
-password=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
-argocd login localhost:8080 --username admin --password $password  | echo 'y'
+curl -oS https://gist.githubusercontent.com/naren4b/ac834254f2d348d7b5e91ebc32fcba6e/raw/a7e41fac2cf5170186fff2a759c2e08fc94cf3dd/install-argocd.sh
+bash install-argocd.sh
 ```
 #### 2. Create Cluster Secret or Configure in the Value file of
 Check [Appendix](https://github.com/naren4b/nks/edit/main/docs/argocd-multiple-deployment.md#appendix) for Manual creation 
@@ -52,7 +43,7 @@ Check [Appendix](https://github.com/naren4b/nks/edit/main/docs/argocd-multiple-d
 Check [Appendix](https://github.com/naren4b/nks/edit/main/docs/argocd-multiple-deployment.md#appendix) for Manual creation 
 ##### 4. Create Argocd Application Deploy A.5 Helm 
 ```
-cat<<EOF >seed-application.yaml
+cat<<EOF | kubectl create -f -
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -68,7 +59,7 @@ spec:
     server: https://kubernetes.default.svc
     namespace: argocd
 EOF
-kubectl apply -f seed-application.yaml
+
 ```
 # appendix 
 ## At the Control Plan (Admin Bay)
@@ -125,89 +116,19 @@ kubectl create ns $zone
 kubectl apply -f ${zone}-application.yaml
 ```
 #### 1. Declaratively adding a git repo 
-
-```bash
-gitUrl=https://github.com/naren4b/demo-app.git
-gitRepoName=demo-app
-gitUserName=naren4b
-gitUserToken=${MY_GIT_TOKEN}
-
-cat<<EOF > git-repo-demo-app.yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: ${gitRepoName}
-  namespace: argocd
-  labels:
-    argocd.argoproj.io/secret-type: repository
-stringData:
-  type: git
-  url: ${gitUrl}
-  username: ${gitUserName}
-  password: ${gitUserToken}
-EOF
-kubectl create -f git-repo-demo-app.yaml
+ref: [Repository credentials, for using the same credentials in multiple repositories.](https://gist.github.com/naren4b/fae65efb90998cb46a3c9ebed16df880)
 ```
+curl -oS https://gist.githubusercontent.com/naren4b/fae65efb90998cb46a3c9ebed16df880/raw/443682b34a4a5bc6a212cca93cd41e32873f2eb2/create-https-repo-creds-secret.sh
+vi create-https-repo-creds-secret.sh
+bash create-https-repo-creds-secret.sh
+```
+
 #### 2. Declaratively Adding a cluster
-ref: https://argo-cd.readthedocs.io/en/stable/getting_started/#5-register-a-cluster-to-deploy-apps-to-optional
-Connect to the cluster 
+ref: [Register A Cluster ](https://gist.github.com/naren4b/4af945b244f60d801ca77227cdeda861)
+```bash
+curl -Os https://gist.githubusercontent.com/naren4b/4af945b244f60d801ca77227cdeda861/raw/a0b28af2e06caaa7806953afdcb171278fe714e7/create-cluster-secret.sh 
+bash create-cluster-secret.sh 
 ```
-cat<<EOF > argocd-agent-sa-with-token.yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  creationTimestamp: null
-  name: argocd-agent
-  namespace: kube-system
----
-apiVersion: v1
-kind: Secret
-type: kubernetes.io/service-account-token
-metadata:
-  name: argocd-agent
-  namespace: kube-system
-  annotations:
-    kubernetes.io/service-account.name: argocd-agent
-EOF
 
-kubectl create -f argocd-agent-sa-with-token.yaml
 
-caData=$(kubectl config view --raw -o jsonpath="{.clusters[0].cluster.certificate-authority-data}")
-token=$(kubectl get secret argocd-agent -n kube-system -o json | jq -r .data.token)
-server=$(kubectl config view --raw -o jsonpath="{.clusters[0].cluster.server}")
-name=$(kubectl config view --raw -o jsonpath="{.clusters[0].name}")
 
-cat<<EOF > my-zone-cluster-values.yaml  
-clusters:
-  ${name}: 
-    name: ${name}
-    server: ${server}
-    caData: ${caData}
-    token: ${token}
-    insecure: false
-	
-EOF
-# upload it here https://github.com/naren4b/argo-cd/charts/central-argocd/values.yaml
-cat<<EOF >my-cluster-secret.yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: mycluster-secret
-  namespace: argocd
-  labels:
-    argocd.argoproj.io/secret-type: cluster
-type: Opaque
-stringData:
-  name: ${name}
-  server: ${server}
-  config: |
-    {
-      "bearerToken": "${token}",
-      "tlsClientConfig": {
-        "insecure": false,
-        "caData": "${caData}"
-      }
-    }
-EOF
-kubectl apply -f my-cluster-secret.yaml
-```
