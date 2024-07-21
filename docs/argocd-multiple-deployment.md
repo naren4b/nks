@@ -51,7 +51,7 @@ EOF
 #### To Check  zone Argocd
 ```
 kubectl -n in-cluster-zone-argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
-kubectl port-forward -n in-cluster-zone-argocd in-cluster-zone-argocd-server-cbd555c45-jdvh9 5000:8080 --address 0.0.0.0 
+nohup kubectl port-forward -n in-cluster-zone-argocd svc/in-cluster-zone-argocd-server 5000:80 --address 0.0.0.0 &
 ```
 
 
