@@ -3,7 +3,7 @@
 
 High-level architecture of Root ArgoCD, Zone ArgoCDs, and Kubernetes clusters
 
-- Root ArgoCD: Central orchestration point
+- Root ArgoCD: Central orchestration point 
 - Zone ArgoCDs: Manage clusters within specific zones(in a Region)
 - Kubernetes clusters: Deployment targets
 
@@ -43,7 +43,6 @@ curl -sO https://gist.githubusercontent.com/naren4b/ac834254f2d348d7b5e91ebc32fc
 bash install-argocd.sh
 ```
 #### 2. Add git repo credentials - declaratively(Optional) 
-
 Steps:
 - Export Git token
 - Run the script to create credentials
@@ -56,6 +55,12 @@ curl -sO https://gist.githubusercontent.com/naren4b/fae65efb90998cb46a3c9ebed16d
 bash create-https-repo-creds-secret.sh
 ```
 #### 3. Add cluster credentials - declaratively(Otional)
+<p>In Argo CD, managed clusters are stored within Secrets in the Argo CD namespace. The ApplicationSet controller uses those same Secrets to generate parameters to identify and target available clusters.
+For each cluster registered with Argo CD, the Cluster generator produces parameters based on the list of items found within the cluster secret.
+It automatically provides the following parameter values to the Application template for each cluster</p>
+
+more: https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/Generators-Cluster/
+
 Steps:
 - Download and run the script to create cluster secrets
 - Reference: [Register A Cluster ](https://gist.github.com/naren4b/4af945b244f60d801ca77227cdeda861)
