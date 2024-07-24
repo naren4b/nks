@@ -28,7 +28,7 @@
 | 28/04/2024 | [Deploy a batch monitoring stack with Prometheus PushGateway in Kubernetes cluster](docs/prometheus_pushgateway.md)                                       |
 | 05/05/2024 | [Securing Kubernetes Secrets with Argocd-vault-plugin](docs/setting-up-argocd-vault-plugin.md)                                                            |
 | 03/07/2024 | [Interacting with Strimzi Kafka cluster through Kafka Bridge(2/n)](docs/kafka-setup-2.md)                                                                 |
-| 24/07/2024 | [Orchestrating Thousands of Kubernetes Clusters through Multiple ArgoCD Fleet(Scale and Automation)](docs/argocd-multiple-deployment.md)                                            |
+| 24/07/2024 | [Orchestrating Thousands of Kubernetes Clusters through ArgoCD](docs/argocd-multiple-deployment.md)                                                       |
 
 
 _by nks[^note]_
