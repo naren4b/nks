@@ -1,4 +1,4 @@
-# Orchestrating Hundreds of Kubernetes Clusters through Multiple ArgoCD Fleet(Scale and Automation)
+# Orchestrating Thousands of Kubernetes Clusters through Multiple ArgoCD Fleet(Scale and Automation)
 ![100_argocds](https://github.com/user-attachments/assets/7e37afb2-a8cf-45ca-82ba-9ca5612a93ac)
 
 High-level architecture of Root ArgoCD, Zone ArgoCDs, and Kubernetes clusters
