@@ -1,9 +1,10 @@
 # Orchestrating Hundreds of Kubernetes Clusters through Multiple ArgoCD Fleet(Scale and Automation)
-![100_argocds-aws-region-az](https://github.com/naren4b/nks/assets/3488520/9b3a9443-c172-4c91-b926-2feb38896108)
+![100_argocds](https://github.com/user-attachments/assets/7e37afb2-a8cf-45ca-82ba-9ca5612a93ac)
+
 High-level architecture of Root ArgoCD, Zone ArgoCDs, and Kubernetes clusters
 
 - Root ArgoCD: Central orchestration point
-- Zone ArgoCDs: Manage clusters within specific zones
+- Zone ArgoCDs: Manage clusters within specific zones(in a Region)
 - Kubernetes clusters: Deployment targets
 
 # Why ArgoCD
@@ -87,14 +88,14 @@ spec:
       selfHeal: true
 EOF
 ```
-# Setting Up Zone ArgoCD
+# Setting Up Zone ArgoCD(in a Region)
 Zone ArgoCD value file details at your Private value file repo 
 Key Points:
 - Cluster Settings 
 - Git repository settings
 - Example [Configuration zone argocd Values](https://raw.githubusercontent.com/naren4b/argo-cd/main/charts/zone-argocd/values.yaml)
 
-# To Check  zone Argocd
+# To Check zone Argocd
 ```
 kubectl -n in-cluster-zone-argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 nohup kubectl port-forward -n in-cluster-zone-argocd svc/in-cluster-zone-argocd-server 5000:80 --address 0.0.0.0 &
