@@ -29,11 +29,21 @@ curl -fsSL -o robusta https://docs.robusta.dev/master/_static/robusta
 chmod +x robusta
 ./robusta gen-config --no-enable-prometheus-stack
 ```
+![image](https://github.com/user-attachments/assets/e67d5c00-8749-4c03-a849-e5b0fe84161a)
+
+
 # Install robusta forwarder & Runner  
 ```
 helm repo add robusta https://robusta-charts.storage.googleapis.com && helm repo update
 helm upgrade --install robusta robusta/robusta -f ./generated_values.yaml --set clusterName=demo --set isSmallCluster=true
 ```
-
+# Let's Test it 
+```
+kubectl apply -f https://gist.githubusercontent.com/robusta-lab/283609047306dc1f05cf59806ade30b6/raw
+```
+### Check the Channel 
+![image](https://github.com/user-attachments/assets/06ceb6eb-a22e-4346-a61f-96e921e03d70)
+### Check the Robusta UI
+![image](https://github.com/user-attachments/assets/ab559e7d-c7bc-44ee-a9a2-0ba8bfd75e15)
 
   
