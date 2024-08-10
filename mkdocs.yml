@@ -1,4 +1,5 @@
 site_name: NKS Naren Kubernetes Solutions
+site_url: https://naren4b.github.io/nks/
 repo_name: "naren4b/nks"
 repo_url: "https://github.com/naren4b/nks"
 theme:
@@ -30,20 +31,32 @@ plugins:
   - social
 
 markdown_extensions:
-  - toc:
-      permalink: true
-  - admonition
-  - codehilite
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
+  - admonition
+  - pymdownx.arithmatex:
+      generic: true
+  - footnotes
   - pymdownx.details
-  - tables
+  - pymdownx.superfences
+  - pymdownx.mark
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
 extra:
   analytics:
     provider: google
+  social:
+    - icon: fontawesome/brands/github-alt
+      link: https://github.com/naren4b
+    - icon: fontawesome/brands/twitter
+      link: https://x.com/Narentwtr
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/narendranathpanda/
 
 copyright: |
   &copy; 2024 <a href="https://github.com/naren4b"  target="_blank" rel="noopener">Narendranath Panda</a>
