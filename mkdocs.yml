@@ -1,0 +1,23 @@
+site_name: NKS Do It YourSelf 
+repo_name: "naren4b/nks"
+repo_url: "https://github.com/naren4b/nks"
+docs_dir: "docs"
+theme:
+  name: material
+  custom_dir: overrides
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - tabs
+    - content.code.copy
+    - announce.dismiss
+    - header.autohide
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: switch to light mode
