@@ -4,6 +4,7 @@ repo_name: "naren4b/nks"
 repo_url: "https://github.com/naren4b/nks"
 theme:
   name: material
+  logo: https://avatars.githubusercontent.com/u/3488520?s=48&v=4
   language: en
   features:
     - toc.integrate
