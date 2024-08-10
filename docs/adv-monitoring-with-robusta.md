@@ -1,4 +1,4 @@
-# Kubernetes Notifications, Troubleshooting, And Automation With Robusta
+# Kubernetes Monitoring, Notifications, Troubleshooting, And Automation With Robusta
 ![robusta-monitoring](https://github.com/user-attachments/assets/1c7bd4dc-fa2f-47a7-a80f-8f766030e25b)
 
 # Prerequisites:
@@ -6,15 +6,15 @@
   2. Kubernetes Cluster 
   3. A Prometheus installation
   4. [Set up a Sink](https://docs.robusta.dev/master/configuration/sinks/index.html)
-     - Create a sink account. I have choosen the slack [My Slack](https://narenorg.slack.com) and created a chanel `#devops`. [more on #Slack-Sink](https://docs.robusta.dev/master/configuration/sinks/slack.html)      
-     - Create a Regsitration at Robust and create an app in it My Account: [My Robusta-UI](https://platform.robusta.dev/naren4biz/settings#account) .  [more on #robusta-ui](https://docs.robusta.dev/master/configuration/sinks/RobustaUI.html)
+     - Create a sink account. I have chosen the slack [My Slack](https://narenorg.slack.com) and created a channel  `#devops`. [more on #Slack-Sink](https://docs.robusta.dev/master/configuration/sinks/slack.html)      
+     - Create a Free Registration at Robust and create an app in it My Account: [My Robusta-UI](https://platform.robusta.dev/naren4biz/settings#account) .  [more on #robusta-ui](https://docs.robusta.dev/master/configuration/sinks/RobustaUI.html)
      
 # Installation:
 #### Kubernetes Cluster
 ```
  kind create cluster --name=robusta-demo
 ```
-# Settup of Prometheus stack
+# Setup of Prometheus stack
 ```
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts && helm repo update
 cat<<EOF >robusta-demo-values.yaml
@@ -73,9 +73,11 @@ kubectl apply -f https://gist.githubusercontent.com/robusta-lab/283609047306dc1f
 ```
 ### Check the Channel 
 My Slack: [My Slack](https://narenorg.slack.com/archives/CP2PBCJ9J/p1723299440028189)
-![image](https://github.com/user-attachments/assets/06ceb6eb-a22e-4346-a61f-96e921e03d70)
+![image](https://github.com/user-attachments/assets/a88d5fa7-21b5-4d33-a615-9033af64fe68)
+
 ### Check the Robusta UI
 My Account: [Robusta-UI](https://platform.robusta.dev/naren4biz/apps?isGrouped=false&statusSort=%22asc%22&page=1)
-![image](https://github.com/user-attachments/assets/ab559e7d-c7bc-44ee-a9a2-0ba8bfd75e15)
+![robusta-monitoring-failedpod](https://github.com/user-attachments/assets/e0671ed3-ec76-4712-be50-241b848c81c1)
+
 
   
