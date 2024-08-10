@@ -1,14 +1,8 @@
 site_name: NKS Naren Kubernetes Solutions
 repo_name: "naren4b/nks"
 repo_url: "https://github.com/naren4b/nks"
-# theme:
-#   name: material
-
-nav:
-  - Home: index.md
-  - About: about.md
 theme:
-  name: readthedocs
+  name: material
   language: en
   features:
     - toc.integrate
@@ -33,6 +27,8 @@ theme:
       accent: lime
 plugins:
   - search
+  - social
+
 markdown_extensions:
   - toc:
       permalink: true
