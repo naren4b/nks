@@ -33,7 +33,6 @@ theme:
       accent: lime
 plugins:
   - search
-  - table-reader
 markdown_extensions:
   - toc:
       permalink: true
