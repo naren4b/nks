@@ -29,6 +29,7 @@
 | 05/05/2024 | [Securing Kubernetes Secrets with Argocd-vault-plugin](docs/setting-up-argocd-vault-plugin.md)                                                            |
 | 03/07/2024 | [Interacting with Strimzi Kafka cluster through Kafka Bridge(2/n)](docs/kafka-setup-2.md)                                                                 |
 | 24/07/2024 | [Orchestrating Thousands of Kubernetes Clusters through ArgoCD](docs/argocd-multiple-deployment.md)                                                       |
+| 10/08/2024 | [Enhancing Kubernetes Monitoring & Automation with Robusta!](docs/adv-monitoring-with-robusta.md)                                                         | 
 
 
 _by nks[^note]_
