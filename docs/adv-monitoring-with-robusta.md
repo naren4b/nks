@@ -6,7 +6,7 @@
   2. Kubernetes Cluster 
   3. A Prometheus installation
   4. [Set up a Sink](https://docs.robusta.dev/master/configuration/sinks/index.html)
-     - [#slack](https://docs.robusta.dev/master/configuration/sinks/slack.html) : https://app.slack.com/client/T07FJ4APNMA/C07F13BA7DM
+     - [#slack](https://docs.robusta.dev/master/configuration/sinks/slack.html) 
      - [#msteam](https://docs.robusta.dev/master/configuration/sinks/ms-teams.html)
      - [#robusta-ui](https://docs.robusta.dev/master/configuration/sinks/RobustaUI.html)
      
