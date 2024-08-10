@@ -30,3 +30,9 @@
 | 03/07/2024 | [Interacting with Strimzi Kafka cluster through Kafka Bridge(2/n)](kafka-setup-2.md)                                                                 |
 | 24/07/2024 | [Orchestrating Thousands of Kubernetes Clusters through ArgoCD](argocd-multiple-deployment.md)                                                       |
 | 10/08/2024 | [Enhancing Kubernetes Monitoring & Automation with Robusta!](adv-monitoring-with-robusta.md)                                                         |
+
+_by nks[^note]_
+
+[^note]:
+    To me, giving back is so important. It makes others feel good which then in return makes me feel good :heartpulse:
+    at [https://github.com/naren4b/nks](https://github.com/naren4b/nks).

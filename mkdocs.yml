@@ -1,8 +1,14 @@
 site_name: NKS Naren Kubernetes Solutions
 repo_name: "naren4b/nks"
 repo_url: "https://github.com/naren4b/nks"
+# theme:
+#   name: material
+
+nav:
+  - Home: index.md
+  - About: about.md
 theme:
-  name: material
+  name: readthedocs
   language: en
   features:
     - toc.integrate
@@ -15,14 +21,19 @@ theme:
   palette:
     - scheme: default
       toggle:
-        icon: material/brightness-7
-        name: switch to dark mode
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+      primary: teal
+      accent: purple
     - scheme: slate
       toggle:
-        icon: material/brightness-4
-        name: switch to light mode
+        icon: material/toggle-switch
+        name: Switch to light mode
+      primary: teal
+      accent: lime
 plugins:
   - search
+  - table-reader
 markdown_extensions:
   - toc:
       permalink: true
@@ -34,6 +45,7 @@ markdown_extensions:
   - pymdownx.snippets
   - pymdownx.superfences
   - pymdownx.details
+  - tables
 extra:
   analytics:
     provider: google
