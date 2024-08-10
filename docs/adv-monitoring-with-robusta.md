@@ -13,7 +13,7 @@ Find a comprehensive setup for Kubernetes monitoring, notifications, troubleshoo
 ![robusta-monitoring](https://github.com/user-attachments/assets/1c7bd4dc-fa2f-47a7-a80f-8f766030e25b)
 
 # Prerequisites:
-  1. Workspace must have Docker, Helm, Kubectl  
+  1. Workspace must have `Docker, Helm, Kubectl` installed  
   2. Kubernetes Cluster 
   3. A Prometheus installation
   4. [Set up a Sink](https://docs.robusta.dev/master/configuration/sinks/index.html)
