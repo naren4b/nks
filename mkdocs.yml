@@ -1,16 +1,16 @@
 site_name: NKS Naren Kubernetes Solutions
 repo_name: "naren4b/nks"
 repo_url: "https://github.com/naren4b/nks"
-docs_dir: "docs"
 theme:
   name: material
-  custom_dir: overrides
-  icon:
-    repo: fontawesome/brands/github
+  language: en
   features:
-    - tabs
+    - toc.integrate
+    - navigation.right
+    - search.suggest
+    - content.tabs.link
+    - content.code.annotation
     - content.code.copy
-    - announce.dismiss
     - header.autohide
   palette:
     - scheme: default
@@ -21,3 +21,22 @@ theme:
       toggle:
         icon: material/brightness-4
         name: switch to light mode
+plugins:
+  - search
+markdown_extensions:
+  - toc:
+      permalink: true
+  - admonition
+  - codehilite
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.details
+extra:
+  analytics:
+    provider: google
+
+copyright: |
+  &copy; 2024 <a href="https://github.com/naren4b"  target="_blank" rel="noopener">Narendranath Panda</a>

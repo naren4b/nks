@@ -9,7 +9,9 @@ In this blog post, we explore a quick and efficient way to set up a basic Loki-P
 ref: [mykindk8scluster](https://naren4b.github.io/nks/mykindk8scluster.html) or [Demo Environment](https://killercoda.com/killer-shell-ckad/scenario/playground)
 
 #### Install Loki
+
 Loki custom helm value file
+
 ```bash
 kubectl create ns monitoring
 
@@ -97,7 +99,6 @@ resultsCache:
 EOF
 ```
 
-
 ### Install helm-chart
 
 ```bash
@@ -139,13 +140,15 @@ extraPorts:
 EOF
 
 ```
-# Install Promtail 
+
+# Install Promtail
+
 ```bash
 REPO_NAME=grafana
 REPO_PATH=promtail
 CHART_VERSION=6.15.3
 CHART_APP_VERSION=promtail
-helm install promtail ${REPO_NAME}/${REPO_PATH}  --version ${CHART_VERSION} -f $PWD/promtail-demo-values.yaml -n monitoring 
+helm install promtail ${REPO_NAME}/${REPO_PATH}  --version ${CHART_VERSION} -f $PWD/promtail-demo-values.yaml -n monitoring
 
 ```
 
@@ -165,21 +168,25 @@ kubectl  -n monitoring port-forward svc/grafana 3000:80 --address 0.0.0.0 &
 #### [Add Loki data source ]
 
 ![image](https://github.com/naren4b/nks/assets/3488520/d1c20e4e-586d-4365-bbfb-c050fb7d9c5d)
+
 ```
 URL: http://loki:3100
-#ADD Http Header 
+#ADD Http Header
 X-Scope-OrgID: 1
 ```
+
 Visit http://localhost:3000/connections/datasources/loki
 
-#### [Add basic dashboard](https://github.com/naren4b/nks/blob/main/apps/loki/loki-general-dashboard.json)
+#### [Add basic dashboard](https://raw.githubusercontent.com/naren4b/monitoring-stack/main/loki/loki-general-dashboard.json)
+
 ```
 15141
 https://grafana.com/grafana/dashboards/15141-kubernetes-service-logs/
 
 ```
+
 ![image-1](https://github.com/naren4b/nks/assets/3488520/818cff38-598f-4e3b-b8da-4f1ecc254b63)
 
 Visit http://localhost:3000/dashboard/new?orgId=1
 
-Add example: [loki-general-dashboard.json](../apps/loki/loki-general-dashboard.json)
+Add example: [loki-general-dashboard.json](https://raw.githubusercontent.com/naren4b/monitoring-stack/main/loki/loki-general-dashboard.json)
