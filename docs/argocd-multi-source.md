@@ -26,6 +26,7 @@ rm argocd-linux-amd64
 
 # ArgoCD CLI login 
 ```bash
+kubectl port-forward service/argocd-server -n default 8080:443
 argocd login localhost:8080  --insecure
 ```
 
