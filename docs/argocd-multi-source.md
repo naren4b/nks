@@ -11,7 +11,9 @@ ref: Argo CD has the ability to specify multiple sources for a single Applicatio
 ```bash
 kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-# edit and add the argocd-server args - --insecure
+kubectl patch deployments.apps -n argocd  argocd-server  \
+--type=json \
+-p='[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--insecure"}]'
 kubectl get secrets -n argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d && echo 
 ```
 
