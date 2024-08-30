@@ -67,7 +67,9 @@ kubectl get pod -n argocd -w
 
 ```bash
 # edit the deployment for insecure installation in local
-#kubectl edit deployments.apps -n argocd argocd-server 
+kubectl patch deployments.apps -n argocd  argocd-server  \
+--type=json \
+-p='[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--insecure"}]'
 nohup kubectl  port-forward -n argocd svc/argocd-server 8080:443 --address 0.0.0.0 & 
 
 argocd_password=$(kubectl get secrets -n argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
