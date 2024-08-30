@@ -14,7 +14,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 kubectl patch deployments.apps -n argocd  argocd-server  \
 --type=json \
 -p='[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--insecure"}]'
-kubectl get secrets -n argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d && echo 
+
 ```
 
 # Install argocd CLI
@@ -26,7 +26,8 @@ rm argocd-linux-amd64
 
 # ArgoCD CLI login 
 ```bash
-kubectl port-forward service/argocd-server -n default 8080:443
+kubectl get secrets -n argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d && echo 
+kubectl port-forward service/argocd-server -n argocd 8080:443 &
 argocd login localhost:8080  --insecure
 ```
 
