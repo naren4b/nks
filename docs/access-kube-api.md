@@ -1,4 +1,7 @@
 # Access kube-api server by curl 
+NS=kube-system
+kubectl config set-context --current --namespace=$NS
+
 ```bash
 kubectl create serviceaccount api-explorer
 cat<<EOF > api-explorer.yaml
@@ -12,7 +15,7 @@ rules:
   verbs: ["get", "watch", "list"]
 EOF
 kubectl apply -f api-explorer.yaml
-kubectl create rolebinding api-explorer:log-reader --clusterrole log-reader --serviceaccount default:api-explorer
+kubectl create rolebinding api-explorer:log-reader --clusterrole log-reader --serviceaccount $NS:api-explorer
 
 SERVICE_ACCOUNT=api-explorer
 
@@ -20,7 +23,8 @@ SERVICE_ACCOUNT=api-explorer
 SECRET=$(kubectl get serviceaccount ${SERVICE_ACCOUNT} -o json | jq -Mr '.secrets[].name | select(contains("token"))')
 
 # Extract the Bearer token from the Secret and decode
-TOKEN=$(kubectl get secret ${SECRET} -o json | jq -Mr '.data.token' | base64 -d)
+TOKEN_B64=$(kubectl get secret ${SECRET} -o json | jq -Mr '.data.token')
+TOKEN=$(echo $TOKEN_B64 | base64 -d)
 
 # Extract, decode and write the ca.crt to a temporary location
 kubectl get secret ${SECRET} -o json | jq -Mr '.data["ca.crt"]' | base64 -d > /tmp/ca.crt
