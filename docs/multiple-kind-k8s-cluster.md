@@ -4,6 +4,7 @@
 
 #### Install the org-control-plane kind cluster 
 ```bash
+export KIND_EXPERIMENTAL_PROVIDER=podman
 export ORG_CONTROL_PLANE_K8S=org
 
 clusterName=$ORG_CONTROL_PLANE_K8S
@@ -24,44 +25,13 @@ EOF
 kind create cluster --config ${clusterName}-cluster-config.yaml --kubeconfig ./config 
 kind get kubeconfig --name=${clusterName} | sed "s|https://0.0.0.0|https://${clusterName}-control-plane|g"  | sed "s/${apiServerPort}/6443/g"  > ${clusterName}-config
 ```
-#### Setup a test Docker Image 
-```
-cat<<EOF > Dockerfile
-FROM alpine
-RUN apk add curl
+![image](https://github.com/user-attachments/assets/8e34ff8b-34b1-4d07-9cf5-9adcafa89dab)
 
-ENTRYPOINT ["/bin/sh","-c","sleep infinity"]
-EOF
-docker build -t alpine-sleeper:1 .
+# Deploy Test pod 
 ```
-#### Load the image to KIND Node 
-```
-kind load docker-image alpine-sleeper:1 --name=${clusterName}
-````
-
-#### Deploy a test pod 
-```
-k run test --image=alpine-sleeper:1
-```
-#### Setup the test pod 
-```bash
-cat<<EOF > setup.sh
-mkdir ~/.kube
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.3/2023-11-14/bin/linux/amd64/kubectl
-chmod +x ./kubectl
-mv ./kubectl /usr/local/bin/
-alias k=kubectl
-EOF
-k cp setup.sh test:/
-k exec test sh setup.sh
+kubectl apply -f https://gist.githubusercontent.com/naren4b/76e8a281b259d8de5d8a5bfa830e3840/raw/f8f203c63f476c831bceb9b74939cccece42e82a/swiss-knife.yaml
 ```
 
-# Copy the kubeconfig
-```bash
-clusterName=$ORG_CONTROL_PLANE_K8S
-k cp ${clusterName}-config test:/
-k exec test -- kubectl cluster-info --kubeconfig=${clusterName}-config 
-```
 # Setup the EDGE k8s clusters
 ```bash
 clusterName=edge-1 #Change me
@@ -86,6 +56,6 @@ kind get kubeconfig --name=${clusterName} | sed "s|https://0.0.0.0|https://${clu
 ```
 kubectl config use-context kind-$ORG_CONTROL_PLANE_K8S
 clusterName=edge-1
-k  cp ${clusterName}-config test:/
-k exec test -- kubectl cluster-info --kubeconfig=${clusterName}-config 
+kubectl  cp ${clusterName}-config swiss-knife:/
+kubectl exec swiss-knife -- kubectl cluster-info --kubeconfig=${clusterName}-config 
 ```
