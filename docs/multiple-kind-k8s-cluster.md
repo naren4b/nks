@@ -1,4 +1,5 @@
 # Installing multiple kind cluster in a single host 
+![multi-docker-kind-k8s-cluster drawio](https://github.com/user-attachments/assets/81cfcc7d-94be-47ef-afc1-138393131079)
 
 
 #### Install the org-control-plane kind cluster 
