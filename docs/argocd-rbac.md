@@ -72,6 +72,10 @@ EOF
 
 kubectl patch cm -n argocd argocd-rbac-cm --patch-file argocd-patch.yaml
 ```
-curl https://raw.githubusercontent.com/naren4b/argocd-multi-source-demo/main/sample-app.sh
+
+#### Deploy an application 
+```
+curl -s https://raw.githubusercontent.com/naren4b/argocd-multi-source-demo/main/sample-app.sh | bash
+```
 
 source : https://github.com/naren4b/nks/edit/main/docs/argocd-rbac.md
