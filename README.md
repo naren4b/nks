@@ -30,6 +30,8 @@
 | 03/07/2024 | [Interacting with Strimzi Kafka cluster through Kafka Bridge(2/n)](kafka-setup-2.md)                                                                 |
 | 24/07/2024 | [Orchestrating Thousands of Kubernetes Clusters through ArgoCD](argocd-multiple-deployment.md)                                                       |
 | 10/08/2024 | [Enhancing Kubernetes Monitoring & Automation with Robusta!](adv-monitoring-with-robusta.md)                                                         |
+| 15/09/2024 | [Step-by-Step Guide to Setting Up Multiple Kind Clusters on a Single Host](multiple-kind-k8s-cluster.md)                                             |
+| 17/09/2024 | [Setup Argocd with extra cluster and git integrated](setting-up-argocd.md)                                                                           |
 
 _by nks[^note]_
 
