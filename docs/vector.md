@@ -8,6 +8,11 @@ Vector enables dramatic cost reduction, novel data enrichment, and data security
 Additionally, it is open source and up to 10x faster than every alternative in the space.
 
 More details: [vector.dev](https://vector.dev/docs/)
+![overview-vector drawio](https://github.com/user-attachments/assets/8ef88bcd-5555-4993-a386-23c29a75fb74)
+
+# Example Installation 
+![example-vector drawio](https://github.com/user-attachments/assets/8bd06145-77bb-4328-833c-80f8af6200ca)
+
 
 # Server Setup
 **Aggregator `vector.yaml` Configuration File**
