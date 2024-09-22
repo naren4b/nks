@@ -121,4 +121,8 @@ EOF
 ```bash
 #docker rm -f vector-agent 
 docker run -d --name vector-agent -v $(pwd)/agent:/etc/vector/ --rm docker.io/timberio/vector:0.41.1-alpine
-```  
+```
+Now, your Vector Aggregator and Vector Agent are set up and running. They can efficiently collect, transform, and route logs and metrics, offering complete control over your observability data pipeline.
+```scss
+This `README.md` file provides clear instructions on setting up both the server and client components of the Vector pipeline, including configuration references and deployment commands.
+```
