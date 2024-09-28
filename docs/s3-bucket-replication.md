@@ -1,6 +1,10 @@
 # Set Up S3 Bucket Replication(MINIO 🥡)
 Bucket replication uses rules to synchronize the contents of a bucket on one MinIO deployment to a bucket on a remote MinIO deployment.
 
+![s3-replicate-minio drawio](https://github.com/user-attachments/assets/a8b00cf9-fcd1-49a8-a0fc-43673f23f0e2)
+
+
+
 #### Replication can be done in any of the following ways:
 - **Active-Passive** Eligible objects replicate from the source bucket to the remote bucket. Any changes on the remote bucket do not replicate back.
 - **Active-Active** Changes to eligible objects of either bucket replicate to the other bucket in a two-way direction.
