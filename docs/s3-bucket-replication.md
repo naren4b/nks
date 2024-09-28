@@ -1,4 +1,4 @@
-# Set Up S3 Bucket Replication(MINIO 🥡)
+# Set Up Active-Active S3 Bucket Replication (MinIO🥡)
 Bucket replication uses rules to synchronize the contents of a bucket on one MinIO deployment to a bucket on a remote MinIO deployment.
 
 ![s3-replicate-minio drawio](https://github.com/user-attachments/assets/a8b00cf9-fcd1-49a8-a0fc-43673f23f0e2)
