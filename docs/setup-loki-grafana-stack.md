@@ -175,7 +175,12 @@ URL: http://loki:3100
 X-Scope-OrgID: 1
 ```
 
-Visit http://localhost:3000/connections/datasources/loki
+#### [Deploy demo pod]
+```
+k run demo --image=narenp/loggen:v2
+
+```
+visit [https://grafana-url.com/explore?container=demo](https://cded85e0-22b8-4b16-bfdf-29bb0ac2b591-10-244-8-28-3000.papa.r.killercoda.com/explore?schemaVersion=1&panes=%7B%22ql1%22:%7B%22datasource%22:%22fdz948esdu7swe%22,%22queries%22:%5B%7B%22refId%22:%22A%22,%22expr%22:%22%7Bcontainer%3D%5C%22demo%5C%22%7D%22,%22queryType%22:%22range%22,%22datasource%22:%7B%22type%22:%22loki%22,%22uid%22:%22fdz948esdu7swe%22%7D,%22editorMode%22:%22builder%22%7D%5D,%22range%22:%7B%22from%22:%22now-1h%22,%22to%22:%22now%22%7D%7D%7D&orgId=1)
 
 #### [Add basic dashboard](https://raw.githubusercontent.com/naren4b/monitoring-stack/main/loki/loki-general-dashboard.json)
 
