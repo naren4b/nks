@@ -32,4 +32,6 @@
 | 10/08/2024 | [Enhancing Kubernetes Monitoring & Automation with Robusta!](adv-monitoring-with-robusta.md)                                                         |
 | 15/09/2024 | [Step-by-Step Guide to Setting Up Multiple Kind Clusters on a Single Host](multiple-kind-k8s-cluster.md)                                             |
 | 17/08/2024 | [Setup Argocd with extra cluster and git integrated](setting-up-argocd.md)                                                                           |
-
+| 14/09/2024 | [Step-by-Step Guide to Setting Up Multiple Kind Clusters on a Single Host](multiple-kind-k8s-cluster.md)                                             |
+| 22/09/2024 | [Take Control of Your Observability Data with vector.dev](vector.md)                                                                                 |
+| 29/09/2024 | [Set Up S3 Bucket Replication(MINIO)](s3-bucket-replication.md)                                                                                      |
