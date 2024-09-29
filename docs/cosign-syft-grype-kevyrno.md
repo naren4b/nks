@@ -126,7 +126,7 @@ cosign sign --key cosign.key $DOCKER_USERNAME/$IMAGE_NAME:$SHA_ID.sbom
 #### Setup the Kevyrno Policy 
 ```
 ```
-# Test
+#### Test at a k8s cluster
 ```
 ```
 # Ref: 
@@ -137,8 +137,3 @@ cosign sign --key cosign.key $DOCKER_USERNAME/$IMAGE_NAME:$SHA_ID.sbom
 - https://www.youtube.com/watch?v=8GKFzJaEHac&ab_channel=VMwareTanzu
 - https://www.youtube.com/watch?v=nybVFJVXbww&ab_channel=Computerphile
 - https://edu.chainguard.dev/open-source/sigstore/policy-controller/how-to-install-policy-controller/
-
-
-
-
-
