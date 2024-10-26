@@ -86,6 +86,8 @@ Users create resources (pods, services, etc.) in the namespace, and the quota sy
 If creating or updating a resource violates a quota constraint, the request will fail with HTTP status code 403 FORBIDDEN with a message explaining the constraint that would have been violated.
 If quota is enabled in a namespace for compute resources like cpu and memory, users must specify requests or limits for those values; otherwise, the quota system may reject pod creation.
 
+![image](https://github.com/user-attachments/assets/3536fa97-17e0-4214-a598-45cf8e349cb9)
+
 **_💥Hint: Use the LimitRanger admission controller to force defaults for pods that make no compute resource requirements._**
 
 _references:_
