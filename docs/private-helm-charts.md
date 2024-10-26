@@ -1,4 +1,4 @@
-![image](https://user-images.githubusercontent.com/3488520/192076676-3bd58fa4-db2c-4470-9619-d8c62a1135fc.png)
+![image](https://github.com/user-attachments/assets/c4665d3a-6e2b-4f24-ac5a-4ddeee5f14e7)![image](https://user-images.githubusercontent.com/3488520/192076676-3bd58fa4-db2c-4470-9619-d8c62a1135fc.png)
 
 # Part-1 How to create, package , push, host, deploy Private Helm Charts using Chartmuseum
 
@@ -47,8 +47,7 @@ helm install nks/nks-web --generate-name
 ![image](https://user-images.githubusercontent.com/3488520/192074420-c4253391-67d7-4459-83a7-4e97ad8b9354.png)
 
 #### Assumption
-
-- Server url http://nks-charts:8080
+![image](https://github.com/user-attachments/assets/c3a56063-7b92-4c64-aed8-da12f902d4c3)
 
 #### ref:
 
