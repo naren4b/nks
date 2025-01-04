@@ -32,6 +32,7 @@
 | 10/08/2024 | [Enhancing Kubernetes Monitoring & Automation with Robusta!](adv-monitoring-with-robusta.md)                                                         |
 | 15/09/2024 | [Step-by-Step Guide to Setting Up Multiple Kind Clusters on a Single Host](multiple-kind-k8s-cluster.md)                                             |
 | 17/09/2024 | [Setup Argocd with extra cluster and git integrated](setting-up-argocd.md)                                                                           |
+| 04/01/2025 | [This is my First Attempt to interact with a AI model via an Agent](https://www.linkedin.com/feed/update/urn:li:activity:7281343073207336960/)       |
 
 _by nks[^note]_
 
