@@ -35,3 +35,5 @@
 | 14/09/2024 | [Step-by-Step Guide to Setting Up Multiple Kind Clusters on a Single Host](multiple-kind-k8s-cluster.md)                                             |
 | 22/09/2024 | [Take Control of Your Observability Data with vector.dev](vector.md)                                                                                 |
 | 29/09/2024 | [Set Up S3 Bucket Replication(MINIO)](s3-bucket-replication.md)                                                                                      |
+| 04/01/2025 | [This is my First Attempt to interact with a AI model via an Agent](https://www.linkedin.com/feed/update/urn:li:activity:7281343073207336960/)       |
+| 31/03/2025 | [Exploring VictoriaLogs: A Fast and Resource-Efficient Log Management Solution](victorialogs-demo.md)                                                                                      |
