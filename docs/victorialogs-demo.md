@@ -44,7 +44,7 @@ curl http://127.0.0.1:3101/metrics
 ```
 # Check the logs in VMUI
 Access the ui : https://localhost:9428/select/vmui
-![image](https://github.com/user-attachments/assets/19f18d94-73b7-44cb-9c75-27ce94ab2487)
+![image](https://github.com/user-attachments/assets/25674ad3-786a-4d2c-bc9a-28341b2d718e)
 
 # Install Grafana 
 ```
@@ -58,6 +58,7 @@ cat<<EOF >gg-values.yaml
 env:
   GF_INSTALL_PLUGINS: "victoriametrics-logs-datasource"
 EOF
+# serve_from_sub_path=true
 
 helm upgrade --install gg grafana/grafana -f gg-values.yaml
 
@@ -66,4 +67,6 @@ kubectl get secret --namespace default gg-grafana -o jsonpath="{.data.admin-pass
 export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=gg" -o jsonpath="{.items[0].metadata.name}")
 nohup kubectl --namespace default port-forward svc/gg-grafana 3000:80 --address 0.0.0.0 &
 ```
+![image](https://github.com/user-attachments/assets/eb81c501-dc6d-469c-9d3f-349d1ac7a718)
+
 
