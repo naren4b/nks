@@ -1,4 +1,4 @@
-![vls-gpt](https://github.com/user-attachments/assets/81916d6a-e1d8-4c2d-aa75-9d321b7fcba5)
+![vls-gpt (1)](https://github.com/user-attachments/assets/e4bd4f45-c4fa-4fb7-9d0f-99c866c813bc)
 
 # Install VictoriaLogs
 ```bash
