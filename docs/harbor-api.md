@@ -177,3 +177,39 @@ curl -k -s \
         -d @my-registry.json
 
 ```
+# Integrating with Skopeo
+```bash
+URL=<url>
+REGISTRY_ADMIN_USER=<user-id>
+REGISTRY_PASSWORD=<token>
+CRED="$REGISTRY_ADMIN_USER:$REGISTRY_PASSWORD"
+out_file_name=$URL-image-tags-list.csv
+out_file_name_summary=$URL-repository-summary-report.csv
+touch $out_file_name
+touch $out_file_name_summary
+echo Repository ,No of Tags,Latest Image Version, Latest Image Size >$out_file_name_summary
+echo URL,IMAGE_PATH,Tag,Image> $out_file_name
+page=1
+while true;do
+	response=$(curl -ks -u $CRED  -H 'accept: application/json' "https://$URL/api/v2.0/repositories?page=${page}&page_size=100&with_detail=true")
+	for repository in $(echo $response |  jq -r '.[].name'); do
+		echo $repository 
+		IMAGE_PATH=$repository 
+		tags=$(docker run quay.io/skopeo/stable:latest list-tags docker://$URL/$IMAGE_PATH --tls-verify=false --creds=$CRED | jq -r '.Tags[]')
+		latest_image_tag=$(echo $tags | awk '{print $NF}')
+		no_of_Tags=$(echo $tags | wc | awk '{print $2}')
+		latest_image_size=$(docker run quay.io/skopeo/stable:latest inspect docker://$URL/$IMAGE_PATH:$latest_image_tag --tls-verify=false --creds=$CRED --raw | jq -r '.layers[] | .size' | paste -sd+ | bc | awk '{printf "%.2f\n", $1 / 1024 / 1024 / 1024}')
+		echo $repository ,$no_of_Tags,$latest_image_tag,$latest_image_size >>$out_file_name_summary
+		for tag in $tags;do
+			image=$URL/$IMAGE_PATH:$tag
+			echo $image
+			echo $URL,$IMAGE_PATH,$tag,$image >>$out_file_name
+		done	
+	done
+     if [[ "$response" == "[]" ]]; then
+        break
+     fi    
+    page=$((page + 1))
+done
+
+```
