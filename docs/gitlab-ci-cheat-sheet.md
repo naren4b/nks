@@ -366,6 +366,7 @@ Auto-detect language and deploy app with zero config.
 ---
 
 # 🛰️ GitLab CI/CD Cheat Sheet – Solar System NodeJS Project
+![image](https://github.com/user-attachments/assets/28e912e9-89b9-4663-bd5f-5a62ac691e19)
 
 ## 1. 📜 `workflow` – Controlling Pipeline Execution
 
