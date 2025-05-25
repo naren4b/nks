@@ -364,3 +364,174 @@ Auto-detect language and deploy app with zero config.
 
 ---
 
+# 🛰️ GitLab CI/CD Cheat Sheet – Solar System NodeJS Project
+
+## 1. 📜 `workflow` – Controlling Pipeline Execution
+
+```yaml
+workflow:
+  name: Solar System NodeJS Pipeline
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'main' || $CI_COMMIT_BRANCH =~ /^feature/
+      when: always
+    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^feature/ && $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: always
+```
+
+👨‍💻 **Scenario:**  
+- Developer creates `feature/add-auth` → pipeline runs.  
+- Push to `main` → pipeline runs.  
+- Push to `hotfix/urgent-fix` → pipeline **skipped**.
+
+---
+
+## 2. 🧱 `stages` – Defining Pipeline Steps
+
+```yaml
+stages:
+  - test
+  - reporting
+  - containerization
+  - dev-deploy
+  - stage-deploy
+```
+
+### Stages:
+1. `test`: Run unit tests  
+2. `reporting`: Generate reports  
+3. `containerization`: Build Docker image  
+4. `dev-deploy`: Deploy to development  
+5. `stage-deploy`: Manual deploy to staging  
+
+---
+
+## 3. 📦 `include` – Reusing Configurations
+
+```yaml
+include:
+  - local: 'template/aws-reports.yml'
+```
+
+📁 Use shared templates for Slack alerts, scanning, etc.
+
+---
+
+## 4. ⚙️ `variables` – Setting Environment Variables
+
+```yaml
+variables:
+  DOCKER_USERNAME: siddharth67
+  IMAGE_VERSION: $CI_PIPELINE_ID
+  K8S_IMAGE: $DOCKER_USERNAME/solar-system:$IMAGE_VERSION
+  MONGO_URI: 'mongodb+srv://supercluster...'
+  MONGO_USERNAME: superuser
+  MONGO_PASSWORD: $M_DB_PASSWORD
+```
+
+🔐 Store secrets in GitLab → Settings → CI/CD → Variables.
+
+---
+
+## 5. 🧰 `.prepare_nodejs_environment` – Common Job Template
+
+```yaml
+.prepare_nodejs_environment:
+  image: node:17-alpine3.14
+  services:
+    - name: siddharth67/mongo-db:non-prod
+      alias: mongo
+  before_script:
+    - npm install
+```
+
+🎯 Use `extends:` to inherit this setup in jobs.
+
+---
+
+## 6. ✅ `unit_testing` – Running Tests and Collecting Results
+
+```yaml
+unit_testing:
+  stage: test
+  extends: .prepare_nodejs_environment
+  script:
+    - npm test
+  artifacts:
+    reports:
+      junit: test-results.xml
+```
+
+🧪 View test results in GitLab UI.
+
+---
+
+## 7. 📊 `reporting` – Custom Reporting or Alerts
+
+```yaml
+reporting:
+  stage: reporting
+  tags:
+    - docker
+    - linux
+    - aws
+```
+
+📤 Push metrics or test results to S3, notify teams, etc.
+
+---
+
+## 8. 🔐 Containerization Stages (Commented)
+
+Jobs like:
+- `docker_build`: Builds and saves `.tar`
+- `docker_test`: Loads and tests image
+- `docker_push`: Pushes to Docker Hub
+
+💡 Automate end-to-end container workflow.
+
+---
+
+## 9. ☁️ Kubernetes Deployment (Dev and Stage)
+
+```yaml
+environment:
+  name: development
+  url: https://$INGRESS_URL
+```
+
+### `k8s_dev_deploy`: Auto deploys  
+### `k8s_stage_deploy`: Manual trigger
+
+```bash
+kubectl -n $NAMESPACE create secret generic mongo-db-creds --from-literal=MONGO_URI=$MONGO_URI --from-literal=MONGO_USERNAME=$MONGO_USERNAME --from-literal=MONGO_PASSWORD=$MONGO_PASSWORD
+```
+
+🔐 Store DB secrets securely.
+
+---
+
+## 10. 🧪 Integration Testing in Kubernetes
+
+```bash
+curl -s -k https://$INGRESS_URL/live | jq -r .status | grep -i live
+```
+
+📡 Check health post-deployment.
+
+---
+
+## ✅ Summary for New Joiners
+
+| Section           | Purpose            | What You Do                     |
+|------------------|--------------------|----------------------------------|
+| `workflow`        | Control triggers   | Define branch/MR rules          |
+| `stages`          | Define pipeline    | Order job execution             |
+| `include`         | Reuse logic        | DRY for templates               |
+| `variables`       | Set configs        | Use GitLab CI/CD Variables      |
+| `extends`         | Share setup        | Common environment for jobs     |
+| `artifacts`       | Save outputs       | Store test/report files         |
+| `docker_*`        | Container lifecycle| Build, test, push images        |
+| `k8s_*`           | Deployment         | Auto/manual K8s deployment      |
+| `integration_test`| Health check       | Verify deployment works         |
+
+
