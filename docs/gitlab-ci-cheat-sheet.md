@@ -533,5 +533,257 @@ curl -s -k https://$INGRESS_URL/live | jq -r .status | grep -i live
 | `docker_*`        | Container lifecycle| Build, test, push images        |
 | `k8s_*`           | Deployment         | Auto/manual K8s deployment      |
 | `integration_test`| Health check       | Verify deployment works         |
+# Refered gitlab-ci.yml
+```yaml
+workflow:
+    name: Solar System NodeJS Pipeline
+    rules:
+        - if: $CI_COMMIT_BRANCH == 'main' || $CI_COMMIT_BRANCH =~ /^feature/
+          when: always
+        - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^feature/ && $CI_PIPELINE_SOURCE == 'merge_request_event'
+          when: always
+          
+stages:
+  - test
+  - reporting
+  - containerization
+  - dev-deploy
+  - stage-deploy
 
+include:
+  - local: 'template/aws-reports.yml'
+  - component: gitlab.com/gitlab-components/code-quality/code-quality@1.0
+  - template: Jobs/SAST.gitlab-ci.yml
+  - component: gitlab.com/gitlab-components/secret-detection/secret-detection@1.0
+  - template: Security/Container-Scanning.gitlab-ci.yml
 
+variables:
+    DOCKER_USERNAME: siddharth67
+    IMAGE_VERSION: $CI_PIPELINE_ID
+    K8S_IMAGE: $DOCKER_USERNAME/solar-system:$IMAGE_VERSION
+    MONGO_URI: 'mongodb+srv://supercluster.d83jj.mongodb.net/superData'
+    MONGO_USERNAME: superuser
+    MONGO_PASSWORD: $M_DB_PASSWORD
+    SCAN_KUBERNETES_MANIFESTS: "true"
+
+.prepare_nodejs_environment:
+  image: node:17-alpine3.14
+  services:
+    - name: siddharth67/mongo-db:non-prod
+      alias: mongo
+      pull_policy: always
+  variables:
+    MONGO_URI: 'mongodb://mongo:27017/superData'
+    MONGO_USERNAME: non-prod-user
+    MONGO_PASSWORD: non-prod-password
+  cache:
+    policy: pull-push
+    when: on_success
+    paths:
+      - node_modules
+    key:
+      files:
+        - package-lock.json
+      prefix: node_modules
+  before_script:
+    - npm install  
+
+.prepare_deployment_environment: &kuberntes_deploy_job
+  image:
+    name: alpine:3.7
+  dependencies: []
+  before_script:
+    - wget https://storage.googleapis.com/kubernetes-release/release/$(wget -q -O - https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+    - chmod +x ./kubectl
+    - mv ./kubectl /usr/bin/kubectl
+    - apk add --no-cache gettext
+    - envsubst -V  
+
+code_quality:
+  stage: ".pre"
+  variables:
+    REPORT_FORMAT: html
+  artifacts:
+    paths: [gl-code-quality-report.html]
+    reports:
+      codequality: []
+
+sast:
+  stage: .pre
+
+secret_detection:
+  stage: .pre
+  variables:
+    SECRET_DETECTION_HISTORIC_SCAN: "true"
+
+container_scanning:
+  stage: containerization
+  needs:
+    - docker_push
+  variables:
+    CS_IMAGE: docker.io/$DOCKER_USERNAME/solar-system:$IMAGE_VERSION
+    
+unit_testing:
+  stage: test
+  extends: .prepare_nodejs_environment
+  script:
+    - npm test
+  artifacts:
+    when: always
+    expire_in: 3 days
+    name: Moca-Test-Result
+    paths:
+      - test-results.xml
+    reports:
+      junit: test-results.xml
+
+reporting:
+  stage: reporting
+  tags:
+    - docker
+    - linux
+    - aws
+
+code_coverage:
+  stage: test
+  extends: .prepare_nodejs_environment
+  script:
+    - npm run coverage
+  artifacts:
+    name: Code-Coverage-Result
+    when: always
+    expire_in: 3 days
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+  allow_failure: true
+
+docker_build:
+  stage: containerization
+  image: docker:24.0.5
+  dependencies: []
+  services:
+    - docker:24.0.5-dind
+  script:
+    - docker build -t $DOCKER_USERNAME/solar-system:$IMAGE_VERSION .
+    - docker images $DOCKER_USERNAME/solar-system:$IMAGE_VERSION
+    - mkdir image
+    - docker save $DOCKER_USERNAME/solar-system:$IMAGE_VERSION > image/solar-system-image-$IMAGE_VERSION.tar
+  artifacts:
+    paths:
+      - image
+    when: on_success
+    expire_in: 3 days
+
+docker_test:
+  stage: containerization
+  image: docker:24.0.5
+  needs:
+    - docker_build
+  services:
+    - docker:24.0.5-dind
+  script:
+    - docker load -i image/solar-system-image-$IMAGE_VERSION.tar
+    - docker run --name solar-system-app -d -p 3000:3000 $DOCKER_USERNAME/solar-system:$IMAGE_VERSION
+    - export IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' solar-system-app)
+    - echo $IP
+    - docker run  alpine wget -q -O - http://$IP:3000/live | grep live
+
+docker_push:  
+  stage: containerization
+  needs:
+    - docker_build
+    - docker_test
+  image: docker:24.0.5
+  services:
+    - docker:24.0.5-dind
+  script:
+    -  docker load -i image/solar-system-image-$IMAGE_VERSION.tar
+    -  docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD
+    -  docker push $DOCKER_USERNAME/solar-system:$IMAGE_VERSION
+
+publish_gitlab_container_registry:  
+  stage: containerization
+  needs:
+    - docker_build
+    - docker_test
+  image: docker:24.0.5
+  services:
+    - docker:24.0.5-dind
+  script:
+    -  docker load -i image/solar-system-image-$CI_PIPELINE_ID.tar
+    -  echo "$CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY_IMAGE"
+    -  docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+    -  docker tag $DOCKER_USERNAME/solar-system:$IMAGE_VERSION $CI_REGISTRY_IMAGE/ss-image:$IMAGE_VERSION 
+    -  docker images
+    -  docker push $CI_REGISTRY_IMAGE/ss-image:$IMAGE_VERSION
+
+k8s_dev_deploy:
+  <<: *kuberntes_deploy_job
+  stage: dev-deploy
+  needs:
+    - docker_push
+  script:
+    - export KUBECONFIG=$DEV_KUBE_CONFIG
+    - kubectl version -o yaml
+    - kubectl config get-contexts
+    - kubectl get nodes
+    - export INGRESS_IP=$(kubectl -n ingress-nginx get services ingress-nginx-controller -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
+    - echo $INGRESS_IP
+    - kubectl -n $NAMESPACE create secret generic mongo-db-creds --from-literal=MONGO_URI=$MONGO_URI --from-literal=MONGO_USERNAME=$MONGO_USERNAME --from-literal=MONGO_PASSWORD=$MONGO_PASSWORD --save-config --dry-run=client -o yaml | kubectl apply -f -
+    - for i in kubernetes/manifest/*.yaml; do envsubst < $i | kubectl apply -f -; done
+    - kubectl -n $NAMESPACE get all,secret,ing
+    - echo "INGRESS_URL=$(kubectl -n $NAMESPACE get ing -o jsonpath="{.items[0].spec.tls[0].hosts[0]}")" >> app_ingress_url.env
+  artifacts:
+    reports:
+      dotenv: app_ingress_url.env
+  environment:
+    name: development
+    url: https://$INGRESS_URL
+
+k8s_dev_integration_testing:
+  stage: dev-deploy
+  image: alpine:3.4
+  needs:
+    - k8s_dev_deploy
+  before_script:
+    - apk --no-cache add curl
+    - apk --no-cache add jq
+  script:
+    - echo $INGRESS_URL
+    - curl -s -k https://$INGRESS_URL/live | jq -r .status | grep -i live
+    - curl -s -k https://$INGRESS_URL/ready | jq -r .status | grep -i ready
+
+k8s_stage_deploy:
+  <<: *kuberntes_deploy_job
+  stage: stage-deploy
+  when: manual
+  script:
+    - temp_kube_config_file=$(printenv KUBECONFIG)
+    - cat $temp_kube_config_file
+    - kubectl config get-contexts
+    - kubectl config use-context demos-group/solar-system:kk-gitlab-agent
+    - kubectl get po -A
+    - export INGRESS_IP=$(kubectl -n ingress-nginx get services ingress-nginx-controller -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
+    - echo $INGRESS_IP
+    - kubectl -n $NAMESPACE create secret generic mongo-db-creds --from-literal=MONGO_URI=$MONGO_URI --from-literal=MONGO_USERNAME=$MONGO_USERNAME --from-literal=MONGO_PASSWORD=$MONGO_PASSWORD --save-config --dry-run=client -o yaml | kubectl apply -f -
+    - for i in kubernetes/manifest/*.yaml; do envsubst < $i | kubectl apply -f -; done
+    - kubectl -n $NAMESPACE get all,secret,ing
+    - echo "INGRESS_URL=$(kubectl -n $NAMESPACE get ing -o jsonpath="{.items[0].spec.tls[0].hosts[0]}")" >> app_ingress_url.env
+  artifacts:
+    reports:
+      dotenv: app_ingress_url.env
+  environment:
+    name: staging
+    url: https://$INGRESS_URL
+
+k8s_stage_integration_testing:
+  stage: stage-deploy
+  image: !reference [k8s_dev_integration_testing, image]
+  needs:
+    - k8s_stage_deploy
+  before_script: !reference [k8s_dev_integration_testing, before_script]
+  script: !reference [k8s_dev_integration_testing, script]
+```
