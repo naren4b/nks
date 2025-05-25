@@ -1,3 +1,4 @@
+![image](https://github.com/user-attachments/assets/1cdead52-6754-4ae5-b275-3d9e6d9f5c91)
 # GitLab CI/CD Cheat Sheet for New Joiners
 
 Welcome to your quick-reference guide to GitLab CI/CD! This cheat sheet is designed to help you understand the most important GitLab CI/CD concepts, directives, and real-world examples in one place. Ideal for beginners and new team members.
