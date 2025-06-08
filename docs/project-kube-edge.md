@@ -30,6 +30,25 @@ Kubernetes is powerful, but it was designed for cloud and data centers.
 ---
 
 ## 🧱 KubeEdge Architecture
+```mermaid
+graph TD
+  subgraph Cloud
+    A[CloudCore]
+    B[Kubernetes API Server]
+    C[EdgeNode CRDs]
+  end
+  subgraph Edge
+    D[EdgeCore]
+    E[MQTT Broker]
+    F[IoT Devices]
+  end
+
+  A --> D[Workload Sync]
+  A --> D[Device Twin Sync]
+  D --> A[Telemetry Data]
+  D --> F[MQTT]
+  F --> D[Sensor Data]
+```
 
 ### Cloud Side (**CloudCore**)
 - Runs in a Kubernetes cluster (public cloud, private data center)
@@ -40,16 +59,13 @@ Kubernetes is powerful, but it was designed for cloud and data centers.
 - Runs on edge devices (Raspberry Pi, industrial gateways, on-prem servers)
 - Processes data locally to reduce cloud traffic
 - Manages devices connected via Bluetooth, MQTT, or Modbus
-
+- 
 ```mermaid
 graph TD
   A[Kubernetes Cluster - CloudCore] -->|Manages| B[Edge Node - EdgeCore]
-  B -->|Connects to| C[IoT Devices (Sensors, Actuators)]
+  B -->|Connects to| C[IoT Devices Sensors/Actuators]
   C -->|Protocol| D(MQTT/Bluetooth/Modbus)
 ```
-
----
-
 ## ⚙️ Installing KubeEdge
 
 ### Step 1: Install Kubernetes on the Cloud
@@ -164,10 +180,28 @@ client.publish("sensor/temperature", "23.5")
 - ✅ Enable TLS encryption for MQTT and API communication
 - ✅ Configure firewall rules to protect edge devices
 - ✅ Ensure secure device authentication using certificates
+  
+```mermaid
+graph LR
+  RBAC[Kubernetes RBAC] --> AccessControl[Limit Cloud Access]
+  TLS[TLS Encryption] --> SecureComms[Encrypt MQTT and API Traffic]
+  FW[Firewall Rules] --> BlockPorts[Restrict Unnecessary Traffic]
+  CertAuth[Cert Authentication] --> SecureDevices[Mutual TLS for Devices]
+```
 
 ---
 
 ## 🔍 Monitoring & Troubleshooting
+
+```mermaid
+graph TD
+  NodeHealth[Check Node Health] --> NodeStatus[Node Ready]
+  CloudLogs[CloudCore Logs] --> CloudDiagnostics[Inspect Logs]
+  EdgeLogs[EdgeCore Logs] --> EdgeDiagnostics[Edge Troubleshooting]
+  MQTTMonitor[Monitor MQTT Topics] --> IoTData[Monitor Sensor Data]
+```
+
+
 
 ### 1. Check Edge Node Connectivity
 ```bash
