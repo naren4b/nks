@@ -9,63 +9,7 @@ Complete code : https://github.com/naren4b/ai-journey/tree/main/cow_video_summar
 ## Workflow Diagram
 
 The following diagram illustrates the complete data flow from the user's command to the final updated Google Sheet.
-
-```mermaid
-flowchart TD
-    subgraph A0["Step 0: Setup & Initiation"]
-        direction TB
-        User["👨‍💻 User (Runs the Bot)"]
-        Script["Video Summary Bot (Main Script)"]
-        Env["API Key Config (.env)"]
-        Creds["Google Auth Config"]
-    end
-
-    subgraph B1["Step 1: Fetch Transcript from YouTube"]
-        direction TB
-        Fetcher["Transcript Fetcher"]
-        YTAPI["YouTube Transcript Service"]
-        RawTranscript["Transcript Data (Raw Format)"]
-    end
-
-    subgraph C["Step 2: AI Analysis & Insights"]
-        direction TB
-        Processor["Gemini AI Processor"]
-        Gemini["Google Gemini API"]
-        SummarizedData["Chart Insights (AI Output)"]
-    end
-
-    subgraph D0["Step 3: Update Google Sheet"]
-        direction TB
-        SheetsUpdater["Sheet Formatter & Uploader"]
-        SheetsAPI["Google Sheets API"]
-    end
-
-    subgraph D1["Final Destination"]
-        FinalSheet["📊 'Chart Of The Week' Sheet"]
-    end
-
-    %% Connections
-    User -->|Runs with YouTube URL| Script
-    Env -->|API Key| Processor
-    Creds -->|Auth Details| SheetsUpdater
-
-    Script -->|Starts| Fetcher
-    Fetcher -->|Requests Transcript| YTAPI
-    YTAPI -->|Returns Data| Fetcher
-    Fetcher -->|Saves Transcript| RawTranscript
-
-    Script -->|Sends to Gemini| Processor
-    Processor -->|Reads| RawTranscript
-    Processor -->|Analyzes with Gemini| Gemini
-    Gemini -->|Returns Chart Insights| Processor
-    Processor -->|Saves Summary| SummarizedData
-
-    Script -->|Triggers| SheetsUpdater
-    SheetsUpdater -->|Reads Insights| SummarizedData
-    SheetsUpdater -->|Sends Rows| SheetsAPI
-    SheetsAPI -->|Updates| FinalSheet
-
-```
+![image](https://github.com/user-attachments/assets/6a59cec6-b718-46ea-88c7-a2fdc947ea7c)
 
 ## Project Structure
 
