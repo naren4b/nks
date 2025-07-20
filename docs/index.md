@@ -37,5 +37,7 @@
 | 29/09/2024 | [Set Up S3 Bucket Replication(MINIO)](s3-bucket-replication.md)                                                                                      |
 | 04/01/2025 | [This is my First Attempt to interact with a AI model via an Agent](https://www.linkedin.com/feed/update/urn:li:activity:7281343073207336960/)       |
 | 31/03/2025 | [Exploring VictoriaLogs: A Fast and Resource-Efficient Log Management Solution](victorialogs-demo.md)                                                |
-| 01/07/2025 | [AI-Powered YouTube Summarizer — From Video to Google Spreadsheets](cow_video_summary_bot.md)                                                |
+| 01/07/2025 | [AI-Powered YouTube Summarizer — From Video to Google Spreadsheets](cow_video_summary_bot.md)                                                        |
+| 20/07/2025 | [Unlocking GitHub Copilot Metrics](gcp-metrics-exporter.md)                                                                                          |
+
 
