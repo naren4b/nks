@@ -7,6 +7,8 @@ This service fetches GitHub Copilot metrics for your organization and exposes th
 - Store the historical data in Prometheus's time-series database (TSDB).
 - Visualize the trends and key insights using Grafana.
 
+# You can find the project on my GitHub: [naren4b/gcp-metrics-exporter](https://github.com/naren4b/gcp-metrics-exporter.git)
+
 ![alt text](https://github.com/naren4b/gcp-metrics-exporter/raw/main/resources/GitHub-Copilot-Telemetry-design.jpg)
 ## Architecture at a Glance
 The architecture is straightforward and integrates perfectly with standard observability practices:
