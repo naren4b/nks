@@ -39,5 +39,6 @@
 | 31/03/2025 | [Exploring VictoriaLogs: A Fast and Resource-Efficient Log Management Solution](victorialogs-demo.md)                                                |
 | 01/07/2025 | [AI-Powered YouTube Summarizer — From Video to Google Spreadsheets](cow_video_summary_bot.md)                                                        |
 | 20/07/2025 | [Unlocking GitHub Copilot Metrics](gcp-metrics-exporter.md)                                                                                          |
+| 01/08/2025 | [Naren GPT - Your Personal Local AI Chat Assistant](ai-llm.md)                                                                                       |
 
 
