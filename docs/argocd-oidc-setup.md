@@ -48,10 +48,10 @@ kubectl patch cm -n argocd argocd-cm --patch-file argocd-cm-oidc-patch.yaml
 ### Add Client Secret to the ArgoCD secret
 
 ```bash
-client_secret=$(echo -n $client_secret | base64)
+b64client_secret=$(echo -n $client_secret | base64)
 cat<<EOF >argocd-secret-oidc.yaml
 data:
- oidc.azure.clientSecret: ${client_secret}
+ oidc.azure.clientSecret: ${b64client_secret}
 EOF
 kubectl patch secret -n argocd argocd-secret --patch-file argocd-secret-oidc.yaml
 ```
@@ -59,7 +59,7 @@ kubectl patch secret -n argocd argocd-secret --patch-file argocd-secret-oidc.yam
 ### Add the ArgoCD RBAC
 
 ```bash
-object_id==12121212-4368-40ed-b07a-4e4e4r4r5r5r5
+#object_id==12121212-4368-40ed-b07a-4e4e4r4r5r5r5
 cat<< EOF > argocd-rbac-cm-patch.yaml
 data:
   policy.csv: |
