@@ -1,4 +1,4 @@
-# Terraform/OpenTofu & Terragrunt Infrastructure Guide
+# Building IaC Pipelines: Terraform, OpenTofu & Terragrunt with GitLab
 
 A comprehensive guide to setting up Infrastructure as Code (IaC) with Terraform/OpenTofu, Terragrunt, GitLab CI/CD, and GitLab registries.
 
