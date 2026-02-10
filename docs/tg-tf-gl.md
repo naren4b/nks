@@ -1,8 +1,9 @@
-# Building IaC Pipelines: Terraform, OpenTofu & Terragrunt with GitLab
+# Building Robust IaC Pipelines: Terraform, OpenTofu & Terragrunt in GitLab CI/CD
 ![tf-tg-gl](https://github.com/user-attachments/assets/b9ccc193-ad73-4a44-a751-9ffdb5042d33)
 
 
 A comprehensive guide to setting up Infrastructure as Code (IaC) with Terraform/OpenTofu, Terragrunt, GitLab CI/CD, and GitLab registries.
+
 
 ---
 
@@ -997,8 +998,45 @@ sequenceDiagram
 5. **Notifications** - Alert on failures
 
 ---
+## 10. What You'll Learn
 
-## 10. References
+This project demonstrates the following Infrastructure as Code concepts:
+
+### Terraform/OpenTofu Fundamentals
+- Using official/community/partner Terraform providers 
+- Creating reusable, versioned Terraform modules with inputs/outputs
+- Publishing modules to GitLab Terraform Module Registry
+- Provider version pinning and management
+
+### State Management
+- Configuring HTTP backend for GitLab state storage
+- State locking to prevent concurrent modifications
+- State isolation per environment (dev/staging/prod)
+- State migration and import strategies
+
+### Terragrunt Features
+- DRY configuration with `root.hcl` and environment-specific configs
+- Environment orchestration across multiple deployments
+- Auto-generating provider and backend configurations
+- Dynamic module sourcing from GitLab registry
+
+### CI/CD Integration
+- Module publishing pipeline triggered by git tags
+- Infrastructure pipeline with validate/plan/apply stages
+- Plan artifacts and merge request integration
+- Environment-specific deployment strategies
+
+### Advanced Patterns
+- Importing existing infrastructure into Terraform state
+- Handling sensitive outputs (secrets, credentials)
+- Using data sources for runtime lookups
+- Generating outputs (Kubernetes secrets, Vault KV entries, reports)
+
+### Container-Based Tools
+- Using `ghcr.io/opentofu/opentofu:latest` for reproducible builds
+- Alpine-based Terragrunt images for CI/CD
+---
+## 11. References
 
 ### Official Documentation
 
