@@ -31,11 +31,16 @@
 | 24/07/2024 | [Orchestrating Thousands of Kubernetes Clusters through ArgoCD](argocd-multiple-deployment.md)                                                       |
 | 10/08/2024 | [Enhancing Kubernetes Monitoring & Automation with Robusta!](adv-monitoring-with-robusta.md)                                                         |
 | 15/09/2024 | [Step-by-Step Guide to Setting Up Multiple Kind Clusters on a Single Host](multiple-kind-k8s-cluster.md)                                             |
-| 17/09/2024 | [Setup Argocd with extra cluster and git integrated](setting-up-argocd.md)                                                                           |
+| 17/08/2024 | [Setup Argocd with extra cluster and git integrated](setting-up-argocd.md)                                                                           |
+| 14/09/2024 | [Step-by-Step Guide to Setting Up Multiple Kind Clusters on a Single Host](multiple-kind-k8s-cluster.md)                                             |
+| 22/09/2024 | [Take Control of Your Observability Data with vector.dev](vector.md)                                                                                 |
+| 29/09/2024 | [Set Up S3 Bucket Replication(MINIO)](s3-bucket-replication.md)                                                                                      |
 | 04/01/2025 | [This is my First Attempt to interact with a AI model via an Agent](https://www.linkedin.com/feed/update/urn:li:activity:7281343073207336960/)       |
+| 31/03/2025 | [Exploring VictoriaLogs: A Fast and Resource-Efficient Log Management Solution](victorialogs-demo.md)                                                |
+| 01/07/2025 | [AI-Powered YouTube Summarizer — From Video to Google Spreadsheets](cow_video_summary_bot.md)                                                        |
+| 20/07/2025 | [Unlocking GitHub Copilot Metrics](gcp-metrics-exporter.md)                                                                                          |
+| 01/08/2025 | [Naren GPT - Your Personal Local AI Chat Assistant](ai-llm.md)                                                                                       |
+| 27/08/2025 | [Chroma: The Open-Source Vector Store You Control](chroma.md)                                                                                        |
+| 21/09/2025 | [Why, When, How, and What about Kafka](kafka.md)                                                                                                     |
+| 10/02/2026 | [Building IaC Pipelines: Terraform, OpenTofu & Terragrunt with GitLab](tg-tf-gl.md)                                                                  |
 
-_by nks[^note]_
-
-[^note]:
-    To me, giving back is so important. It makes others feel good which then in return makes me feel good :heartpulse:
-    at [https://github.com/naren4b/nks](https://github.com/naren4b/nks).
