@@ -40,7 +40,8 @@
 | 01/07/2025 | [AI-Powered YouTube Summarizer — From Video to Google Spreadsheets](cow_video_summary_bot.md)                                                        |
 | 20/07/2025 | [Unlocking GitHub Copilot Metrics](gcp-metrics-exporter.md)                                                                                          |
 | 01/08/2025 | [Naren GPT - Your Personal Local AI Chat Assistant](ai-llm.md)                                                                                       |
-| 27/08/2025 | [Chroma: The Open-Source Vector Store You Control](chroma.md)                                                                                       |
-| 21/09/2025 | [Why, When, How, and What about Kafka](kafka.md)                                                                                                    |
+| 27/08/2025 | [Chroma: The Open-Source Vector Store You Control](chroma.md)                                                                                        |
+| 21/09/2025 | [Why, When, How, and What about Kafka](kafka.md)                                                                                                     |
+| 21/09/2025 | [Building IaC Pipelines: Terraform, OpenTofu & Terragrunt with GitLab](tg-tf-gl.md)                                                                  |
 
 
