@@ -1,4 +1,39 @@
-# Building IaC Pipelines: Terraform, OpenTofu & Terragrunt with GitLab
+# Terraform/OpenTofu & Terragrunt Infrastructure Guide
+```mermaid
+graph TB
+    subgraph git["Git Repository"]
+        tf["Terraform Code<br/>(main.tf, variables.tf)"]
+        tg["Terragrunt Config<br/>(terragrunt.hcl, root.hcl)"]
+    end
+    
+    subgraph gitlab["GitLab Platform"]
+        ci["CI/CD Pipeline<br/>(validate → plan → apply)"]
+        mr["Merge Request<br/>(Code Review)"]
+        mr_git["MR Trigger"]
+        reg["Module Registry<br/>(Published Modules)"]
+    end
+    
+    subgraph terraform["Terraform Execution"]
+        init["Init Phase<br/>(Download Modules)"]
+        plan["Plan Phase<br/>(Diff Calculation)"]
+        apply["Apply Phase<br/>(Resource Creation)"]
+    end
+    
+    subgraph infra["Infrastructure Backend"]
+        backend["Remote State Backend<br/>(HTTP/GitLab)"]
+        provider["Cloud Provider<br/>(AWS, Azure, etc)"]
+    end
+    
+    git -->|Push Code| mr
+    mr -->|Merge Request| mr_git
+    mr_git -->|Trigger Pipeline| ci
+    ci -->|Validate & Plan| terraform
+    terraform -->|Download Modules| reg
+    terraform -->|Fetch/Save State| backend
+    terraform -->|Create/Update Resources| provider
+    backend -->|Lock/Unlock| terraform
+    provider -->|Query Current State| backend
+```
 
 A comprehensive guide to setting up Infrastructure as Code (IaC) with Terraform/OpenTofu, Terragrunt, GitLab CI/CD, and GitLab registries.
 
@@ -888,6 +923,69 @@ Set in GitLab Project → Settings → CI/CD → Variables:
 - `TF_HTTP_PASSWORD` - GitLab token for state backend
 - `GITLAB_TOKEN` - Token for API access (optional, for MR comments)
 - Provider-specific variables (e.g., `AWS_ACCESS_KEY_ID`)
+
+### Pipeline Sequence Diagram (Example: AWS Infrastructure)
+
+```mermaid
+sequenceDiagram
+    participant MR as Merge Request
+    participant CI as GitLab CI/CD
+    participant TG as Terragrunt
+    participant Module as Module Registry
+    participant Backend as Remote State Backend
+    participant Provider as Cloud Provider (AWS)
+    
+    MR->>CI: Open MR with infrastructure changes
+    activate CI
+    
+    Note over CI: Validate Stage
+    CI->>TG: terragrunt validate
+    TG-->>CI: Syntax check passed
+    
+    Note over CI,Module: Init & Download
+    CI->>TG: terragrunt init
+    TG->>Module: Download modules from registry
+    Module-->>TG: Module code retrieved
+    TG->>Backend: Initialize backend
+    Backend-->>TG: Backend ready
+    
+    Note over CI,Provider: Plan Stage (on MR)
+    CI->>TG: terragrunt plan
+    TG->>Backend: Fetch current state
+    Backend-->>TG: State retrieved
+    TG->>Provider: Query current infrastructure
+    Provider-->>TG: Current resources listed (EC2, RDS, VPC, etc.)
+    TG->>TG: Calculate differences
+    TG-->>CI: Plan output generated
+    
+    CI->>MR: Post plan artifact + summary comment
+    CI->>CI: Upload plan.tfplan artifact
+    
+    Note over MR,CI: After code review & approval
+    
+    MR->>CI: Merge to main branch
+    activate CI
+    
+    Note over CI: Apply Stage (on merge)
+    CI->>TG: terragrunt apply
+    TG->>Backend: Lock state for safety
+    Backend-->>TG: State locked
+    
+    TG->>Provider: Apply infrastructure changes
+    activate Provider
+    Provider->>Provider: Create/Update/Delete resources
+    Provider-->>TG: Changes applied successfully (resources created)
+    deactivate Provider
+    
+    TG->>Backend: Save updated state file
+    Backend-->>TG: State saved
+    TG->>Backend: Release state lock
+    Backend-->>TG: Lock released
+    
+    TG-->>CI: Apply completed successfully
+    CI->>MR: Post success comment with outputs
+    deactivate CI
+```
 
 ---
 
