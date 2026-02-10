@@ -1,39 +1,6 @@
-# Terraform/OpenTofu & Terragrunt Infrastructure Guide
-```mermaid
-graph TB
-    subgraph git["Git Repository"]
-        tf["Terraform Code<br/>(main.tf, variables.tf)"]
-        tg["Terragrunt Config<br/>(terragrunt.hcl, root.hcl)"]
-    end
-    
-    subgraph gitlab["GitLab Platform"]
-        ci["CI/CD Pipeline<br/>(validate → plan → apply)"]
-        mr["Merge Request<br/>(Code Review)"]
-        mr_git["MR Trigger"]
-        reg["Module Registry<br/>(Published Modules)"]
-    end
-    
-    subgraph terraform["Terraform Execution"]
-        init["Init Phase<br/>(Download Modules)"]
-        plan["Plan Phase<br/>(Diff Calculation)"]
-        apply["Apply Phase<br/>(Resource Creation)"]
-    end
-    
-    subgraph infra["Infrastructure Backend"]
-        backend["Remote State Backend<br/>(HTTP/GitLab)"]
-        provider["Cloud Provider<br/>(AWS, Azure, etc)"]
-    end
-    
-    git -->|Push Code| mr
-    mr -->|Merge Request| mr_git
-    mr_git -->|Trigger Pipeline| ci
-    ci -->|Validate & Plan| terraform
-    terraform -->|Download Modules| reg
-    terraform -->|Fetch/Save State| backend
-    terraform -->|Create/Update Resources| provider
-    backend -->|Lock/Unlock| terraform
-    provider -->|Query Current State| backend
-```
+# Building IaC Pipelines: Terraform, OpenTofu & Terragrunt with GitLab
+![tf-tg-gl](https://github.com/user-attachments/assets/b9ccc193-ad73-4a44-a751-9ffdb5042d33)
+
 
 A comprehensive guide to setting up Infrastructure as Code (IaC) with Terraform/OpenTofu, Terragrunt, GitLab CI/CD, and GitLab registries.
 
