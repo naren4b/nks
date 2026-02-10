@@ -1,5 +1,6 @@
 # Building Robust IaC Pipelines: Terraform, OpenTofu & Terragrunt in GitLab CI/CD
-![tf-tg-gl](https://github.com/user-attachments/assets/b9ccc193-ad73-4a44-a751-9ffdb5042d33)
+![tf-tg-gl](https://github.com/user-attachments/assets/bb2d4a58-98ff-45c4-8115-54c591b03b64)
+
 
 
 A comprehensive guide to setting up Infrastructure as Code (IaC) with Terraform/OpenTofu, Terragrunt, GitLab CI/CD, and GitLab registries.
