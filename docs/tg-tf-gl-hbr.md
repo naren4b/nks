@@ -1,5 +1,6 @@
 # Harbor Infrastructure as Code (IaC) Implementation
-![tf-tg-gl-harbor-provider](https://github.com/user-attachments/assets/6fa7aeba-4e73-4a45-b430-46daed933c88)
+![tf-tg-gl-harbor-provider](https://github.com/user-attachments/assets/244857ff-da84-4622-bad6-ded1371eb6ab)
+
 Automate Harbor container registry management using the **goharbor/harbor** Terraform provider with Terragrunt and GitLab CI/CD.
 
 > **📚 New to Terraform/Terragrunt?** See [TERRAFORM_GUIDE.md](https://github.com/naren4b/nks/blob/main/docs/tg-tf-gl.md)for setup instructions, module creation, GitLab backend configuration, and CI/CD pipeline patterns.
