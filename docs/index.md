@@ -43,5 +43,7 @@
 | 27/08/2025 | [Chroma: The Open-Source Vector Store You Control](chroma.md)                                                                                        |
 | 21/09/2025 | [Why, When, How, and What about Kafka](kafka.md)                                                                                                     |
 | 10/02/2026 | [Building IaC Pipelines: Terraform, OpenTofu & Terragrunt with GitLab](tg-tf-gl.md)                                                                  |
+| 21/02/2026 | [Terragrunt Essentials: Scaling DRY Infrastructure](tg-tf-gl.md)                                                                                     |
+
 
 
