@@ -1,6 +1,22 @@
+# Terragrunt Essentials: Scaling DRY Infrastructure
 ![tf-tg-gl-tg-setup](https://github.com/user-attachments/assets/c0969d92-4f61-4244-a48f-404ef8343abe)
 
-# Concepts of Terragrunt 
+To establish a streamlined workflow for managing multi-environment infrastructure by leveraging Terragrunt to keep Terraform code "DRY" (Don't Repeat Yourself), manage remote state automatically, and orchestrate dependent modules.
+
+**The Core Problem: Terraform at Scale**
+- **Code Duplication:** Standard Terraform often leads to copying/pasting backend configurations and provider blocks across multiple environments (Dev, QA, Prod).
+- **State Management:** Manually configuring S3 buckets/DynamoDB tables for every module is error-prone.
+  
+**Terragrunt Solutions**
+- **DRY Backends**: Define the remote state configuration once in a root terragrunt.hcl file. Child modules inherit this, automatically creating the necessary S3 buckets/folders.
+- **DRY Input Variables**: Use inputs blocks to pass variables to Terraform modules without redefining them in every environment.
+- **Module Orchestration**: Use the dependency block to pass outputs from one module (e.g., a VPC) as inputs to another (e.g., an EKS cluster), ensuring they are applied in the correct order.
+- **Hook & Execute:** Run custom commands before or after Terraform execution (e.g., cleaning up cache or running security scans) using `before_hook` and `after_hook`.
+
+**^Pro-Tip:** The Folder Structure
+Organize by Account > Region > Environment > Component. This hierarchy allows Terragrunt to use find_in_parent_folders() to dynamically pull configurations based on where the command is executed.
+
+## Concepts of Terragrunt 
 
 ##  1. Terragrunt
 Terragrunt is a flexible orchestration tool that allows Infrastructure as Code written in OpenTofu/Terraform to scale.
