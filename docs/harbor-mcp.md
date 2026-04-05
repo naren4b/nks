@@ -1,4 +1,5 @@
-![https://github.com/naren4b/harbor-mcp/blob/main/mcp-harbor.jpg](https://github.com/naren4b/harbor-mcp/blob/main/mcp-harbor.jpg)
+![mcp-harbor](https://github.com/user-attachments/assets/9c16aa3d-9431-4e2e-8852-94f73275200e)
+
 
 # Harbor MCP — Talk to Your Container Registry in Plain English
 
