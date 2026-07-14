@@ -6,16 +6,7 @@ This repository publishes the Naren Kubernetes Solutions documentation site with
 
 ## Build, Test, and Development Commands
 
-Use Python 3 and a virtual environment for local work:
-
-```sh
-python -m venv .venv
-python -m pip install -r requirements.txt
-mkdocs serve
-mkdocs build --strict
-```
-
-`mkdocs serve` starts a live-reloading preview, normally at `http://127.0.0.1:8000`. Run `mkdocs build --strict` before opening a pull request; it catches invalid configuration, broken navigation, and build warnings. Deployment is automatic on pushes to `main` or `master` via GitHub Actions.
+Follow `PUBLISHING.md` for the canonical environment setup and authoring workflow. Use `python -m mkdocs serve` for a live preview and `python -m mkdocs build --strict` for validation. Deployment is automatic after a successful push to `main`.
 
 ## Coding Style & Naming Conventions
 
@@ -23,7 +14,7 @@ Write concise Markdown with descriptive headings, short paragraphs, and fenced c
 
 ## Testing Guidelines
 
-There is no unit-test suite or coverage target. Treat a clean strict MkDocs build as the required validation. Preview changed pages locally and check headings, tables, admonitions, code highlighting, internal links, and mobile readability. When adding an article, also add its dated entry to `docs/index.md`; update `README.md` when the GitHub overview should mirror it.
+There is no unit-test suite or coverage target. Treat a clean strict MkDocs build as the required validation. Preview changed pages locally and check headings, tables, admonitions, code highlighting, internal links, and mobile readability. Add every article to `mkdocs.yml`; update the homepage or README only when it should be featured.
 
 ## Commit & Pull Request Guidelines
 

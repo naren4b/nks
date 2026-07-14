@@ -24,16 +24,6 @@ Read the complete, searchable documentation at **[blog.npanda.online](https://bl
 - [Exploring VictoriaLogs](docs/victorialogs-demo.md)
 - [Harbor MCP: Talk to Your Container Registry](docs/harbor-mcp.md)
 
-## Local Preview
+## Publish an Article
 
-```sh
-python -m venv .venv
-python -m pip install -r requirements.txt
-mkdocs serve
-```
-
-Open `http://127.0.0.1:8000`. Before submitting changes, run `mkdocs build --strict`.
-
-## Contributing
-
-Articles live in `docs/`. Use lowercase kebab-case filenames, add new pages to the categorized navigation in `mkdocs.yml`, and verify all commands and links. See [AGENTS.md](AGENTS.md) for the repository guidelines.
+Follow the [article publishing guide](PUBLISHING.md) for local setup, the article template, navigation updates, validation, and deployment. Repository-wide contribution rules are in [AGENTS.md](AGENTS.md).
