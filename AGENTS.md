@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This repository publishes the Naren Kubernetes Solutions documentation site with MkDocs Material. Authoritative articles live in `docs/` as individual Markdown files; use lowercase, descriptive, hyphenated names such as `basic-harbor-registry.md`. `docs/index.md` is the site landing page and article catalog. `mkdocs.yml` defines the theme, Markdown extensions, plugins, and site metadata. The root `README.md` provides a GitHub-facing overview, while `.github/workflows/ci.yaml` deploys the site. `CNAME` configures the custom domain. Generated `site/` output must not be committed.
+This repository publishes the Naren Kubernetes Solutions documentation site with MkDocs Material. Authoritative articles live in `docs/` as individual Markdown files; use lowercase, descriptive, hyphenated names such as `basic-harbor-registry.md`. `docs/index.md` is the site landing page and article catalog. `mkdocs.yml` defines the theme, Markdown extensions, plugins, and site metadata. The root `README.md` provides a GitHub-facing overview, while `.github/workflows/ci.yaml` deploys the site. `docs/CNAME` preserves the custom domain in every deployment. Generated `site/` output must not be committed.
 
 ## Build, Test, and Development Commands
 

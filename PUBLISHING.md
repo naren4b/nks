@@ -116,6 +116,8 @@ git push -u origin docs/article-topic
 
 Open a pull request describing the article, its audience, and the validation performed. Include screenshots when layout or diagrams changed. After the pull request is merged, GitHub Actions runs a strict build and deploys `main` to GitHub Pages. Confirm the article and navigation at the live site.
 
+The custom domain is declared in `docs/CNAME`. Do not move or delete this file: MkDocs copies it into the generated site and the `gh-pages` publishing branch.
+
 ## Publication Checklist
 
 - [ ] Filename is lowercase kebab-case.

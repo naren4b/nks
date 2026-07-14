@@ -27,6 +27,9 @@ jobs:
       - name: Validate documentation
         run: mkdocs build --strict
 
+      - name: Verify custom domain artifact
+        run: test "$(cat site/CNAME)" = "blog.npanda.online"
+
       - name: Deploy to GitHub Pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: mkdocs gh-deploy --force
