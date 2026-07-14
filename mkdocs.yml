@@ -1,37 +1,108 @@
-site_name: NKS Naren Kubernetes Solutions
+site_name: Naren Cloud Architecture Lab
+site_description: Practical AWS, Kubernetes, platform engineering, GitOps, observability, DevSecOps, and AI automation guides.
+site_author: Narendranath Panda
 site_url: https://blog.npanda.online/
-repo_name: "naren4b/nks"
-repo_url: "https://github.com/naren4b/nks"
+repo_name: naren4b/nks
+repo_url: https://github.com/naren4b/nks
+
+nav:
+  - Home: index.md
+  - About: about.md
+  - Kubernetes & EKS:
+      - Resource Management: k8s-resource-management.md
+      - Cluster API Access: access-kube-api.md
+      - Cluster User Access: kubernetes-adduser.md
+      - Multiple KIND Clusters: multiple-kind-k8s-cluster.md
+      - Local KIND Cluster: mykindk8scluster.md
+      - Autoscaling: k8s-auto-scaler.md
+      - Karpenter on EKS: install-karpenter.md
+      - EKS Auto Mode with S3: eks-auto-s3.md
+      - KubeEdge Architecture: project-kube-edge.md
+      - Emissary Ingress: emissary-ingress.md
+      - Private Helm Charts: private-helm-charts.md
+  - GitOps & CI/CD:
+      - Argo CD Setup: setting-up-argocd.md
+      - Argo CD RBAC: argocd-rbac.md
+      - Argo CD OIDC: argocd-oidc-setup.md
+      - Multi-Source Applications: argocd-multi-source.md
+      - Multi-Cluster Deployment: argocd-multiple-deployment.md
+      - GitLab CI/CD Cheat Sheet: gitlab-ci-cheat-sheet.md
+      - Repository Synchronization: sync-my-git-repo.md
+  - Observability & Reliability:
+      - Monitoring Stack: setup-monitoring-stack.md
+      - Robusta: adv-monitoring-with-robusta.md
+      - VictoriaLogs: victorialogs-demo.md
+      - Vector: vector.md
+      - Loki: setup-loki-grafana-stack.md
+      - Scalable Loki: setup-loki-grafana-stack-simple-scalable.md
+      - Thanos: unlimited-monitoring-data-by-thanos.md
+      - Prometheus Pushgateway: prometheus_pushgateway.md
+      - vmagent Remote Write: adv-remotewrite-using-vmagent.md
+      - VictoriaMetrics Backup & Restore: vmbackup_and_vmrestore.md
+      - Business Continuity: bcp.md
+      - GitHub Copilot Metrics: gcp-metrics-exporter.md
+  - Security & Registries:
+      - Harbor Registry: basic-harbor-registry.md
+      - Harbor REST API: harbor-api.md
+      - Local Docker Registry: local-docker-registry.md
+      - Image Scanning: prepare-k8s-image-scanning-report.md
+      - Supply-Chain Security: cosign-syft-grype-kevyrno.md
+      - Kubernetes mTLS: secure-local-ingress.md
+      - Kubernetes PKI: k8s-nks-pki-cert-manager.md
+      - OpenSSL PKI: openssl-certificate.md
+      - Argo CD Vault Plugin: setting-up-argocd-vault-plugin.md
+      - Vault Agent Injection: setting-up-kubernetes-vault-agent.md
+      - Keycloak: install-keycloak.md
+      - Secure MinIO: secure-s3-minio.md
+  - Infrastructure & Data:
+      - Terraform & Terragrunt Pipeline: tg-tf-gl.md
+      - Terragrunt Essentials: tg-concepts.md
+      - Kafka Concepts: kafka.md
+      - Strimzi Kafka: kafka-setup.md
+      - Kafka Bridge: kafka-setup-2.md
+      - MinIO Replication: s3-bucket-replication.md
+  - AI & Automation:
+      - Naren GPT: ai-llm.md
+      - Chroma Vector Store: chroma.md
+      - YouTube Summarizer: cow_video_summary_bot.md
+      - Harbor MCP: harbor-mcp.md
+      - Python ETL: python_requests-1.md
+      - JIRA Reporting: jira-report-python-2.md
 
 theme:
   name: material
-  icon: 
-   logo: fontawesome/brands/react
   language: en
+  icon:
+    logo: material/kubernetes
   features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
     - toc.integrate
-    - navigation.right
     - search.suggest
+    - search.highlight
     - content.tabs.link
     - content.code.annotation
     - content.code.copy
     - header.autohide
-  # palette:
-  #   - scheme: default
-  #     toggle:
-  #       icon: material/toggle-switch-off-outline
-  #       name: Switch to dark mode
-  #     primary: teal
-  #     accent: purple
-  #   - scheme: slate
-  #     toggle:
-  #       icon: material/toggle-switch
-  #       name: Switch to light mode
-  #     primary: teal
-  #     accent: lime
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
 plugins:
   - search
-  - social
 
 markdown_extensions:
   - pymdownx.highlight:
@@ -47,19 +118,16 @@ markdown_extensions:
   - pymdownx.mark
   - attr_list
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 extra:
-  analytics:
-    provider: google
   social:
     - icon: fontawesome/brands/github-alt
       link: https://github.com/naren4b
-    - icon: fontawesome/brands/twitter
+    - icon: fontawesome/brands/x-twitter
       link: https://x.com/Narentwtr
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/narendranathpanda/
 
-copyright: |
-  &copy; 2024 <a href="https://github.com/naren4b"  target="_blank" rel="noopener">Narendranath Panda</a>
+copyright: Copyright &copy; 2022&ndash;2026 Narendranath Panda

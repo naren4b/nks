@@ -21,7 +21,7 @@ A comprehensive guide to setting up Infrastructure as Code (IaC) with Terraform/
 | [7. GitLab Module Registry](#7-gitlab-module-registry) | Publishing and consuming modules |
 | [8. CI/CD Pipeline Setup](#8-cicd-pipeline-setup) | Automated workflows |
 | [9. Best Practices](#9-best-practices) | Production-ready patterns |
-| [10. References](#10-references) | External documentation |
+| [11. References](#11-references) | External documentation |
 
 ---
 
