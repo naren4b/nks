@@ -3,7 +3,7 @@
 
 Automate Harbor container registry management using the **goharbor/harbor** Terraform provider with Terragrunt and GitLab CI/CD.
 
-> **📚 New to Terraform/Terragrunt?** See [TERRAFORM_GUIDE.md](https://github.com/naren4b/nks/blob/main/docs/tg-tf-gl.md)for setup instructions, module creation, GitLab backend configuration, and CI/CD pipeline patterns.
+> **📚 New to Terraform/Terragrunt?** See the [Terraform, OpenTofu, and Terragrunt guide](tg-tf-gl.md) for setup instructions, module creation, GitLab backend configuration, and CI/CD pipeline patterns.
 
 ---
 
@@ -64,7 +64,7 @@ This project provides Infrastructure as Code for Harbor registry management:
 
 ### General Prerequisites
 
-See [TERRAFORM_GUIDE.md - Prerequisites](TERRAFORM_GUIDE.md#1-prerequisites) for:
+See [Terraform guide prerequisites](tg-tf-gl.md#1-prerequisites) for:
 - Terraform/OpenTofu installation
 - Terragrunt installation
 - GitLab setup
@@ -389,7 +389,7 @@ export HARBOR_PASSWORD_dev='dev-password'
 
 **Required for GitLab Backend:**
 
-See [TERRAFORM_GUIDE.md - GitLab Remote Backend](TERRAFORM_GUIDE.md#4-gitlab-remote-backend)
+See [GitLab remote backend](tg-tf-gl.md#4-gitlab-remote-backend).
 
 ```bash
 export TF_HTTP_USERNAME='<gitlab-username>'
@@ -733,7 +733,7 @@ Set in GitLab Project → Settings → CI/CD → Variables:
 
 ## 10. CI/CD Pipeline
 
-For general CI/CD pipeline setup, see [TERRAFORM_GUIDE.md - CI/CD Pipeline Setup](TERRAFORM_GUIDE.md#8-cicd-pipeline-setup).
+For general CI/CD pipeline setup, see [CI/CD pipeline setup](tg-tf-gl.md#8-cicd-pipeline-setup).
 
 ### Harbor-Specific Pipeline
 
@@ -921,7 +921,7 @@ Check replication policy filters match your image names and tags.
 
 ### State Lock Issues
 
-See [TERRAFORM_GUIDE.md - State Management](TERRAFORM_GUIDE.md#5-state-management)
+See [state management](tg-tf-gl.md#5-state-management).
 
 ```bash
 # Force unlock if stuck
@@ -951,7 +951,7 @@ terragrunt plan --terragrunt-log-level debug
 
 ### Generic Guides
 
-- [Terraform/Terragrunt Setup Guide](TERRAFORM_GUIDE.md)
+- [Terraform, OpenTofu, and Terragrunt Setup Guide](tg-tf-gl.md)
 - [GitLab Terraform Integration](https://docs.gitlab.com/ee/user/infrastructure/iac/)
 
 ---

@@ -55,7 +55,9 @@ nav:
       - Keycloak: install-keycloak.md
       - Secure MinIO: secure-s3-minio.md
   - Infrastructure & Data:
+      - AWS IAM & Terraform Backend: aws-terraform-iam.md
       - Terraform & Terragrunt Pipeline: tg-tf-gl.md
+      - Harbor Infrastructure as Code: tg-tf-gl-hbr.md
       - Terragrunt Essentials: tg-concepts.md
       - Kafka Concepts: kafka.md
       - Strimzi Kafka: kafka-setup.md
