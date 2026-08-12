@@ -7,30 +7,15 @@ repo_url: https://github.com/naren4b/nks
 
 nav:
   - Home: index.md
-  - About: about.md
-  - Kubernetes & EKS:
-      - Resource Management: k8s-resource-management.md
-      - Cluster API Access: access-kube-api.md
-      - Cluster User Access: kubernetes-adduser.md
-      - Multiple KIND Clusters: multiple-kind-k8s-cluster.md
-      - Local KIND Cluster: mykindk8scluster.md
-      - Autoscaling: k8s-auto-scaler.md
-      - Karpenter on EKS: install-karpenter.md
+  - Career Progression: career-journey.md
+  - AWS Solutions Architecture:
+      - AWS Architecture Hub: aws-architecture.md
+      - IAM & Terraform Backend: aws-terraform-iam.md
+      - Karpenter on Amazon EKS: install-karpenter.md
       - EKS Auto Mode with S3: eks-auto-s3.md
-      - KubeEdge Architecture: project-kube-edge.md
-      - Emissary Ingress: emissary-ingress.md
-      - Private Helm Charts: private-helm-charts.md
-  - GitOps & CI/CD:
-      - Argo CD Setup: setting-up-argocd.md
-      - Argo CD RBAC: argocd-rbac.md
-      - Argo CD OIDC: argocd-oidc-setup.md
-      - Multi-Source Applications: argocd-multi-source.md
-      - Multi-Cluster Deployment: argocd-multiple-deployment.md
-      - GitLab CI/CD Cheat Sheet: gitlab-ci-cheat-sheet.md
-      - Repository Synchronization: sync-my-git-repo.md
-  - Observability & Reliability:
+  - SRE & Observability:
       - Monitoring Stack: setup-monitoring-stack.md
-      - Robusta: adv-monitoring-with-robusta.md
+      - Robusta Automation: adv-monitoring-with-robusta.md
       - VictoriaLogs: victorialogs-demo.md
       - Vector: vector.md
       - Loki: setup-loki-grafana-stack.md
@@ -38,9 +23,30 @@ nav:
       - Thanos: unlimited-monitoring-data-by-thanos.md
       - Prometheus Pushgateway: prometheus_pushgateway.md
       - vmagent Remote Write: adv-remotewrite-using-vmagent.md
-      - VictoriaMetrics Backup & Restore: vmbackup_and_vmrestore.md
+      - Backup & Restore: vmbackup_and_vmrestore.md
       - Business Continuity: bcp.md
       - GitHub Copilot Metrics: gcp-metrics-exporter.md
+  - Kubernetes & Cloud Native:
+      - Resource Management: k8s-resource-management.md
+      - Cluster API Access: access-kube-api.md
+      - Cluster User Access: kubernetes-adduser.md
+      - Multiple KIND Clusters: multiple-kind-k8s-cluster.md
+      - Local KIND Cluster: mykindk8scluster.md
+      - Autoscaling: k8s-auto-scaler.md
+      - KubeEdge Architecture: project-kube-edge.md
+      - Emissary Ingress: emissary-ingress.md
+      - Private Helm Charts: private-helm-charts.md
+  - Platform Engineering & GitOps:
+      - Argo CD Setup: setting-up-argocd.md
+      - Argo CD RBAC: argocd-rbac.md
+      - Argo CD OIDC: argocd-oidc-setup.md
+      - Multi-Source Applications: argocd-multi-source.md
+      - Multi-Cluster Deployment: argocd-multiple-deployment.md
+      - GitLab CI/CD Cheat Sheet: gitlab-ci-cheat-sheet.md
+      - Repository Synchronization: sync-my-git-repo.md
+      - Terraform & Terragrunt Pipeline: tg-tf-gl.md
+      - Terragrunt Essentials: tg-concepts.md
+      - Harbor Infrastructure as Code: tg-tf-gl-hbr.md
   - Security & Registries:
       - Harbor Registry: basic-harbor-registry.md
       - Harbor REST API: harbor-api.md
@@ -54,11 +60,7 @@ nav:
       - Vault Agent Injection: setting-up-kubernetes-vault-agent.md
       - Keycloak: install-keycloak.md
       - Secure MinIO: secure-s3-minio.md
-  - Infrastructure & Data:
-      - AWS IAM & Terraform Backend: aws-terraform-iam.md
-      - Terraform & Terragrunt Pipeline: tg-tf-gl.md
-      - Harbor Infrastructure as Code: tg-tf-gl-hbr.md
-      - Terragrunt Essentials: tg-concepts.md
+  - Data & Messaging:
       - Kafka Concepts: kafka.md
       - Strimzi Kafka: kafka-setup.md
       - Kafka Bridge: kafka-setup-2.md
@@ -70,6 +72,7 @@ nav:
       - Harbor MCP: harbor-mcp.md
       - Python ETL: python_requests-1.md
       - JIRA Reporting: jira-report-python-2.md
+  - About: about.md
 
 theme:
   name: material

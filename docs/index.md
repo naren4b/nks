@@ -1,43 +1,45 @@
-# Naren Cloud Architecture Lab
+# From Site Reliability Engineering to AWS Solutions Architecture
 
-Practical AWS, Kubernetes, platform engineering, GitOps, observability, DevSecOps, and AI automation guides based on real implementation experience.
+Welcome to my cloud architecture portfolio. I am **Narendranath Panda**, a Cloud and Platform Architect with 19+ years of infrastructure experience. This portal documents my progression from operating reliable systems as an SRE to designing secure, scalable, and cost-aware solutions on AWS.
 
-I am **Narendranath Panda**, a Cloud and Platform Architect with 19+ years of experience designing, modernizing, and operating enterprise infrastructure. This site turns that experience into reproducible labs, architecture patterns, and implementation notes.
-
-[Explore Kubernetes :material-kubernetes:](k8s-resource-management.md){ .md-button .md-button--primary }
-[View Architecture Projects](project-kube-edge.md){ .md-button }
+[Explore My Journey](career-journey.md){ .md-button .md-button--primary }
+[Browse AWS Architecture](aws-architecture.md){ .md-button }
 [About Me](about.md){ .md-button }
 
-## Featured Architecture Guides
+## My Engineering Progression
 
-### Platform Engineering & GitOps
+### 1. SRE Foundations
 
-- [Orchestrating Thousands of Kubernetes Clusters through Argo CD](argocd-multiple-deployment.md)
-- [Argo CD Multi-Source Applications](argocd-multi-source.md)
-- [Building IaC Pipelines with Terraform, OpenTofu, and Terragrunt](tg-tf-gl.md)
-- [Terragrunt Essentials: Scaling DRY Infrastructure](tg-concepts.md)
+I started with the operational disciplines that make systems dependable: monitoring, logging, capacity management, backup and recovery, incident prevention, and measurable reliability.
 
-### Kubernetes & Security
+**Evidence:** [VictoriaLogs](victorialogs-demo.md) · [Thanos](unlimited-monitoring-data-by-thanos.md) · [Business Continuity](bcp.md) · [Backup and Restore](vmbackup_and_vmrestore.md)
 
-- [Securing Kubernetes Traffic with mTLS](secure-local-ingress.md)
-- [Software Supply-Chain Security with Syft and Grype](cosign-syft-grype-kevyrno.md)
-- [Harbor Registry on Kubernetes](basic-harbor-registry.md)
-- [Kubernetes Secrets with Argo CD Vault Plugin](setting-up-argocd-vault-plugin.md)
+### 2. Cloud-Native & Kubernetes Engineering
 
-### Observability & Reliability
+I expanded those reliability practices into container platforms—managing Kubernetes resources, cluster access, ingress, autoscaling, certificates, secrets, and workload security.
 
-- [Exploring VictoriaLogs](victorialogs-demo.md)
-- [Long-Term Prometheus Storage with Thanos](unlimited-monitoring-data-by-thanos.md)
-- [Kubernetes Monitoring and Automation with Robusta](adv-monitoring-with-robusta.md)
-- [RPO, RTO, and MTD in Business Continuity](bcp.md)
+**Evidence:** [Kubernetes Resource Management](k8s-resource-management.md) · [Cluster Access](kubernetes-adduser.md) · [mTLS](secure-local-ingress.md) · [Image Security](cosign-syft-grype-kevyrno.md)
 
-### AI & Automation
+### 3. Platform Engineering & GitOps
 
-- [Naren GPT: A Personal Local AI Assistant](ai-llm.md)
-- [Harbor MCP: Talk to Your Container Registry](harbor-mcp.md)
-- [YouTube-to-Google-Sheets Summarizer](cow_video_summary_bot.md)
-- [Chroma Vector Store](chroma.md)
+I moved from operating individual clusters to creating repeatable platforms with Argo CD, CI/CD, reusable infrastructure modules, policy-driven delivery, and multi-cluster automation.
 
-## Start Exploring
+**Evidence:** [Multi-Cluster Argo CD](argocd-multiple-deployment.md) · [IaC Pipelines](tg-tf-gl.md) · [Terragrunt](tg-concepts.md) · [Harbor IaC](tg-tf-gl-hbr.md)
 
-Use the categorized navigation to browse all guides, or search for a specific technology. Each article focuses on practical setup, architecture decisions, validation, and operational lessons.
+### 4. AWS Solutions Architecture
+
+My current focus applies the same operational depth to AWS architecture: identity, networking, compute, storage, resilience, security, observability, automation, and cost optimization. The goal is to connect design decisions to business outcomes and the AWS Well-Architected pillars.
+
+**Evidence:** [AWS IAM and Terraform Backend](aws-terraform-iam.md) · [EKS Auto Mode with S3](eks-auto-s3.md) · [Karpenter on EKS](install-karpenter.md)
+
+## Architecture Principles
+
+- Design for failure, recovery, and measurable service objectives.
+- Automate infrastructure and delivery through version-controlled workflows.
+- Apply least privilege, layered security, and auditable access.
+- Balance reliability, performance, sustainability, and cost.
+- Document trade-offs, validation steps, and production considerations.
+
+## Explore the Portfolio
+
+Use the navigation to follow the progression in order, or start with the dedicated [AWS Architecture](aws-architecture.md) hub. Each guide captures practical implementation work and the architecture reasoning behind it.
