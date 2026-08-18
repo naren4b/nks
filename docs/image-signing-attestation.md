@@ -1,4 +1,4 @@
-![cosign-image-problem](https://github.com/user-attachments/assets/472c6d00-1329-4b2f-adac-a0e3a3fece22)
+![cosign-image-problem](./images/cosign-image-problem.jpg)
 
 Trusted Registry ≠ Trusted Image
 
@@ -148,7 +148,7 @@ Main benefits:
 
 **Image signing ensures image authenticity; image attestation provides verifiable evidence about the image’s build and security posture, and together they help prevent untrusted or unsafe container images from being deployed.**
 
-![cosign-image-solution](https://github.com/user-attachments/assets/0c752c38-2d2b-475b-914b-2767efe7bb0f)
+![cosign-image-solution](./images/cosign-image-solution.jpg)
 
 ```bash
 mkdir my-service
