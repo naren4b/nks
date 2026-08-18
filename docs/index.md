@@ -18,7 +18,7 @@ I started with the operational disciplines that make systems dependable: monitor
 
 I expanded those reliability practices into container platforms—managing Kubernetes resources, cluster access, ingress, autoscaling, certificates, secrets, and workload security.
 
-**Evidence:** [Kubernetes Resource Management](k8s-resource-management.md) · [Cluster Access](kubernetes-adduser.md) · [mTLS](secure-local-ingress.md) · [Image Security](cosign-syft-grype-kevyrno.md)
+**Evidence:** [Kubernetes Resource Management](k8s-resource-management.md) · [Cluster Access](kubernetes-adduser.md) · [mTLS](secure-local-ingress.md) · [Image Security](cosign-syft-grype-kevyrno.md) . [Supply-chain Attestation](image-signing-attestation.md)
 
 ### 3. Platform Engineering & GitOps
 

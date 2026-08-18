@@ -1,0 +1,43 @@
+
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "subject": [
+    {
+      "name": "registry.example.com/myapp",
+      "digest": {
+        "sha256": "3f1c2b7e8a9d4e6f1234567890abcdef1234567890abcdef1234567890abcd"
+      }
+    }
+  ],
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "https://example.com/docker-build",
+      "externalParameters": {
+        "repository": "https://git.example.com/team/myapp.git",
+        "ref": "refs/heads/main"
+      },
+      "internalParameters": {
+        "dockerfile": "Dockerfile"
+      },
+      "resolvedDependencies": [
+        {
+          "uri": "git+https://git.example.com/team/myapp.git@refs/heads/main",
+          "digest": {
+            "sha1": "a1b2c3d4e5f678901234567890abcdef12345678"
+          }
+        }
+      ]
+    },
+    "runDetails": {
+      "builder": {
+        "id": "https://ci.example.com/builders/central-ci"
+      },
+      "metadata": {
+        "invocationId": "build-2026-08-18-001",
+        "startedOn": "2026-08-18T09:15:00Z",
+        "finishedOn": "2026-08-18T09:18:42Z"
+      }
+    }
+  }
+}

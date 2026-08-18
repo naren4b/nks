@@ -53,6 +53,7 @@ nav:
       - Local Docker Registry: local-docker-registry.md
       - Image Scanning: prepare-k8s-image-scanning-report.md
       - Supply-Chain Security: cosign-syft-grype-kevyrno.md
+      - Advanced Supply-Chain Security: image-signing-attestation.md
       - Kubernetes mTLS: secure-local-ingress.md
       - Kubernetes PKI: k8s-nks-pki-cert-manager.md
       - OpenSSL PKI: openssl-certificate.md
