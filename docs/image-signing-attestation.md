@@ -1,6 +1,6 @@
 ![cosign-image-problem](./images/cosign-image-problem.jpg)
 
-Trusted Registry ≠ Trusted Image
+# Trusted Registry ≠ Trusted Image
 
 Image signing ensures image authenticity; image attestation provides verifiable evidence about the image’s build and security posture, and together they help prevent untrusted or unsafe container images from being deployed.
 
