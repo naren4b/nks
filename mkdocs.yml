@@ -8,6 +8,11 @@ repo_url: https://github.com/naren4b/nks
 nav:
   - Home: index.md
   - Career Progression: career-journey.md
+  - Linux & Talos:
+      - linux/index.md
+      - System Setup: linux/system-setup.md
+      - Slowness Investigation: linux/slowness-investigation.md
+      - Command Reference: linux/slowness-commands.md
   - AWS Solutions Architecture:
       - AWS Architecture Hub: aws-architecture.md
       - IAM & Terraform Backend: aws-terraform-iam.md

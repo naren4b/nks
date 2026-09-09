@@ -1,21 +1,90 @@
 # Repository Guidelines
 
-## Project Structure & Module Organization
+This repository publishes **Naren Cloud Architecture Lab**, a static MkDocs Material site of hands-on cloud and platform engineering guides by Narendranath Panda.
 
-This repository publishes the Naren Kubernetes Solutions documentation site with MkDocs Material. Authoritative articles live in `docs/` as individual Markdown files; use lowercase, descriptive, hyphenated names such as `basic-harbor-registry.md`. `docs/index.md` is the site landing page and article catalog. `mkdocs.yml` defines the theme, Markdown extensions, plugins, and site metadata. The root `README.md` provides a GitHub-facing overview, while `.github/workflows/ci.yaml` deploys the site. `docs/CNAME` preserves the custom domain in every deployment. Generated `site/` output must not be committed.
+- Live site: https://blog.npanda.online/
+- GitHub: https://github.com/naren4b/nks
+- Human publishing workflow: `PUBLISHING.md`
 
-## Build, Test, and Development Commands
+This is documentation, not an application. There is no app server, database, or unit-test suite.
 
-Follow `PUBLISHING.md` for the canonical environment setup and authoring workflow. Use `python -m mkdocs serve` for a live preview and `python -m mkdocs build --strict` for validation. Deployment is automatic after a successful push to `main`.
+## Project Structure
 
-## Coding Style & Naming Conventions
+| Path | Purpose |
+| --- | --- |
+| `docs/` | Authoritative Markdown articles. One file per article. |
+| `docs/index.md` | Homepage: career/portfolio narrative, not a full catalog. |
+| `docs/images/` | Repository-owned images. Reference with relative paths such as `./images/name.jpg`. |
+| `docs/linux/` | Published Linux and Talos runbooks. Keep them in `nav:` under Linux & Talos. |
+| `docs/CNAME` | Custom domain `blog.npanda.online`. Do not move, rename, or delete. |
+| `mkdocs.yml` | Site metadata, theme, plugins, and **the published article catalog**. |
+| `requirements.txt` | Pinned `mkdocs-material==9.6.14`. |
+| `.github/workflows/ci.yaml` | Python 3.12 strict build on PRs; `mkdocs gh-deploy --force` on push to `main`. |
+| `site/` | Generated output. Gitignored. Never commit. |
 
-Write concise Markdown with descriptive headings, short paragraphs, and fenced code blocks that specify a language (`yaml`, `sh`, or `python`). Keep command examples reproducible and explain placeholders. Use relative links for repository content and verify image paths from the rendered page. Follow the existing two-space YAML indentation in `mkdocs.yml`; do not use tabs. Name new articles in lowercase kebab-case and keep product names capitalized consistently (for example, Kubernetes, Argo CD, and GitLab).
+Root scratch files such as `chat.txt` and `provenece.json` are not site content. Do not link them from the docs.
 
-## Testing Guidelines
+## Commands
 
-There is no unit-test suite or coverage target. Treat a clean strict MkDocs build as the required validation. Preview changed pages locally and check headings, tables, admonitions, code highlighting, internal links, and mobile readability. Add every article to `mkdocs.yml`; update the homepage or README only when it should be featured.
+Python 3.12 matches CI. Create the venv once, then:
 
-## Commit & Pull Request Guidelines
+```sh
+python -m pip install -r requirements.txt
+python -m mkdocs serve                 # live preview, typically http://127.0.0.1:8000
+python -m mkdocs build --strict        # required validation (same as CI)
+git diff --check
+```
 
-Recent commits use short, imperative subjects such as `Add Harbor MCP entry to documentation index` and `Revise article dates`. Keep each commit focused and describe the content affected. Pull requests should summarize the documentation change, list validation performed, link relevant issues, and include screenshots for theme, layout, table, or image changes. Never commit credentials, tokens, private cluster addresses, or real certificate material; use clearly labeled placeholders instead.
+After a merge to `main`, GitHub Actions deploys automatically. Confirm the article and navigation on the live site. Do not run `mkdocs gh-deploy` locally unless explicitly asked.
+
+## Adding or Changing Articles
+
+Follow `PUBLISHING.md`. Required steps:
+
+1. Create `docs/<article-slug>.md` using lowercase kebab-case.
+2. Add the article **once** under the matching `nav:` category in `mkdocs.yml`.
+3. Add it to `docs/index.md` only if it is a featured guide.
+4. Add it to `README.md` only if it is among the repository’s strongest work.
+5. Run `python -m mkdocs build --strict` before considering the work done.
+
+Do not create a parallel catalog. Navigation in `mkdocs.yml` is the source of truth.
+
+Current `nav:` categories: Home, Career Progression, Linux & Talos, AWS Solutions Architecture, SRE & Observability, Kubernetes & Cloud Native, Platform Engineering & GitOps, Security & Registries, Data & Messaging, AI & Automation, About.
+
+New AWS articles should map decisions to Well-Architected pillars (see `docs/aws-architecture.md`).
+
+## Markdown Conventions
+
+- Start with one `#` title and a short outcome-focused introduction.
+- Use the section template in `PUBLISHING.md` for **new** articles. Do not rewrite older lab-note articles into that template unless asked.
+- Fenced code blocks must declare a language (`yaml`, `sh`, `bash`, `python`).
+- Keep command examples reproducible. Explain placeholders.
+- Use relative links between articles (`career-journey.md`, not `/career-journey/`).
+- Images need descriptive alt text. Prefer files under `docs/images/` with relative paths. Existing GitHub CDN image URLs may stay; do not convert them unless asked.
+- Two-space indentation in YAML. No tabs.
+- Articles do not use YAML frontmatter.
+- Material admonitions (`!!! note`, `!!! warning`) are enabled but unused; use them only when they add signal.
+- Capitalize product names consistently: Kubernetes, Argo CD, GitLab, Harbor, Terraform, OpenTofu, Terragrunt, Amazon EKS.
+
+Voice: first person on `about.md`, `career-journey.md`, and `index.md`. Elsewhere, write as practical implementation guides. Do not add LinkedIn-style hashtags or emoji-heavy titles on new work.
+
+## Validation
+
+Treat a clean strict MkDocs build as the required check. `--strict` fails on missing files and broken internal links, so every `nav:` entry and in-article relative link must resolve.
+
+Also check headings, tables, code highlighting, image paths from the rendered page, and that the article appears in the correct nav section.
+
+## Git and Pull Requests
+
+This project lives on GitHub (`naren4b/nks`), not GitLab.
+
+- Branch from latest `main` as `docs/<article-topic>`.
+- Commit with a short imperative subject describing the content affected, for example `Add Harbor MCP entry to documentation index`.
+- Keep commits focused. Do not mix article work with unrelated CI or branding changes.
+- Pull requests should summarize the change, audience, and validation (`mkdocs build --strict`). Include screenshots when theme, layout, tables, or images change.
+
+## Security
+
+Never commit credentials, tokens, private cluster addresses, customer names, real certificates, or kubeconfigs. Use obvious placeholders such as `<AWS_ACCOUNT_ID>` and `registry.example.com`. Do not copy values from local clusters into articles.
+
+Ignore Windows `*:Zone.Identifier` files (already in `.gitignore`). Do not add them.

@@ -12,7 +12,7 @@ Welcome to my cloud architecture portfolio. I am **Narendranath Panda**, a Cloud
 
 I started with the operational disciplines that make systems dependable: monitoring, logging, capacity management, backup and recovery, incident prevention, and measurable reliability.
 
-**Evidence:** [VictoriaLogs](victorialogs-demo.md) · [Thanos](unlimited-monitoring-data-by-thanos.md) · [Business Continuity](bcp.md) · [Backup and Restore](vmbackup_and_vmrestore.md)
+**Evidence:** [Linux and Talos Operations](linux/index.md) · [VictoriaLogs](victorialogs-demo.md) · [Thanos](unlimited-monitoring-data-by-thanos.md) · [Business Continuity](bcp.md) · [Backup and Restore](vmbackup_and_vmrestore.md)
 
 ### 2. Cloud-Native & Kubernetes Engineering
 
