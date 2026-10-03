@@ -12,25 +12,25 @@ Welcome to my cloud architecture portfolio. I am **Narendranath Panda**, an Ente
 
 I started with the operational disciplines that make systems dependable: monitoring, logging, capacity management, backup and recovery, incident prevention, and measurable reliability.
 
-**Evidence:** [Linux and Talos Operations](linux/index.md) · [VictoriaLogs](victorialogs-demo.md) · [Thanos](unlimited-monitoring-data-by-thanos.md) · [Business Continuity](bcp.md) · [Backup and Restore](vmbackup_and_vmrestore.md)
+**Practical guides:** [Linux and Talos Operations](linux/index.md) · [VictoriaLogs](victorialogs-demo.md) · [Thanos](unlimited-monitoring-data-by-thanos.md) · [Business Continuity](bcp.md) · [Backup and Restore](vmbackup_and_vmrestore.md)
 
 ### 2. Cloud-Native & Kubernetes Engineering
 
 I expanded those reliability practices into container platforms—managing Kubernetes resources, cluster access, ingress, autoscaling, certificates, secrets, and workload security.
 
-**Evidence:** [Kubernetes Resource Management](k8s-resource-management.md) · [Cluster Access](kubernetes-adduser.md) · [mTLS](secure-local-ingress.md) · [Image Security](cosign-syft-grype-kevyrno.md) . [Supply-chain Attestation](image-signing-attestation.md)
+**Practical guides:** [Kubernetes Resource Management](k8s-resource-management.md) · [Cluster Access](kubernetes-adduser.md) · [mTLS](secure-local-ingress.md) · [Image Security](cosign-syft-grype-kevyrno.md) · [Supply-chain Attestation](image-signing-attestation.md)
 
 ### 3. Platform Engineering & GitOps
 
 I moved from operating individual clusters to creating repeatable platforms with Argo CD, CI/CD, reusable infrastructure modules, policy-driven delivery, and multi-cluster automation.
 
-**Evidence:** [Multi-Cluster Argo CD](argocd-multiple-deployment.md) · [IaC Pipelines](tg-tf-gl.md) · [Terragrunt](tg-concepts.md) · [Harbor IaC](tg-tf-gl-hbr.md)
+**Practical guides:** [Multi-Cluster Argo CD](argocd-multiple-deployment.md) · [IaC Pipelines](tg-tf-gl.md) · [Terragrunt](tg-concepts.md) · [Harbor IaC](tg-tf-gl-hbr.md)
 
 ### 4. AWS Solutions Architecture
 
 My current focus applies the same operational depth to AWS architecture: identity, networking, compute, storage, resilience, security, observability, automation, and cost optimization. The goal is to connect design decisions to business outcomes and the AWS Well-Architected pillars.
 
-**Evidence:** [AWS IAM and Terraform Backend](aws-terraform-iam.md) · [EKS Auto Mode with S3](eks-auto-s3.md) · [Karpenter on EKS](install-karpenter.md)
+**Practical guides:** [AWS IAM and Terraform Backend](aws-terraform-iam.md) · [EKS Auto Mode with S3](eks-auto-s3.md) · [Karpenter on EKS](install-karpenter.md)
 
 ## Architecture Principles
 
