@@ -10,6 +10,8 @@ Kelsey Hightower's *Zero Token Architecture* talk offers a useful starting
 point: use inference to discover a solution, capture the understood procedure
 as software, and run it without repeated inference.
 
+![Design illustration from the original Zero Token Architecture LinkedIn post](assets/zero-token-architecture/ai-zero-token.jpg)
+
 !!! tip "The architecture decision"
     Decide which steps need new reasoning and which steps can execute known
     rules. Keep that boundary explicit.
