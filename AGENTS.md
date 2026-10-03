@@ -88,3 +88,13 @@ This project lives on GitHub (`naren4b/nks`), not GitLab.
 Never commit credentials, tokens, private cluster addresses, customer names, real certificates, or kubeconfigs. Use obvious placeholders such as `<AWS_ACCOUNT_ID>` and `registry.example.com`. Do not copy values from local clusters into articles.
 
 Ignore Windows `*:Zone.Identifier` files (already in `.gitignore`). Do not add them.
+
+## Career identity and evidence quality
+
+Read rules/career-branding-constitution.md and rules/writing-tone.md from
+naren4b/my-ai-hub/main for career or author-related changes. The hub branding
+templates own the managed homepage/About regions; preserve their approved text.
+Apply evidence-first quality to articles: connect design choices to outcomes,
+qualify metrics and distinguish production experience, prototypes and plans.
+A topic change does not authorize a new author bio or five-area plan.
+Preserve existing learning history and independent article content.
