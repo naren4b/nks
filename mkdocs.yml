@@ -7,6 +7,7 @@ repo_url: https://github.com/naren4b/nks
 
 nav:
   - Home: index.md
+  - Articles: articles.md
   - Career Progression: career-journey.md
   - Linux & Talos:
       - linux/index.md
@@ -52,6 +53,7 @@ nav:
       - Terraform & Terragrunt Pipeline: tg-tf-gl.md
       - Terragrunt Essentials: tg-concepts.md
       - Harbor Infrastructure as Code: tg-tf-gl-hbr.md
+      - Blog Publication Design: blog-publication-design.md
   - Security & Registries:
       - Harbor Registry: basic-harbor-registry.md
       - Harbor REST API: harbor-api.md
@@ -113,6 +115,9 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
 
+hooks:
+  - hooks/article_index.py
+
 plugins:
   - search
 
@@ -126,7 +131,11 @@ markdown_extensions:
       generic: true
   - footnotes
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.mark
   - attr_list
   - pymdownx.emoji:

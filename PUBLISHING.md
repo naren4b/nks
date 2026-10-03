@@ -2,6 +2,9 @@
 
 Use this workflow to add an article, preview it locally, and publish it to [blog.npanda.online](https://blog.npanda.online/).
 
+For the category rules and both delivery routes, see
+[Blog Publication Design](docs/blog-publication-design.md).
+
 ## 1. Prepare the Repository
 
 Create a focused branch from the latest `main`:
@@ -33,6 +36,8 @@ Start from this structure and remove sections that do not apply:
 
 ````markdown
 # Clear, Outcome-Focused Article Title
+
+Published: YYYY-MM-DD
 
 A short introduction explaining the problem, audience, and result.
 
@@ -84,6 +89,8 @@ Edit `nav:` in `mkdocs.yml` and add the file under one appropriate category:
 - Kubernetes & EKS:
     - Private EKS Cluster: eks-private-cluster.md
 ```
+
+Use the intended original publication date below the H1. Keep it unchanged when editing. The Articles page and homepage latest list are generated automatically from dated navigation entries. Older guides without dates appear separately; do not invent historical dates.
 
 Every article belongs in navigation. Add it to `docs/index.md` only if it is a featured guide. Add it to `README.md` only if it represents the repository’s strongest work; this avoids maintaining duplicate article catalogs.
 
