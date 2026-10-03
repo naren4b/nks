@@ -1,6 +1,18 @@
 # Narendranath Panda
 
-I am an Enterprise Cloud & Platform Architect with 20+ years of experience across enterprise software and infrastructure. My focus is AWS, Kubernetes, DevOps, and SRE. My career connects software engineering, reliable operations, platform modernization, and cloud solutions architecture.
+<!-- branding:about:start -->
+I am an Enterprise Cloud & Platform Architect with 20+ years of experience across enterprise software and infrastructure. My Nokia work connects platform modernization, distributed Kubernetes operations, delivery automation, observability, and technical leadership.
+
+My career and portfolio focus on five areas:
+
+1. **Data-centre and Kubernetes modernization:** reliable platforms, migration, delivery automation, observability, and governance.
+2. **Multi-region data centres and edge fleets:** distributed operations, fleet lifecycle, resilience, and secure provisioning.
+3. **Production platforms for AI and agentic applications:** secure deployment, evaluation, observability, and operations; developed through prototypes and portfolio work.
+4. **Architecture leadership and delivery:** roadmaps, task planning, technical mentoring, and cross-team execution.
+5. **AWS Solutions Architecture:** hybrid-cloud design, migration choices, security, reliability, and cost trade-offs.
+
+The AI platform direction builds on my production platform engineering experience and AI-assisted engineering prototypes. Secure edge provisioning is an active learning and portfolio area. Each project describes its scope and maturity.
+<!-- branding:about:end -->
 
 ## How My Experience Connects
 
@@ -21,5 +33,7 @@ I am building deeper AWS architecture coverage around the AWS Well-Architected F
 
 - [GitHub](https://github.com/naren4b)
 - [LinkedIn](https://www.linkedin.com/in/narendranathpanda/)
+<!-- branding:contact:start -->
 - [Email](mailto:narendranathpanda@gmail.com)
+<!-- branding:contact:end -->
 - [X](https://x.com/Narentwtr)
