@@ -1,6 +1,6 @@
 # From Site Reliability Engineering to AWS Solutions Architecture
 
-Welcome to my cloud architecture portfolio. I am **Narendranath Panda**, a Cloud and Platform Architect with 19+ years of infrastructure experience. This portal documents my progression from operating reliable systems as an SRE to designing secure, scalable, and cost-aware solutions on AWS.
+Welcome to my cloud architecture portfolio. I am **Narendranath Panda**, an Enterprise Cloud & Platform Architect with 20+ years of experience across enterprise software and infrastructure. My focus is AWS, Kubernetes, DevOps, and SRE. This portal documents my progression from operating reliable systems to designing secure, scalable, and cost-aware cloud platforms.
 
 [Explore My Journey](career-journey.md){ .md-button .md-button--primary }
 [Browse AWS Architecture](aws-architecture.md){ .md-button }
