@@ -2,10 +2,11 @@
   "zero-token-architecture": {
     "category": "AI & Automation",
     "files": {
-      "docs/zero-token-architecture.md": "0120486e0ed521d08b158948b5cdd3f320afc1ece5e6b77415871e7431d4b014"
+      "docs/assets/zero-token-architecture/ai-zero-token.jpg": "1828d0ec86dce959660f88a2ba028a123575355e47f937963a1ad7bd4f80d6cc",
+      "docs/zero-token-architecture.md": "fef6568b928805d450023e527c34bd9ba10d9218c420568d9fd229ff481fe3cd"
     },
     "nav_line": "      - \"Zero Token Architecture: Reason Once, Automate What Repeats\": zero-token-architecture.md",
     "source_package": "zero-token-architecture",
-    "source_revision": "cc2609d3e2636734cc64714be24eb83ff8ee5bde"
+    "source_revision": "a3d87cf5590aef848db840c9ebd3828ad265d25d"
   }
 }
