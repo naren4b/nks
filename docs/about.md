@@ -1,6 +1,6 @@
 # Narendranath Panda
 
-I am a Cloud and Platform Architect with 19+ years of experience designing, modernizing, and operating enterprise infrastructure. My career has progressed from reliability-focused operations and SRE practices to Kubernetes platform engineering and AWS solutions architecture.
+I am an Enterprise Cloud & Platform Architect with 20+ years of experience across enterprise software and infrastructure. My focus is AWS, Kubernetes, DevOps, and SRE. My career connects software engineering, reliable operations, platform modernization, and cloud solutions architecture.
 
 ## How My Experience Connects
 
@@ -21,4 +21,5 @@ I am building deeper AWS architecture coverage around the AWS Well-Architected F
 
 - [GitHub](https://github.com/naren4b)
 - [LinkedIn](https://www.linkedin.com/in/narendranathpanda/)
+- [Email](mailto:narendranathpanda@gmail.com)
 - [X](https://x.com/Narentwtr)
