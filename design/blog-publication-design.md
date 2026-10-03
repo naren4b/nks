@@ -1,7 +1,5 @@
 # Blog Publication Design
 
-Published: 2026-10-03
-
 This design documents how a manually prepared article reaches Naren Cloud
 Architecture Lab, either directly through the blog repository or through a
 LinkedIn companion package. Both routes use reviewed pull requests.
@@ -50,7 +48,7 @@ The blog uses the `nav:` sections in `mkdocs.yml` as its article categories.
 | LinkedIn companion | `publish.json` field `category` | Syndication renderer |
 | Direct blog article | Existing section under `nav:` | Article author |
 
-For example, [Zero Token Architecture](zero-token-architecture.md) belongs
+For example, [Zero Token Architecture](../../docs/zero-token-architecture.md) belongs
 under **AI & Automation**. The category is selected by the author or publishing
 agent; the workflow uses that selection.
 
@@ -111,7 +109,7 @@ or repository README links only when the article is selected as featured work.
 
 ## Chronological Discovery
 
-The [Articles](articles.md) page lists dated articles newest first. The homepage previews the latest five. Both lists are generated from the existing navigation and each article’s `Published: YYYY-MM-DD` line; there is no second catalog to maintain.
+The [Articles](../../docs/articles.md) page lists dated articles newest first. The homepage previews the latest five. Both lists are generated from the existing navigation and each article’s `Published: YYYY-MM-DD` line; there is no second catalog to maintain.
 
 For a direct article, put its intended original publication date below the H1 before opening the PR. Syndication supplies this line from the package date. Keep the original date when editing an article. Same-day entries sort by title. Older guides without recorded dates appear separately; file modification times are not publication dates.
 
@@ -126,9 +124,7 @@ A successful syndication run means a proposal was prepared, not that the
 article is live. Blog merge triggers deployment, and live verification is a
 separate completion step. LinkedIn posting remains manual.
 
-## Diagram Rendering
+## Repository-Only Reference
 
-The site uses Material for MkDocs native Mermaid support through the existing
-SuperFences extension. See [the official diagram configuration][diagrams].
-
-[diagrams]: https://squidfunk.github.io/mkdocs-material/reference/diagrams/
+This document lives outside MkDocs' docs directory. View its Mermaid sequence
+in GitHub. It is excluded from blog builds, navigation, search and article lists.

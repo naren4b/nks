@@ -12,7 +12,8 @@ This is documentation, not an application. There is no app server, database, or 
 
 | Path | Purpose |
 | --- | --- |
-| `docs/` | Authoritative Markdown articles. One file per article. |
+| `docs/` | Public Markdown articles. One file per article. |
+| `design/` | Repository-only design and workflow references. Never publish or add to site navigation. |
 | `docs/index.md` | Homepage: career/portfolio narrative, not a full catalog. |
 | `docs/images/` | Repository-owned images. Reference with relative paths such as `./images/name.jpg`. |
 | `docs/linux/` | Published Linux and Talos runbooks. Keep them in `nav:` under Linux & Talos. |
@@ -21,6 +22,9 @@ This is documentation, not an application. There is no app server, database, or 
 | `requirements.txt` | Pinned `mkdocs-material==9.6.14`. |
 | `.github/workflows/ci.yaml` | Python 3.12 strict build on PRs; `mkdocs gh-deploy --force` on push to `main`. |
 | `site/` | Generated output. Gitignored. Never commit. |
+
+Keep internal publishing instructions and design references outside `docs/`.
+Removing a nav entry alone does not exclude a page from the generated site.
 
 Root scratch files such as `chat.txt` and `provenece.json` are not site content. Do not link them from the docs.
 
