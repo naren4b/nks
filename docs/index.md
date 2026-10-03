@@ -1,5 +1,11 @@
 # From Site Reliability Engineering to AWS Solutions Architecture
 
+## Latest Articles
+
+<!-- recent-articles -->
+
+[Browse all articles](articles.md){ .md-button .md-button--primary }
+
 <!-- branding:home:start -->
 Welcome to my cloud architecture portfolio. I am **Narendranath Panda**, an Enterprise Cloud & Platform Architect with 20+ years of experience across enterprise software and infrastructure.
 

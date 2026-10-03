@@ -7,6 +7,7 @@ repo_url: https://github.com/naren4b/nks
 
 nav:
   - Home: index.md
+  - Articles: articles.md
   - Career Progression: career-journey.md
   - Linux & Talos:
       - linux/index.md
@@ -113,6 +114,9 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
 
+hooks:
+  - hooks/article_index.py
+
 plugins:
   - search
 
@@ -126,7 +130,11 @@ markdown_extensions:
       generic: true
   - footnotes
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.mark
   - attr_list
   - pymdownx.emoji:
