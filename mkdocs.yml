@@ -78,6 +78,7 @@ nav:
       - Harbor MCP: harbor-mcp.md
       - Python ETL: python_requests-1.md
       - JIRA Reporting: jira-report-python-2.md
+      - "Zero Token Architecture: Reason Once, Automate What Repeats": zero-token-architecture.md
   - About: about.md
 
 theme:
