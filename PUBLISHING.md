@@ -3,7 +3,11 @@
 Use this workflow to add an article, preview it locally, and publish it to [blog.npanda.online](https://blog.npanda.online/).
 
 For the category rules and both delivery routes, see
-[Blog Publication Design](docs/blog-publication-design.md).
+[Blog Publication Design](design/blog-publication-design.md).
+
+Internal workflow and design references belong under `design/`, outside the
+published `docs/` tree. Removing a navigation entry alone does not prevent
+MkDocs from publishing a file.
 
 ## 1. Prepare the Repository
 
