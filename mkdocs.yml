@@ -53,7 +53,6 @@ nav:
       - Terraform & Terragrunt Pipeline: tg-tf-gl.md
       - Terragrunt Essentials: tg-concepts.md
       - Harbor Infrastructure as Code: tg-tf-gl-hbr.md
-      - Blog Publication Design: blog-publication-design.md
   - Security & Registries:
       - Harbor Registry: basic-harbor-registry.md
       - Harbor REST API: harbor-api.md
