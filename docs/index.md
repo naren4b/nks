@@ -9,9 +9,9 @@
 <!-- branding:home:start -->
 Welcome to my cloud architecture portfolio. I am **Narendranath Panda**, an Enterprise Cloud & Platform Architect with 20+ years of experience across enterprise software and infrastructure.
 
-My career and portfolio connect five areas: **data-centre and Kubernetes modernization**, **multi-region data centres and edge fleets**, **production platforms for AI and agentic applications**, **architecture leadership and delivery**, and **AWS Solutions Architecture**.
+My work is organized around four connected pillars: **Enterprise Platform Architecture**, **AWS Architecture**, **AI Platform Engineering**, and **Technical Leadership**.
 
-The articles connect architecture choices with delivery, security, reliability, and operations. Project pages distinguish professional experience, prototypes, and learning labs.
+The articles connect architecture decisions with delivery, security, reliability, observability, cost and operations. Public material is curated from private projects, labs and case studies, with professional experience, prototypes and learning clearly distinguished.
 <!-- branding:home:end -->
 
 [Explore My Journey](career-journey.md){ .md-button .md-button--primary }

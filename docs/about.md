@@ -1,17 +1,16 @@
 # Narendranath Panda
 
 <!-- branding:about:start -->
-I am an Enterprise Cloud & Platform Architect with 20+ years of experience across enterprise software and infrastructure. My Nokia work connects platform modernization, distributed Kubernetes operations, delivery automation, observability, and technical leadership.
+I am an Enterprise Cloud & Platform Architect with 20+ years of experience across enterprise software and infrastructure. My work connects cloud and Kubernetes modernization, distributed platforms, AWS architecture, production-oriented AI platforms, and technical leadership.
 
-My career and portfolio focus on five areas:
+My career portfolio is organized around four connected pillars:
 
-1. **Data-centre and Kubernetes modernization:** reliable platforms, migration, delivery automation, observability, and governance.
-2. **Multi-region data centres and edge fleets:** distributed operations, fleet lifecycle, resilience, and secure provisioning.
-3. **Production platforms for AI and agentic applications:** secure deployment, evaluation, observability, and operations; developed through prototypes and portfolio work.
-4. **Architecture leadership and delivery:** roadmaps, task planning, technical mentoring, and cross-team execution.
-5. **AWS Solutions Architecture:** hybrid-cloud design, migration choices, security, reliability, and cost trade-offs.
+1. **Enterprise Platform Architecture:** Kubernetes and cloud platforms, data-centre modernization, secure edge fleets, GitOps, observability and platform operations.
+2. **AWS Architecture:** hybrid-cloud design, migration, security, reliability, networking and cost-aware architecture.
+3. **AI Platform Engineering:** taking AI and agentic workloads toward secure, scalable and observable production platforms.
+4. **Technical Leadership:** architecture decisions, engineering direction, mentoring and cross-team delivery.
 
-The AI platform direction builds on my production platform engineering experience and AI-assisted engineering prototypes. Secure edge provisioning is an active learning and portfolio area. Each project describes its scope and maturity.
+The public material here focuses on architecture decisions, trade-offs, implementation lessons and reusable patterns. Professional experience, prototypes and learning labs are distinguished by their evidence and maturity.
 <!-- branding:about:end -->
 
 ## How My Experience Connects
