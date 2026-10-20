@@ -1,20 +1,36 @@
-# Security & Supply Chain
+# Security
 
-Security controls for software delivery, Kubernetes, registries, identity,
-secrets and cryptographic trust.
+Security engineering for software delivery, Kubernetes, registries, identity
+and cryptographic trust.
 
-## Articles
+<div class="grid cards" markdown>
 
-- [Harbor Registry](basic-harbor-registry.md)
-- [Harbor REST API](harbor-api.md)
-- [Local Docker Registry](local-docker-registry.md)
-- [Image Scanning](prepare-k8s-image-scanning-report.md)
-- [Supply-Chain Security](cosign-syft-grype-kevyrno.md)
-- [Advanced Supply-Chain Security](image-signing-attestation.md)
-- [Kubernetes mTLS](secure-local-ingress.md)
-- [Kubernetes PKI](k8s-nks-pki-cert-manager.md)
-- [OpenSSL PKI](openssl-certificate.md)
-- [Argo CD Vault Plugin](setting-up-argocd-vault-plugin.md)
-- [Vault Agent Injection](setting-up-kubernetes-vault-agent.md)
-- [Keycloak](install-keycloak.md)
-- [Secure MinIO](secure-s3-minio.md)
+-   :material-package-variant-closed-check:{ .lg .middle } **Software Supply Chain**
+
+    ---
+
+    Image scanning, signing, attestations and registry controls.
+
+    [Supply-Chain Security](cosign-syft-grype-kevyrno.md) ·
+    [Advanced Attestation](image-signing-attestation.md)
+
+-   :material-docker:{ .lg .middle } **Registries**
+
+    ---
+
+    Harbor, local registries and secure artifact distribution.
+
+    [Harbor Registry](basic-harbor-registry.md) ·
+    [Harbor REST API](harbor-api.md)
+
+-   :material-key-chain:{ .lg .middle } **Identity, PKI & Secrets**
+
+    ---
+
+    mTLS, certificates, Vault integration, identity and secure storage.
+
+    [Kubernetes PKI](k8s-nks-pki-cert-manager.md) ·
+    [Vault Agent](setting-up-kubernetes-vault-agent.md) ·
+    [Keycloak](install-keycloak.md)
+
+</div>
