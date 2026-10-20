@@ -7,85 +7,24 @@ repo_url: https://github.com/naren4b/nks
 
 nav:
   - Home: index.md
+  - Architecture:
+      - Overview: architecture.md
+      - AWS Architecture: aws-architecture.md
+      - Kubernetes & Cloud Native: kubernetes.md
+  - Platform:
+      - Overview: platform.md
+      - GitOps & Delivery: gitops-delivery.md
+      - SRE & Observability: observability.md
+  - Security:
+      - Overview: security.md
+  - AI:
+      - Overview: ai-automation.md
+      - Confidential AI: nitro-enclave-model-attestation.md
+  - Miscellaneous:
+      - Overview: miscellaneous.md
+      - Linux & Talos: linux/index.md
+      - Data & Messaging: data-messaging.md
   - Articles: articles.md
-  - Cloud Architecture:
-      - AWS:
-          - AWS Architecture Hub: aws-architecture.md
-          - IAM & Terraform Backend: aws-terraform-iam.md
-          - Karpenter on Amazon EKS: install-karpenter.md
-          - EKS Auto Mode with S3: eks-auto-s3.md
-      - Kubernetes:
-          - Resource Management: k8s-resource-management.md
-          - Cluster API Access: access-kube-api.md
-          - Cluster User Access: kubernetes-adduser.md
-          - Multiple KIND Clusters: multiple-kind-k8s-cluster.md
-          - Local KIND Cluster: mykindk8scluster.md
-          - Autoscaling: k8s-auto-scaler.md
-          - KubeEdge Architecture: project-kube-edge.md
-          - Emissary Ingress: emissary-ingress.md
-          - Private Helm Charts: private-helm-charts.md
-      - Linux & Talos:
-          - linux/index.md
-          - System Setup: linux/system-setup.md
-          - Slowness Investigation: linux/slowness-investigation.md
-          - Command Reference: linux/slowness-commands.md
-      - Data & Messaging:
-          - Kafka Concepts: kafka.md
-          - Strimzi Kafka: kafka-setup.md
-          - Kafka Bridge: kafka-setup-2.md
-          - MinIO Replication: s3-bucket-replication.md
-  - Platform Engineering:
-      - GitOps:
-          - Argo CD Setup: setting-up-argocd.md
-          - Argo CD RBAC: argocd-rbac.md
-          - Argo CD OIDC: argocd-oidc-setup.md
-          - Multi-Source Applications: argocd-multi-source.md
-          - Multi-Cluster Deployment: argocd-multiple-deployment.md
-          - GitLab CI/CD Cheat Sheet: gitlab-ci-cheat-sheet.md
-          - Repository Synchronization: sync-my-git-repo.md
-          - Terraform & Terragrunt Pipeline: tg-tf-gl.md
-          - Terragrunt Essentials: tg-concepts.md
-          - Harbor Infrastructure as Code: tg-tf-gl-hbr.md
-      - SRE & Observability:
-          - Monitoring Stack: setup-monitoring-stack.md
-          - Robusta Automation: adv-monitoring-with-robusta.md
-          - VictoriaLogs: victorialogs-demo.md
-          - Vector: vector.md
-          - Loki: setup-loki-grafana-stack.md
-          - Scalable Loki: setup-loki-grafana-stack-simple-scalable.md
-          - Thanos: unlimited-monitoring-data-by-thanos.md
-          - Prometheus Pushgateway: prometheus_pushgateway.md
-          - vmagent Remote Write: adv-remotewrite-using-vmagent.md
-          - Backup & Restore: vmbackup_and_vmrestore.md
-          - Business Continuity: bcp.md
-          - GitHub Copilot Metrics: gcp-metrics-exporter.md
-  - Security & AI:
-      - Security & Registries:
-          - Harbor Registry: basic-harbor-registry.md
-          - Harbor REST API: harbor-api.md
-          - Local Docker Registry: local-docker-registry.md
-          - Image Scanning: prepare-k8s-image-scanning-report.md
-          - Supply-Chain Security: cosign-syft-grype-kevyrno.md
-          - Advanced Supply-Chain Security: image-signing-attestation.md
-          - Kubernetes mTLS: secure-local-ingress.md
-          - Kubernetes PKI: k8s-nks-pki-cert-manager.md
-          - OpenSSL PKI: openssl-certificate.md
-          - Argo CD Vault Plugin: setting-up-argocd-vault-plugin.md
-          - Vault Agent Injection: setting-up-kubernetes-vault-agent.md
-          - Keycloak: install-keycloak.md
-          - Secure MinIO: secure-s3-minio.md
-      - AI & Automation:
-          - Naren GPT: ai-llm.md
-          - Chroma Vector Store: chroma.md
-          - YouTube Summarizer: cow_video_summary_bot.md
-          - Harbor MCP: harbor-mcp.md
-          - Confidential AI Model Attestation: nitro-enclave-model-attestation.md
-          - Python ETL: python_requests-1.md
-          - JIRA Reporting: jira-report-python-2.md
-          - "Zero Token Architecture: Reason Once, Automate What Repeats": zero-token-architecture.md
-      - About:
-          - About Me: about.md
-          - Career Progression: career-journey.md
 
 theme:
   name: material
