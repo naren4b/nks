@@ -1,44 +1,48 @@
 # Articles
 
-Browse recent articles in newest-first order, or explore the main topic areas.
+Browse the full article archive, or start with one of the main topic areas.
 
 <div class="grid cards" markdown>
 
--   :material-cloud-outline:{ .lg .middle } **Cloud Architecture**
+-   :material-cloud-outline:{ .lg .middle } **Architecture**
 
     ---
 
-    AWS, Kubernetes, Linux, Talos, data and messaging architecture.
+    AWS, Kubernetes and cloud-native architecture.
 
--   :material-source-branch:{ .lg .middle } **Platform Engineering**
+    [Explore Architecture](architecture.md)
+
+-   :material-source-branch:{ .lg .middle } **Platform**
 
     ---
 
     GitOps, CI/CD, SRE, observability and platform operations.
 
+    [Explore Platform](platform.md)
+
 -   :material-shield-lock-outline:{ .lg .middle } **Security**
 
     ---
 
-    DevSecOps, registries, software supply-chain security, PKI and secrets.
+    Software supply chain, registries, PKI, identity and secrets.
 
--   :material-robot-outline:{ .lg .middle } **AI & Automation**
+    [Explore Security](security.md)
 
-    ---
-
-    AI platforms, automation, MCP, confidential AI and reusable AI patterns.
-
--   :material-kubernetes:{ .lg .middle } **Kubernetes**
+-   :material-robot-outline:{ .lg .middle } **AI**
 
     ---
 
-    Cluster architecture, access, autoscaling, ingress and cloud-native patterns.
+    AI applications, MCP, automation and confidential AI.
 
--   :material-chart-line:{ .lg .middle } **Observability**
+    [Explore AI](ai-automation.md)
+
+-   :material-dots-horizontal-circle-outline:{ .lg .middle } **Miscellaneous**
 
     ---
 
-    Metrics, logs, monitoring, resilience, backup and recovery.
+    Linux, Talos, data, messaging and practical engineering utilities.
+
+    [Explore Miscellaneous](miscellaneous.md)
 
 </div>
 
