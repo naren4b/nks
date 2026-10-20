@@ -1,14 +1,34 @@
-# AI & Automation
+# AI
 
-AI applications, automation patterns, MCP and secure AI infrastructure.
+AI applications, agentic tooling, automation patterns and secure AI
+infrastructure.
 
-## Articles
+<div class="grid cards" markdown>
 
-- [Naren GPT](ai-llm.md)
-- [Chroma Vector Store](chroma.md)
-- [YouTube Summarizer](cow_video_summary_bot.md)
-- [Harbor MCP](harbor-mcp.md)
-- [Confidential AI Model Attestation](nitro-enclave-model-attestation.md)
-- [Python ETL](python_requests-1.md)
-- [JIRA Reporting](jira-report-python-2.md)
-- [Zero Token Architecture](zero-token-architecture.md)
+-   :material-brain:{ .lg .middle } **AI Applications**
+
+    ---
+
+    LLM applications, vector search and practical AI experimentation.
+
+    [Naren GPT](ai-llm.md) · [Chroma Vector Store](chroma.md) ·
+    [YouTube Summarizer](cow_video_summary_bot.md)
+
+-   :material-connection:{ .lg .middle } **Agents & MCP**
+
+    ---
+
+    Tool-connected AI and reusable automation patterns.
+
+    [Harbor MCP](harbor-mcp.md) ·
+    [Zero Token Architecture](zero-token-architecture.md)
+
+-   :material-lock-check-outline:{ .lg .middle } **Secure AI Infrastructure**
+
+    ---
+
+    Protected model execution and cryptographic attestation.
+
+    [Confidential AI Model Attestation](nitro-enclave-model-attestation.md)
+
+</div>
