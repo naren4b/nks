@@ -1,5 +1,15 @@
 # Enterprise Observability at Scale: The Right Data, People, Retention, Cost and Control
 
+
+## End-to-end observability design pillars
+
+<!-- Image awaiting upload to docs/assets/enterprise-observability-at-scale/observability-end-end-pillars.jpg.
+     After upload, replace this comment with:
+![Six layers of enterprise observability, from telemetry sources through processing, retention, AI governance, access controls and stakeholder views](assets/enterprise-observability-at-scale/observability-end-end-pillars.jpg)
+-->
+
+The design spans purposeful collection, processing and buffering, storage retention, human-governed AI, tenant isolation and role-specific access. The accompanying image will summarize these layers.
+
 Enterprise observability is not just a technology stack for collecting logs, metrics and traces. It is a shared operational capability that must meet different needs without compromising security, reliability or cost.
 
 ## Objective
