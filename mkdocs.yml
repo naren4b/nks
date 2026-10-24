@@ -15,6 +15,7 @@ nav:
       - Overview: platform.md
       - GitOps & Delivery: gitops-delivery.md
       - SRE & Observability: observability.md
+      - Secure Distributed Telemetry on AWS: secure-scalable-telemetry-aws-distributed-sites.md
       - Enterprise Observability at Scale: enterprise-observability-at-scale.md
   - Security:
       - Overview: security.md
