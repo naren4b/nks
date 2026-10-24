@@ -1,5 +1,13 @@
 # Architecting Secure and Scalable Telemetry on AWS for Distributed Sites
 
+
+## AWS telemetry reference diagram
+
+<!-- Upload the original image to docs/assets/secure-scalable-telemetry-aws-distributed-sites/aws-telemetry.jpg.
+     Then enable:
+![AWS architecture showing separate business, metrics and logging pipelines, private EKS workloads and Kinesis buffering](assets/secure-scalable-telemetry-aws-distributed-sites/aws-telemetry.jpg)
+-->
+
 Published: 2026-08-21
 
 Distributed sites often send metrics and logs into a central cloud platform while customers and operators access business applications separately. These workloads should not be forced through one processing path.
