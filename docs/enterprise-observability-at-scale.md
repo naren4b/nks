@@ -1,10 +1,5 @@
 # Enterprise Observability at Scale: The Right Data, People, Retention, Cost and Control
 
-Enterprise observability is not just a technology stack for collecting logs, metrics and traces. It is a shared operational capability that must meet different needs without compromising security, reliability or cost.
-
-## Objective
-
-Explore the architecture choices behind multi-stakeholder observability in distributed and multi-tenant platforms, including tenant isolation, retention, resilience and AI-assisted analysis under human control. This is a conceptual design discussion, not a claim of a deployed end-to-end implementation.
 
 ## End-to-end observability design pillars
 
@@ -14,6 +9,12 @@ Explore the architecture choices behind multi-stakeholder observability in distr
 -->
 
 The design spans purposeful collection, processing and buffering, storage retention, human-governed AI, tenant isolation and role-specific access. The accompanying image will summarize these layers.
+
+Enterprise observability is not just a technology stack for collecting logs, metrics and traces. It is a shared operational capability that must meet different needs without compromising security, reliability or cost.
+
+## Objective
+
+Explore the architecture choices behind multi-stakeholder observability in distributed and multi-tenant platforms, including tenant isolation, retention, resilience and AI-assisted analysis under human control. This is a conceptual design discussion, not a claim of a deployed end-to-end implementation.
 
 ## Who is the platform for?
 
