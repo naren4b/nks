@@ -6,6 +6,15 @@ Enterprise observability is not just a technology stack for collecting logs, met
 
 Explore the architecture choices behind multi-stakeholder observability in distributed and multi-tenant platforms, including tenant isolation, retention, resilience and AI-assisted analysis under human control. This is a conceptual design discussion, not a claim of a deployed end-to-end implementation.
 
+## End-to-end observability design pillars
+
+<!-- Image awaiting upload to docs/assets/enterprise-observability-at-scale/observability-end-end-pillars.jpg.
+     After upload, replace this comment with:
+![Six layers of enterprise observability, from telemetry sources through processing, retention, AI governance, access controls and stakeholder views](assets/enterprise-observability-at-scale/observability-end-end-pillars.jpg)
+-->
+
+The design spans purposeful collection, processing and buffering, storage retention, human-governed AI, tenant isolation and role-specific access. The accompanying image will summarize these layers.
+
 ## Who is the platform for?
 
 | Consumer | Primary need | Critical boundary |
