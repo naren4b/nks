@@ -53,7 +53,18 @@ and newer use the kubeadm `v1beta4` configuration API. Older kind binaries can
 generate a `v1beta3` config that newer node images reject. kind `v0.33.0`
 supports the newer API.
 
-Install kubectl from the
+The Kubernetes 1.37 API server supports kubectl versions 1.36 through 1.38.
+This guide pins `v1.37.1`. Install it on Linux AMD64 and verify its checksum:
+
+~~~bash
+curl -LO https://dl.k8s.io/release/v1.37.1/bin/linux/amd64/kubectl
+curl -LO https://dl.k8s.io/release/v1.37.1/bin/linux/amd64/kubectl.sha256
+echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+kubectl version --client
+~~~
+
+For other operating systems and architectures, use the
 [Kubernetes install guide](https://kubernetes.io/docs/tasks/tools/).
 
 Confirm Docker is reachable and review existing local clusters before creating
