@@ -128,13 +128,16 @@ helm --kube-context "$CONTEXT" upgrade --install n42-gateway \
 Wait for the controller and confirm it is scheduled on the control-plane node:
 
 ~~~~sh
-kubectl --context "$CONTEXT" -n n42-gateway-system rollout status \
-  daemonset/n42-gateway-haproxy-ingress
+kubectl --context "$CONTEXT" -n n42-gateway-system get daemonsets
 kubectl --context "$CONTEXT" -n n42-gateway-system get pods -o wide
 ~~~~
 
-If the DaemonSet name differs in the installed chart, use the name shown by
-kubectl get daemonsets -n n42-gateway-system.
+Use the DaemonSet name shown by the first command to check rollout status:
+
+~~~~sh
+kubectl --context "$CONTEXT" -n n42-gateway-system rollout status \\
+  daemonset/<daemonset-name>
+~~~~
 
 ### 4. Add a GatewayClass, Gateway, and sample application route
 
