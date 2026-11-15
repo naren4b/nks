@@ -9,15 +9,17 @@ application's own repository.
 >
 > | Component | Version | Notes |
 > | --- | --- | --- |
-> | kind | `v0.33.0` | Current upstream release |
+> | Docker Engine | `29.1.3` | Observed in the WSL2 lab |
+> | kind | `v0.33.0` | Use this release for new clusters; `v0.20.0` is too old for current node images |
 > | Kubernetes node image | `v1.34.11` | Selected supported image published for kind v0.33.0, pinned by digest below |
-> | kubectl | `v1.34.x` | Prefer a matching Kubernetes minor release for this lab |
+> | kubectl | `v1.35.3` | Observed client; supported with Kubernetes `v1.34.11` by the one-minor skew policy |
 > | kind config API | `kind.x-k8s.io/v1alpha4` | Current kind cluster config API |
 >
 > Check the [kind release notes](https://github.com/kubernetes-sigs/kind/releases)
 > and [Kubernetes release page](https://kubernetes.io/releases/) before starting
 > a new lab. The kind node image does not always use the newest Kubernetes patch.
-> This lab intentionally uses Kubernetes v1.34.11 rather than kind's v1.37.0 default.\nUse the exact image and digest published for your kind release.
+> This lab intentionally uses Kubernetes v1.34.11 rather than kind's v1.37.0 default.
+> Use the exact image and digest published for your kind release.
 
 ## 1. Prerequisites
 
@@ -48,17 +50,19 @@ Confirm the output reports `kind v0.33.0`. If more than one copy is installed,
 run `type -a kind` and make sure your shell uses the new binary. For other
 architectures, use the matching binary listed in the official quick start.
 
-This version matters for the pinned Kubernetes image below. Kubernetes 1.36
-and newer use the kubeadm `v1beta4` configuration API. Older kind binaries can
-generate a `v1beta3` config that newer node images reject. kind `v0.33.0`
-supports the newer API.
+The kind binary and node image must be compatible. The reported kind
+`v0.20.0` is too old for the Kubernetes `v1.37.0` node image in the failed
+attempt. That image rejected the generated kubeadm `v1beta3` configuration.
+Use kind `v0.33.0` and the pinned Kubernetes `v1.34.11` image below. kind's
+release notes list the exact node image digests supported by each release.
 
-The Kubernetes 1.37 API server supports kubectl versions 1.36 through 1.38.
-This guide pins `v1.37.1`. Install it on Linux AMD64 and verify its checksum:
+The Kubernetes version skew policy supports kubectl within one minor version
+of the API server. This lab uses Kubernetes `v1.34.11` with the observed
+kubectl `v1.35.3`. To install that client on Linux AMD64 and verify its checksum:
 
 ~~~bash
-curl -LO https://dl.k8s.io/release/v1.37.1/bin/linux/amd64/kubectl
-curl -LO https://dl.k8s.io/release/v1.37.1/bin/linux/amd64/kubectl.sha256
+curl -LO https://dl.k8s.io/release/v1.35.3/bin/linux/amd64/kubectl
+curl -LO https://dl.k8s.io/release/v1.35.3/bin/linux/amd64/kubectl.sha256
 echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 kubectl version --client
