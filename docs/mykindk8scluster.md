@@ -1,283 +1,156 @@
-![IMG_E5385](https://github.com/naren4b/nks/assets/3488520/08e281f5-640e-4fe6-915d-6c11526b79b2)
+# Local Kubernetes with kind
 
-# Create the Certificates
+Use [kind](https://kind.sigs.k8s.io/) to run a multi-node Kubernetes cluster
+inside Docker. This guide covers the generic cluster setup. Keep application
+manifests, ports, ingress settings and workload-specific sizing in the
+application's own repository.
 
-```bash
-NAME=konark
-CLUSTER_NAME=$NAME-cluster
-HOST=$NAME.local.com
-APP_NAME=$NAME-app
-NAMESPACE=$NAME-demo
-echo $CLUSTER_NAME, $HOST,$APP_NAME,$NAMESPACE
+> **Version baseline, checked 15 November 2026**
+>
+> | Component | Version | Notes |
+> | --- | --- | --- |
+> | kind | `v0.33.0` | Current upstream release |
+> | Kubernetes node image | `v1.37.0` | Image published for kind v0.33.0, pinned by digest below |
+> | kubectl | `v1.37.1` | Latest patch in the same Kubernetes minor release |
+> | kind config API | `kind.x-k8s.io/v1alpha4` | Current kind cluster config API |
+>
+> Check the [kind release notes](https://github.com/kubernetes-sigs/kind/releases)
+> and [Kubernetes release page](https://kubernetes.io/releases/) before starting
+> a new lab. The kind node image does not always use the newest Kubernetes patch.
+> Use the exact image listed for your kind release.
 
-mkdir ${APP_NAME}
-cd ${APP_NAME}
+## 1. Prerequisites
 
-```
+Run these commands in the environment where Docker and kind are installed.
+On Windows, a WSL2 distribution with Docker Desktop's WSL integration is one
+supported option.
 
-# Create KIND cluster
+~~~bash
+docker version
+docker info
+kind version
+kubectl version --client
+~~~
 
-```bash
-mkdir -p $NAME
-cd $NAME
-cat > ${CLUSTER_NAME}-config.yaml <<EOF
+Install kind using its
+[official quick start](https://kind.sigs.k8s.io/docs/user/quick-start/).
+The pinned release used for this guide is `v0.33.0`. Install kubectl from the
+[Kubernetes install guide](https://kubernetes.io/docs/tasks/tools/).
+
+Confirm Docker is reachable and review existing local clusters before creating
+another one:
+
+~~~bash
+kind get clusters
+kubectl config get-contexts
+df -h .
+~~~
+
+## 2. Configure a multi-node cluster
+
+This example creates one control-plane node and two worker nodes. It pins the
+Kubernetes node image by digest and maps host ports 8080 and 8443 to the
+control-plane node. Change the name and ports to fit the lab.
+
+~~~bash
+CLUSTER_NAME=dev-cluster
+mkdir -p "$CLUSTER_NAME"
+cd "$CLUSTER_NAME"
+
+cat > kind-config.yaml <<'EOF'
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
-name: ${CLUSTER_NAME}
+name: dev-cluster
 nodes:
 - role: control-plane
-  image: kindest/node:v1.22.2
+  image: kindest/node:v1.37.0@sha256:a1ed56cfb0e7b93589bdf97c8cd566405a265939e3620fc4f5de89adff580ae5
   extraPortMappings:
   - containerPort: 80
-    hostPort: 80
+    hostPort: 8080
+    listenAddress: "127.0.0.1"
   - containerPort: 443
-    hostPort: 443
-  - containerPort: 1024
-    hostPort: 1024
+    hostPort: 8443
+    listenAddress: "127.0.0.1"
 - role: worker
-  image: kindest/node:v1.22.2
+  image: kindest/node:v1.37.0@sha256:a1ed56cfb0e7b93589bdf97c8cd566405a265939e3620fc4f5de89adff580ae5
 - role: worker
-  image: kindest/node:v1.22.2
-- role: worker
-  image: kindest/node:v1.22.2
+  image: kindest/node:v1.37.0@sha256:a1ed56cfb0e7b93589bdf97c8cd566405a265939e3620fc4f5de89adff580ae5
 EOF
+~~~
 
-kind create cluster --name ${CLUSTER_NAME} --config ${CLUSTER_NAME}-config.yaml
+The `name:` in the YAML must match the intended cluster name. If you change
+`CLUSTER_NAME`, update `name:` in the file as well. Port mappings only make
+ports available on the host. An application or ingress controller must still
+listen on the mapped container port.
 
-kubectl cluster-info --context kind-${CLUSTER_NAME}
+## 3. Create and verify the cluster
 
-kubectl label nodes ${CLUSTER_NAME}-control-plane ingress-ready="true"
+Review the config, then create the cluster:
 
-```
+~~~bash
+kind create cluster --name "$CLUSTER_NAME" --config kind-config.yaml
+kubectl config current-context
+kubectl --context "kind-$CLUSTER_NAME" get nodes -o wide
+kubectl --context "kind-$CLUSTER_NAME" get storageclass
+kubectl --context "kind-$CLUSTER_NAME" get pods -A
+~~~
 
-# Deploy ingress controller
+Use the explicit context in lab commands. This avoids sending commands to a
+different cluster selected in the current kubeconfig.
 
-```
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
-kubectl get pod -n ingress-nginx
-```
+kind includes a default local-path StorageClass for disposable local labs.
+Confirm it is present before testing a PersistentVolumeClaim. Do not use this
+storage as a production durability or backup solution.
 
-# Deploy Storage class
+## 4. Networking and ingress
 
-```bash
-kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
-# For tetsing
-kubectl create -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/examples/pvc/pvc.yaml
-kubectl create -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/examples/pod/pod.yaml
-kubectl get pv
-kubectl get pvc
-kubectl exec volume-test -- sh -c "echo local-path-test > /data/test"
-kubectl exec volume-test -- sh cat /data/test
+This guide does not install an ingress controller. Choose one controller or
+Gateway API implementation that is supported by the application stack, then
+follow its current official installation guide. Keep its version and values
+pinned in the application repository.
 
-ssh <kubernetes node ip>
-$ ls /var/lib/rancher/k3s/storage/
+The old ingress-nginx installation URL in this guide used the moving `main`
+branch. The ingress-nginx project announced retirement after March 2026, so
+do not copy that historical install command into a new setup. See the
+[project retirement notice](https://github.com/kubernetes/ingress-nginx).
 
-```
+## 5. Load a local application image
 
-# Build a sample application
+Build an image from the application's directory, then load it into this
+cluster. Keep the Dockerfile, manifests and image tag with that application.
 
-```bash
-# Create an index page
+~~~bash
+docker build -t sample-app:0.1.0 .
+kind load docker-image sample-app:0.1.0 --name "$CLUSTER_NAME"
+~~~
 
-cat > index.html <<EOF
-<!DOCTYPE html>
-<html>
-<body>
-<img src="https://github.com/naren4b/nks/assets/3488520/08e281f5-640e-4fe6-915d-6c11526b79b2"  width="600" height="500">
-</body>
-</html>
-EOF
+Set the Pod's `imagePullPolicy` to `IfNotPresent` (or `Never`) when using a
+locally loaded image, so Kubernetes does not try to pull it from a registry.
 
-# An Error Page
+## 6. Remove the cluster
 
-cat > error.html <<EOF
-<!DOCTYPE html>
-<html>
-<body>
-<p style="color:red;">You don't have access to this page at ${HOST} </p>
-</body>
-</html>
-EOF
+Confirm the cluster name and any data you need to keep, then delete the cluster:
 
-# Dockerfile to build the image
+~~~bash
+kind delete cluster --name "$CLUSTER_NAME"
+kind get clusters
+~~~
 
-cat > Dockerfile <<EOF
-FROM nginx:alpine
-COPY . /usr/share/nginx/html
-EOF
+This deletes the cluster's node containers and local cluster data. It does not
+delete unrelated Docker resources.
 
-# Build the image and load into kind cluster
+## Repository ownership
 
-docker build -t ${APP_NAME}:0.0.1 .
-kind load docker-image ${APP_NAME}:0.0.1 --name ${CLUSTER_NAME}
+This NKS guide covers generic kind installation, configuration, networking,
+storage and lifecycle. Put application-specific cluster YAML, resource sizing,
+port mappings, ingress settings, certificates and deployment steps in the
+owning application or learning repository.
 
-```
+## References
 
-# Create k8s manifest files
-
-```bash
-# Create namespace
-
-kubectl create ns ${NAMESPACE}
-
-cat > ${APP_NAME}.yaml <<EOF
-kind: Pod
-apiVersion: v1
-metadata:
-  name: ${APP_NAME}
-  labels:
-    app: ${APP_NAME}
-spec:
-  containers:
-  - name: ${APP_NAME}
-    image: ${APP_NAME}:0.0.1
----
-# Create Service
-kind: Service
-apiVersion: v1
-metadata:
-  name: ${APP_NAME}
-spec:
-  selector:
-    app: ${APP_NAME}
-  ports:
-  - port: 80
----
-
-# Create Ingress
-
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ${APP_NAME}
-spec:
-  rules:
-  - host: ${HOST}
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: ${APP_NAME}
-            port:
-             number: 80
-  tls:
-  - hosts:
-      - ${HOST}
-    secretName: ${APP_NAME}-tls
-
-EOF
-```
-
-# Apply the Manifest file
-
-```bash
-k create -f ${APP_NAME}.yaml -n ${NAMESPACE}
-
-# Create the TLS Secret
-cd ..
-kubectl create secret generic ${APP_NAME}-tls --from-file=tls.crt=${HOST}.crt --from-file=tls.key=${HOST}.key --from-file=ca.crt=ca.crt -n ${NAMESPACE}
-
-curl -ks https://$HOST
-
-```
-
-# Special Notes
-
-```bash
-echo "127.0.0.1 ${HOST}" >> /etc/hosts
-for windows update the same line in "C:\Windows\System32\drivers\etc\hosts file"
-
-```
-
-# Create Certificates inside a container (Optional)
-
-```bash
-docker run -it --rm -e HOST=${HOST} -v ${HOME}:/root/ -v ${PWD}:/work -w /work --net host quay.io/jitesoft/alpine:3.17.1 sh
-apk add openssl
-openssl req -x509 -sha256 -newkey rsa:4096 -keyout ca.key -out ca.crt -days 356 -nodes -subj "/CN=${HOST} Cert Authority"
-openssl req -new -newkey rsa:4096 -keyout ${HOST}.key -out ${HOST}.csr -nodes -subj "/CN=${HOST}"
-openssl x509 -req -sha256 -days 365 -in ${HOST}.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out ${HOST}.crt
-```
-
-# Delete the cluster
-
-```bash
-kind delete clusters ${CLUSTER_NAME}
-
-```
-
-
----
-
-# Reusable kind setup principles
-
-The tutorial above is a historical example. Its old Kubernetes node image,
-floating remote manifests and certificate commands are not recommended as-is
-for new installations. Use verified, pinned versions and review the changes.
-
-## Generic cluster workflow
-
-```mermaid
-flowchart LR
-  D["Docker host"] --> K["kind Kubernetes cluster"]
-  K --> S["StorageClass / PVC test"]
-  K --> N["Ingress / networking test"]
-  K --> W["Application workloads"]
-```
-
-1. **Review your host and existing clusters, read-only:**
-
-   ```bash
-   docker version
-   docker info
-   kind version
-   kind get clusters
-   kubectl config get-contexts
-   df -h .
-   ```
-
-2. **Create a cluster configuration** appropriate to the lab. Choose
-   cluster name, node count, a supported pinned kind node image, and
-   optional host port mappings. Keep its YAML with the application or
-   lab requiring that specific topology. See the
-   [kind configuration reference](https://kind.sigs.k8s.io/docs/user/configuration/).
-
-3. **Review and approve creation.** Run `kind create cluster --config
-   <path-to-reviewed-config.yaml>` only after selecting the intended
-   Docker host. It creates local containers and updates kubeconfig.
-
-4. **Check the named context:**
-
-   ```bash
-   kubectl --context <kind-context> get nodes -o wide
-   kubectl --context <kind-context> get storageclass
-   kubectl --context <kind-context> get pods -A
-   ```
-
-   Verify your default StorageClass with a disposable PVC before
-   deploying stateful workloads. Install extra CSI drivers or storage
-   provisioners only if the chosen topology requires them.
-
-5. **Choose one ingress installation approach.** Do not install
-   multiple controllers with conflicting IngressClass or port
-   ownership. If your application stack provides its own Helm-based
-   ingress controller, avoid also installing this tutorial's
-   historical NGINX manifest.
-
-6. **Clean up after approval:** Confirm the exact cluster name and
-   backup/retention requirements before running
-   `kind delete cluster --name <cluster-name>`. Check remaining
-   Docker resources individually, never use blanket Docker pruning.
-
-## Scope and ownership
-
-This NKS post explains **generic kind installation, configuration,
-networking, storage and lifecycle**. Application-specific cluster YAML,
-resource sizing, port mappings, Helm/Argo CD settings, credentials and
-deployment steps belong in the respective application or learning repo.
-The example in the original tutorial is kept for historical context,
-not as a standard configuration for other projects.
-
-Official guide: https://kind.sigs.k8s.io/docs/
+- [kind documentation](https://kind.sigs.k8s.io/docs/)
+- [kind releases and supported node images](https://github.com/kubernetes-sigs/kind/releases)
+- [kind configuration reference](https://kind.sigs.k8s.io/docs/user/configuration/)
+- [Kubernetes release status](https://kubernetes.io/releases/)
+- [kubectl install guide](https://kubernetes.io/docs/tasks/tools/)
+- [Local Path Provisioner](https://github.com/rancher/local-path-provisioner)
