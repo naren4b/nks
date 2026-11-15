@@ -135,8 +135,7 @@ kubectl --context "$CONTEXT" -n n42-gateway-system get pods -o wide
 Use the DaemonSet name shown by the first command to check rollout status:
 
 ~~~~sh
-kubectl --context "$CONTEXT" -n n42-gateway-system rollout status \\
-  daemonset/<daemonset-name>
+kubectl --context "$CONTEXT" -n n42-gateway-system rollout status daemonset/<daemonset-name>
 ~~~~
 
 ### 4. Add a GatewayClass, Gateway, and sample application route
