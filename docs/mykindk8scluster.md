@@ -18,7 +18,8 @@ application's own repository.
 > Check the [kind release notes](https://github.com/kubernetes-sigs/kind/releases)
 > and [Kubernetes release page](https://kubernetes.io/releases/) before starting
 > a new lab. The kind node image does not always use the newest Kubernetes patch.
-> This lab intentionally uses Kubernetes v1.34.11 rather than kind's v1.37.0 default.\nUse the exact image and digest published for your kind release.
+> This lab intentionally uses Kubernetes v1.34.11 rather than kind's v1.37.0 default.
+Use the exact image and digest published for your kind release.
 
 ## 1. Prerequisites
 
