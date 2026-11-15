@@ -211,136 +211,73 @@ kind delete clusters ${CLUSTER_NAME}
 
 ---
 
-# Reusable kind cluster setup for local GitOps labs
+# Reusable kind setup principles
 
-> The sections above preserve the original `konark-cluster` exercise as a
-> historical example. Its Kubernetes node image, floating remote manifests,
-> example certificates and installation commands should **not** be reused
-> unreviewed for a new cluster.
->
-> This section is the canonical **cluster infrastructure** guide for future
-> local labs, including GitLab. Application deployment stays in the
-> application repository. No local cluster was created by this documentation.
+The tutorial above is a historical example. Its old Kubernetes node image,
+floating remote manifests and certificate commands are not recommended as-is
+for new installations. Use verified, pinned versions and review the changes.
 
-## Ownership and boundary
+## Generic cluster workflow
 
 ```mermaid
-flowchart TB
-  HOST["Local Docker host"] --> KIND["kind: disposable Kubernetes cluster"]
-  KIND --> SC["StorageClass / CSI checks"]
-  KIND --> ING["Ingress networking prerequisites"]
-  KIND --> CD["Argo CD bootstrap"]
-  CD --> APP["Application repo: GitOps values and Helm"]
+flowchart LR
+  D["Docker host"] --> K["kind Kubernetes cluster"]
+  K --> S["StorageClass / PVC test"]
+  K --> N["Ingress / networking test"]
+  K --> W["Application workloads"]
 ```
 
-- **This repository (`nks`) owns:** kind installation/upgrade guidance,
-  cluster config, container runtime prerequisites, storage/ingress review,
-  Kubernetes context safety, lifecycle and teardown.
-- **Application repositories own:** application Helm charts, Argo CD
-  Application definitions, platform-specific values, passwords/Secret
-  references, and application validation.
-- Any existing kind cluster is separate from this guide. Do not infer its
-  identity or configuration from examples; always select a context explicitly.
-- Do not run these commands until the target cluster config and resource
-  requirements have been reviewed and installation approved.
+1. **Review your host and existing clusters, read-only:**
 
-## 1. Review existing local prerequisites (read only)
+   ```bash
+   docker version
+   docker info
+   kind version
+   kind get clusters
+   kubectl config get-contexts
+   df -h .
+   ```
 
-```bash
-docker version
-docker info
-kind version
-kubectl version --client
-kind get clusters
-kubectl config get-contexts
-docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}'
-df -h .
-```
+2. **Create a cluster configuration** appropriate to the lab. Choose
+   cluster name, node count, a supported pinned kind node image, and
+   optional host port mappings. Keep its YAML with the application or
+   lab requiring that specific topology. See the
+   [kind configuration reference](https://kind.sigs.k8s.io/docs/user/configuration/).
 
-Check that your host has adequate CPU, RAM and disk available before starting
-a resource-heavy application. GitLab is considerably heavier than a basic
-nginx example. A preliminary **planning target**, not a supported GitLab
-minimum, is 8 logical CPUs, 16 GiB free RAM and 50 GiB free disk; verify
-actual Helm chart resource requests and local usage before deploying.
+3. **Review and approve creation.** Run `kind create cluster --config
+   <path-to-reviewed-config.yaml>` only after selecting the intended
+   Docker host. It creates local containers and updates kubeconfig.
 
-## 2. Dedicated disposable cluster configuration
+4. **Check the named context:**
 
-The example cluster name is `gitlab-lab`. The canonical configuration is
-[docs/kind-gitlab-lab-config.yaml](kind-gitlab-lab-config.yaml).
+   ```bash
+   kubectl --context <kind-context> get nodes -o wide
+   kubectl --context <kind-context> get storageclass
+   kubectl --context <kind-context> get pods -A
+   ```
 
-It uses one control plane and one worker, a pinned Kubernetes node image,
-a loopback-accessible API, and no public ingress port mappings.
-Review the node-image digest and kind version against the current upstream
-release before provisioning. This is a **lab-only** topology, not HA.
+   Verify your default StorageClass with a disposable PVC before
+   deploying stateful workloads. Install extra CSI drivers or storage
+   provisioners only if the chosen topology requires them.
 
-After approval:
+5. **Choose one ingress installation approach.** Do not install
+   multiple controllers with conflicting IngressClass or port
+   ownership. If your application stack provides its own Helm-based
+   ingress controller, avoid also installing this tutorial's
+   historical NGINX manifest.
 
-```bash
-# Run from the root of the nks checkout.
-kind create cluster --config docs/kind-gitlab-lab-config.yaml
-```
+6. **Clean up after approval:** Confirm the exact cluster name and
+   backup/retention requirements before running
+   `kind delete cluster --name <cluster-name>`. Check remaining
+   Docker resources individually, never use blanket Docker pruning.
 
-The creation command makes local Docker containers, a Kubernetes control
-plane and a kubeconfig context. It does not create AWS resources.
+## Scope and ownership
 
-## 3. Verify the new cluster and its default storage
+This NKS post explains **generic kind installation, configuration,
+networking, storage and lifecycle**. Application-specific cluster YAML,
+resource sizing, port mappings, Helm/Argo CD settings, credentials and
+deployment steps belong in the respective application or learning repo.
+The example in the original tutorial is kept for historical context,
+not as a standard configuration for other projects.
 
-```bash
-kubectl --context kind-gitlab-lab get nodes -o wide
-kubectl --context kind-gitlab-lab get storageclass
-kubectl --context kind-gitlab-lab get pods -A
-```
-
-Confirm there is an appropriate default StorageClass and test a disposable
-PVC before provisioning stateful workloads. **Do not** install an unpinned
-Rancher local-path provisioner from `master` without confirming why it is
-required. Avoid applying overlapping CSI/StorageClass installations.
-
-## 4. Ingress, DNS and local access
-
-Choose **one** ingress installation method. If the application GitOps stack
-uses an Argo CD-managed ingress-nginx Helm chart, do not also apply the
-historical `provider/kind/deploy.yaml` manifest.
-
-The GitLab local stack uses a ClusterIP ingress controller and explicit local
-port-forwards rather than host port 80/443 mappings:
-
-```bash
-kubectl --context kind-gitlab-lab -n ingress-nginx \
-  port-forward svc/ingress-nginx-controller 8443:443
-```
-
-Run this only after that Service is installed. Local DNS/hosts entries, TLS
-trust and SSH port-forwarding must be configured for the specific application
-and are not cluster provisioning steps.
-
-## 5. Argo CD control plane
-
-After installing and reviewing Argo CD for the selected context,
-the application repo can register its root Application.
-Bootstrap requires separate approval because Argo CD installs CRDs and
-cluster RBAC. Keep Git repository credentials outside this document
-and outside Git.
-
-GitLab-specific App-of-Apps documentation:
-[GitLab kind stack](https://github.com/naren4b/learn-gitlab/blob/main/k8s/gitops/stacks/kind.yaml)
-and
-[GitLab root Application](https://github.com/naren4b/learn-gitlab/blob/main/k8s/gitops/root-gitlab-kind.yaml).
-
-## 6. Clean up safely
-
-Only after explicit confirmation that data can be lost:
-
-```bash
-kind get clusters
-# Destroys the selected disposable cluster and its Kubernetes data.
-kind delete cluster --name gitlab-lab
-kind get clusters
-docker ps --format 'table {{.Names}}\t{{.Image}}'
-```
-
-Do not run global Docker system pruning, and do not delete another cluster.
-Check Docker volumes, image usage and any remaining local port-forward
-processes separately. Backup any application data before destruction.
-
-Reference: https://kind.sigs.k8s.io/docs/user/configuration/
+Official guide: https://kind.sigs.k8s.io/docs/
