@@ -57,10 +57,10 @@ CLUSTER_NAME=dev-cluster
 mkdir -p "$CLUSTER_NAME"
 cd "$CLUSTER_NAME"
 
-cat > kind-config.yaml <<'EOF'
+cat > kind-config.yaml <<EOF
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
-name: dev-cluster
+name: $CLUSTER_NAME
 nodes:
 - role: control-plane
   image: kindest/node:v1.37.0@sha256:a1ed56cfb0e7b93589bdf97c8cd566405a265939e3620fc4f5de89adff580ae5
@@ -78,9 +78,8 @@ nodes:
 EOF
 ~~~
 
-The `name:` in the YAML must match the intended cluster name. If you change
-`CLUSTER_NAME`, update `name:` in the file as well. Port mappings only make
-ports available on the host. An application or ingress controller must still
+The cluster name is inserted into the YAML when the file is created. Port
+mappings only make ports available on the host. An application or ingress controller must still
 listen on the mapped container port.
 
 ## 3. Create and verify the cluster
