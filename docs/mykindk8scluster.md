@@ -10,14 +10,14 @@ application's own repository.
 > | Component | Version | Notes |
 > | --- | --- | --- |
 > | kind | `v0.33.0` | Current upstream release |
-> | Kubernetes node image | `v1.37.0` | Image published for kind v0.33.0, pinned by digest below |
-> | kubectl | `v1.37.1` | Latest patch in the same Kubernetes minor release |
+> | Kubernetes node image | `v1.34.11` | Selected supported image published for kind v0.33.0, pinned by digest below |
+> | kubectl | `v1.34.x` | Prefer a matching Kubernetes minor release for this lab |
 > | kind config API | `kind.x-k8s.io/v1alpha4` | Current kind cluster config API |
 >
 > Check the [kind release notes](https://github.com/kubernetes-sigs/kind/releases)
 > and [Kubernetes release page](https://kubernetes.io/releases/) before starting
 > a new lab. The kind node image does not always use the newest Kubernetes patch.
-> Use the exact image listed for your kind release.
+> This lab intentionally uses Kubernetes v1.34.11 rather than kind's v1.37.0 default.\nUse the exact image and digest published for your kind release.
 
 ## 1. Prerequisites
 
@@ -63,7 +63,7 @@ apiVersion: kind.x-k8s.io/v1alpha4
 name: $CLUSTER_NAME
 nodes:
 - role: control-plane
-  image: kindest/node:v1.37.0@sha256:a1ed56cfb0e7b93589bdf97c8cd566405a265939e3620fc4f5de89adff580ae5
+  image: kindest/node:v1.34.11@sha256:44e222ee2132dab25ff87301682f89eb82c7880ea3a1bf543bfe9708fd08d67d
   extraPortMappings:
   - containerPort: 80
     hostPort: 8080
@@ -72,9 +72,9 @@ nodes:
     hostPort: 8443
     listenAddress: "127.0.0.1"
 - role: worker
-  image: kindest/node:v1.37.0@sha256:a1ed56cfb0e7b93589bdf97c8cd566405a265939e3620fc4f5de89adff580ae5
+  image: kindest/node:v1.34.11@sha256:44e222ee2132dab25ff87301682f89eb82c7880ea3a1bf543bfe9708fd08d67d
 - role: worker
-  image: kindest/node:v1.37.0@sha256:a1ed56cfb0e7b93589bdf97c8cd566405a265939e3620fc4f5de89adff580ae5
+  image: kindest/node:v1.34.11@sha256:44e222ee2132dab25ff87301682f89eb82c7880ea3a1bf543bfe9708fd08d67d
 EOF
 ~~~
 
