@@ -1,81 +1,109 @@
-# Setting up ArgoCD in k8s cluster with local User & RBAC
+# Setting up Argo CD on Kubernetes with Helm, local users and RBAC
 
-![argocd-rbac](https://user-images.githubusercontent.com/3488520/204094103-33ed7434-efe4-489b-afc5-c4971ef37d90.jpg)
+![Argo CD RBAC overview](https://user-images.githubusercontent.com/3488520/204094103-33ed7434-efe4-489b-afc5-c4971ef37d90.jpg)
 
-### Install the argocd
+This is a **generic Kubernetes tutorial**, suitable for a disposable kind
+cluster, Talos or EKS with an appropriately reviewed configuration.
+
+**Updated 15 November 2026:** The earlier article installed the moving
+`stable` raw manifest, patched `--insecure`, downloaded an unpinned CLI,
+and contained placeholder passwords on command lines. The recommended
+installation is now a **version-pinned Helm release**, with TLS kept
+enabled, configurable RBAC and no stored account passwords.
+
+**Start here:**
+[Complete Helm installation and RBAC runbook](argocd-helm/README.md)
+and [versioned values.yaml](argocd-helm/values.yaml).
+
+## Architecture
+
+```mermaid
+flowchart TB
+  K["Kubernetes cluster"] --> H["Helm: Argo CD control plane"]
+  V["Generic Argo CD values.yaml"] --> H
+  H --> R["Local accounts / RBAC / TLS"]
+  H --> A["Argo CD Applications"]
+  A --> W["Workloads managed from Git"]
+```
+
+## 1. Review and render locally
+
+The pinned learning baseline is the **argo-cd chart 10.15.0**
+with **Argo CD v3.6.1**. Check the upstream release notes for future
+clusters and upgrades.
 
 ```bash
-kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-kubectl patch deployments.apps -n argocd  argocd-server  \
---type=json \
--p='[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--insecure"}]'
+helm repo add argo https://argoproj.github.io/argo-helm
+helm repo update
+
+helm show chart argo/argo-cd --version 10.15.0
+
+helm template argocd argo/argo-cd \
+  --version 10.15.0 --namespace argocd \
+  -f docs/argocd-helm/values.yaml > /tmp/argocd-review.yaml
 ```
 
-### Install the Argocd CLI
+Review rendered ClusterRoles, CRDs, Services, image versions and
+resource requests. These commands do not modify Kubernetes.
+
+## 2. Install after approval
 
 ```bash
-curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
-rm argocd-linux-amd64
+CONTEXT="$(kubectl config current-context)"
+kubectl --context "$CONTEXT" get nodes
+
+helm upgrade --install argocd argo/argo-cd \
+  --version 10.15.0 --kube-context "$CONTEXT" \
+  --namespace argocd --create-namespace \
+  -f docs/argocd-helm/values.yaml --wait --timeout 10m
 ```
 
-### Access the argocd
+The Helm release manages Argo CD's Kubernetes resources. Use Helm for
+future Argo CD upgrades, not both Helm and raw `kubectl apply`.
+
+## 3. Access and verify
 
 ```bash
-kubectl port-forward svc/argocd-server -n argocd 8080:443
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
-argocd login localhost:8080  --insecure
-argocd account update-password
+kubectl --context "$CONTEXT" -n argocd get pods,svc
+kubectl --context "$CONTEXT" -n argocd rollout status deploy/argocd-server
+kubectl --context "$CONTEXT" -n argocd \
+  port-forward svc/argocd-server 8080:443
 ```
 
-### Set up default policy,role
+Open `https://localhost:8080`. The initial certificate may be
+self-signed. Retrieve the one-time admin password **locally**, following
+[Argo CD's first-login procedure](https://argo-cd.readthedocs.io/en/stable/getting_started/#4-login-using-the-cli),
+and rotate it. Do not publish login output.
 
-```bash
-kubectl patch -n argocd cm argocd-cm --patch='{"data":{"policy.default": "role:readonly" }}'
-kubectl patch -n argocd cm argocd-rbac-cm --patch='{"data":{"policy.default": "role:readonly" }}'
+## 4. Local user and RBAC exercise
 
-```
+The generic [values file](argocd-helm/values.yaml) creates a local
+`learner` login account and defines an example `lab-operator` role
+for read/sync operations in the `default` AppProject.
 
-### Create a local user
+- Use the Argo CD CLI to set a **unique interactive password** for the
+  account; never place one in Helm YAML or shell command history.
+- Validate allowed `get`/`sync` and denied `delete` for this
+  account. A user with `role:admin` is not a good test of limited RBAC.
+- `policy.default` is configured in `argocd-rbac-cm` through the
+  Helm chart `configs.rbac` values, **not** in `argocd-cm`.
+- The tutorial's `role:readonly` default and `default` project
+  are convenient for a personal lab, not a secure multi-tenant policy.
+  For production, design least privilege, scoped projects and SSO.
 
-```bash
-username=naren
-newpassword=newpassword
-curentpassword=curentpassword
+## 5. Application deployment is a separate concern
 
+This guide installs **Argo CD itself**. Deploying applications, adding
+private repository credentials and configuring their Helm values belongs
+to the owning application repositories.
 
-kubectl patch -n argocd cm argocd-cm --patch='{"data":{"accounts.'${username}'": "apikey,login" }}'
-argocd account list
-argocd account update-password  --current-password=${curentpassword} --new-password=${newpassword} --account=${username}
+Do **not** execute unreviewed `curl | bash` application installers.
 
-```
+For rollout checks, CRD upgrades, rollback and safe cleanup see
+[the full runbook](argocd-helm/README.md).
 
-![image](https://user-images.githubusercontent.com/3488520/204011839-a2d042b0-0f8e-4864-803a-97753443432d.png)
-![image](https://user-images.githubusercontent.com/3488520/204012094-354261a1-bf4a-4bf9-be46-30a17c41b06e.png)
+## References
 
-ws: https://killercoda.com/kubernetes/scenario/a-playground
-
-### Create new group
-
-```bash
-cat<< EOF > argocd-patch.yaml
-data:
-  policy.csv: |
-    p, role:org-admin, applications, get, */*, allow
-    p, role:org-admin, applications, sync, */*, allow
-    p, role:org-admin, logs, get, *, allow
-
-    g, naren, role:admin
-  policy.default: role:readonly
-EOF
-
-kubectl patch cm -n argocd argocd-rbac-cm --patch-file argocd-patch.yaml
-```
-
-#### Deploy an application 
-```
-curl -s https://raw.githubusercontent.com/naren4b/argocd-multi-source-demo/main/sample-app.sh | bash
-```
-
-source : https://github.com/naren4b/nks/edit/main/docs/argocd-rbac.md
+- [Official Argo CD Helm chart](https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd)
+- [Argo CD RBAC documentation](https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/)
+- [Argo CD local users](https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/)
