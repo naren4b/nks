@@ -34,7 +34,26 @@ kubectl version --client
 
 Install kind using its
 [official quick start](https://kind.sigs.k8s.io/docs/user/quick-start/).
-The pinned release used for this guide is `v0.33.0`. Install kubectl from the
+This guide uses kind `v0.33.0`. For Linux AMD64, including WSL2 on an
+`x86_64` host, install that exact release:
+
+~~~bash
+curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.33.0/kind-linux-amd64
+chmod +x ./kind
+sudo install -o root -g root -m 0755 ./kind /usr/local/bin/kind
+kind version
+~~~
+
+Confirm the output reports `kind v0.33.0`. If more than one copy is installed,
+run `type -a kind` and make sure your shell uses the new binary. For other
+architectures, use the matching binary listed in the official quick start.
+
+This version matters for the pinned Kubernetes image below. Kubernetes 1.36
+and newer use the kubeadm `v1beta4` configuration API. Older kind binaries can
+generate a `v1beta3` config that newer node images reject. kind `v0.33.0`
+supports the newer API.
+
+Install kubectl from the
 [Kubernetes install guide](https://kubernetes.io/docs/tasks/tools/).
 
 Confirm Docker is reachable and review existing local clusters before creating
