@@ -114,7 +114,7 @@ The ClusterIP Service avoids adding a second host exposure path.
 Install the pinned chart into a dedicated namespace:
 
 ~~~~sh
-helm repo add haproxy-ingress https://haproxy-ingress.github.io/charts
+helm repo add haproxy-ingress https://haproxy-ingress.github.io/charts --force-update
 helm repo update
 
 helm --kube-context "$CONTEXT" upgrade --install n42-gateway \
