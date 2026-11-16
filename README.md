@@ -24,7 +24,7 @@ This repository covers:
 ## Featured Guides
 
 - **AWS and infrastructure:** [EKS Auto Mode with S3](docs/eks-auto-s3.md) and [IaC pipelines with Terraform, OpenTofu, and Terragrunt](docs/tg-tf-gl.md).
-- **Platform engineering:** [Multi-cluster deployment through Argo CD](docs/argocd-multiple-deployment.md) and [Local Kubernetes Gateway with kind and N42 Gateway](docs/n42-gateway-kind.md).
+- **Platform engineering:** [Multi-cluster deployment through Argo CD](docs/argocd-multiple-deployment.md), [Local Kubernetes Gateway with kind and N42 Gateway](docs/n42-gateway-kind.md), and [Metrics Server on kind](docs/kubernetes-metrics-server.md).
 - **Security:** [software supply-chain security](docs/cosign-syft-grype-kevyrno.md), [image signing and attestation](docs/image-signing-attestation.md).
 - **Reliability and observability:** [VictoriaLogs](docs/victorialogs-demo.md), [VictoriaMetrics backup and restore](docs/vmbackup_and_vmrestore.md), and [GitHub Copilot metrics](docs/gcp-metrics-exporter.md).
 - **AI tooling:** [Harbor MCP: talk to your container registry](docs/harbor-mcp.md).
