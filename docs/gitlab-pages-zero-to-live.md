@@ -1,6 +1,6 @@
 # Build Your First Website for Free: A Step-by-Step Guide with GitLab Pages
 
-Drafted: 17-11-2026
+Published: 17-11-2026
 
 Imagine a student who wants to show projects to recruiters, a baker who wants customers to find a menu, or a blogger who wants one place for their writing. All three need a simple web address they can share. They do not necessarily need a website builder subscription or a web developer.
 
