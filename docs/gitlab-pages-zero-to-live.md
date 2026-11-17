@@ -302,6 +302,46 @@ Expected: DNS answers match the values configured in GitLab, the domain is verif
 
 To update the website, edit `public/index.html` and commit to the default branch. GitLab CI/CD will publish the changed files again after the pipeline succeeds. To revert a bad edit, revert its Git commit and verify the next pipeline.
 
+## After launch: How do you maintain your website?
+
+A website is not a one-time project. You may want to add a new project, change your business hours, publish a new link or correct a spelling mistake. The good news is that you can do this without setting up a server again.
+
+### What you do when you want to make a change
+
+Here is an example. Imagine a student has completed a new project and wants to add it to their portfolio:
+
+1. Sign in to GitLab and open the same `my-first-website` project.
+2. Open `public/index.html`. Select **Edit** in GitLab's file editor.
+3. Update the text, or add a link to the new project. To change colors or spacing, edit `public/css/style.css` instead.
+4. Save your change by **committing** it. A commit is a saved version of your files, so you can track what changed.
+5. Open **Build → Pipelines** and check that the publishing job succeeds.
+6. Refresh your public website. Check the new content on your phone and another browser.
+
+The same steps work when a baker changes a menu or a blogger adds a link to a new article. You do **not** need to buy hosting again or reconnect the domain for a normal content update.
+
+For beginners, editing directly on the default branch is the simplest demonstration. For a business website, make changes in a separate branch and review them before merging to reduce the risk of publishing mistakes.
+
+### What GitLab takes care of automatically
+
+| Task | Who handles it? | What this means for you |
+| --- | --- | --- |
+| Saving versions of your files | GitLab | You can see the history of edits |
+| Running the publishing job after a default-branch commit | GitLab CI/CD, using your `.gitlab-ci.yml` | No manual upload to a hosting server |
+| Serving the published HTML, CSS and JavaScript | GitLab Pages | No web server to install, patch or restart |
+| HTTPS for the free GitLab Pages address | GitLab | No certificate setup for the default address |
+| Requesting and renewing a custom-domain certificate | GitLab Pages with managed Let's Encrypt enabled | No manual certificate renewal in the normal case |
+| Backing out a content mistake | You initiate a Git revert, GitLab republishes it | You control which version is live |
+
+**What is still your responsibility?** Keep your content accurate, check links, avoid publishing personal or sensitive data, review failed pipelines, and renew your custom domain if you bought one. Domain DNS changes and initial domain verification are not automatic. Custom-domain certificate renewal depends on keeping DNS and validation working.
+
+### Which hassles are removed?
+
+With GitLab Pages, you normally **do not** need to rent a virtual machine, install a web server, upload files over FTP, configure operating-system updates, manage server capacity for this basic static site or renew a GitLab-managed certificate by hand.
+
+This does not mean all website work disappears. You still write and review the content. If you later need payments, customer sign-in, bookings or a database, those features require additional services.
+
+**Simple rule:** Update a file → commit → check the pipeline → open your website. That's the ongoing maintenance routine.
+
 ## Troubleshooting
 
 | Symptom | Check |
