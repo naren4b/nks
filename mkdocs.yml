@@ -18,6 +18,7 @@ nav:
       - Secure Distributed Telemetry on AWS: secure-scalable-telemetry-aws-distributed-sites.md
       - Enterprise Observability at Scale: enterprise-observability-at-scale.md
       - Local Kubernetes Gateway with kind and N42 Gateway: n42-gateway-kind.md
+      - Build Your First Website with GitLab Pages: gitlab-pages-zero-to-live.md
   - Security:
       - Overview: security.md
   - AI:
