@@ -342,6 +342,65 @@ This does not mean all website work disappears. You still write and review the c
 
 **Simple rule:** Update a file → commit → check the pipeline → open your website. That's the ongoing maintenance routine.
 
+## Add photos, a logo or project screenshots
+
+**What:** Pictures can show products, projects or blog topics. **Why:** Visitors can understand your work faster. **How:** Upload pictures to your GitLab project and add their paths to your page.
+
+1. Choose images you own or are allowed to use. Do not upload private photos or customer pictures without consent.
+2. Resize images to keep pages fast. Use JPEG/WebP for photos or PNG for logos and screenshots.
+3. Open the `public/` folder in GitLab, create `assets/images/` if needed, and use **+ → Upload file** to upload `bakery-cakes.webp`.
+4. Edit `public/index.html` and add:
+
+```html
+<figure>
+  <img src="assets/images/bakery-cakes.webp"
+       alt="A selection of cakes from our bakery"
+       width="800" height="500" loading="lazy">
+  <figcaption>Our freshly made cakes</figcaption>
+</figure>
+```
+
+5. To make pictures fit phone screens, add this to `public/css/style.css`:
+
+```css
+img { max-width: 100%; height: auto; }
+figure { margin: 1.5rem 0; }
+```
+
+6. Commit, check the publishing pipeline and open the website. Check the image on a phone.
+
+The image must exist at `public/assets/images/bakery-cakes.webp`. File names and capitalization must match exactly. The `alt` text tells visitors using screen readers what the image shows. Students can add project screenshots, entrepreneurs can add product photos, and bloggers can add cover pictures.
+
+## Ask AI to help improve your website
+
+**What:** An AI assistant can suggest better words, page layouts, colors and HTML/CSS. **Why:** It can make small design changes easier for someone who is not a developer. **How:** Share your non-sensitive starter page code and describe the result you want.
+
+For example, copy this prompt:
+
+> I am a beginner building a one-page bakery website using GitLab Pages. Improve my existing HTML and CSS so it looks good on phones. Add a menu with three items, a contact link, and an image section. Use only HTML/CSS, not a framework. Keep existing links. Tell me which file to edit and provide its complete replacement content. Explain each change in simple words. Do not add tracking or paid services.
+
+You can also ask: “Make my student portfolio easier to read,” “Why is my image not showing?” or “Add a section for my latest blog posts.”
+
+**Check AI's work:** Save your current version, make one change at a time, review the generated code, test on phone and desktop, and check the pipeline. For a business website, use a separate Git branch to review the change before publishing it. Never send passwords, tokens, confidential content or customer data to an AI tool. AI suggestions can be wrong, and you remain responsible for the published website.
+
+## What problems might happen, and who can fix them?
+
+| Problem | Check first | Who can help? |
+| --- | --- | --- |
+| Site shows **404** | Confirm the exact Pages URL, successful pipeline and `public/index.html` | You; GitLab documentation/community for hosting issues |
+| Publishing job fails | Open **Build → Pipelines** and read the error | You, an AI assistant or a developer |
+| Image missing | Check image filename, folder, capitalization and commit | Usually you; AI can help diagnose |
+| Page looks wrong on phones | Check CSS and image sizing | You, AI, or a designer |
+| An edit broke the page | Compare changes and revert the last Git commit | You or someone who knows Git |
+| Custom domain does not open | Check authoritative DNS and exact records from GitLab | You or your DNS provider; GitLab for Pages configuration |
+| HTTPS warning | Check certificate issuance, domain verification and DNS | You; GitLab or DNS provider support if needed |
+| Domain expired | Check renewal and payment at the registrar | Domain owner or registrar |
+| Not listed in search engines | Check public access and search indexing; indexing is not guaranteed | You, search-engine documentation or an SEO specialist |
+
+When something fails: note the error, check the last change, copy a **sanitized** error message, ask AI for a small reversible fix, and test again. If it is a platform issue, use GitLab's help resources. Domain payments belong with the registrar. DNS records belong with whichever company hosts your authoritative DNS.
+
+AI can guide diagnosis but cannot guarantee a fix. Do not share account passwords or let an AI assistant make unreviewed production changes.
+
 ## Troubleshooting
 
 | Symptom | Check |
