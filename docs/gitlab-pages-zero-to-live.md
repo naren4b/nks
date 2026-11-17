@@ -1,4 +1,6 @@
 # Build Your First Website for Free: A Step-by-Step Guide with GitLab Pages
+<img width="2172" height="724" alt="Build Your First Website with GitLab Pages" src="https://github.com/user-attachments/assets/07a1ce23-eb61-4789-b800-558ff9493e9e" />
+
 
 Published: 17-11-2026
 
