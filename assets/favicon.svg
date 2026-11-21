@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Architecture Lab">
+  <rect width="64" height="64" rx="15" fill="#174e40"/>
+  <text x="50%" y="53%" dominant-baseline="middle" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="25" font-weight="700"
+        fill="#dafa8f">NL</text>
+</svg>
