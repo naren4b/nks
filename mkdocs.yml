@@ -33,6 +33,7 @@ nav:
 theme:
   name: material
   language: en
+  favicon: assets/favicon.svg
   icon:
     logo: material/kubernetes
   features:
@@ -99,4 +100,4 @@ extra:
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/narendranathpanda/
 
-copyright: Copyright &copy; 2022&ndash;2026 Narendranath Panda &middot; Site v1.0.0
+copyright: Copyright &copy; 2022&ndash;2026 Narendranath Panda &middot; Site v1.0.1
