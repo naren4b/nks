@@ -19,7 +19,7 @@ nav:
       - Enterprise Observability at Scale: enterprise-observability-at-scale.md
       - Local Kubernetes Gateway with kind and N42 Gateway: n42-gateway-kind.md
       - Build Your First Website with GitLab Pages: gitlab-pages-zero-to-live.md
-      - GitHub URL Tricks: Review Smarter, Navigate Faster: github-url-tricks.md
+      - 'GitHub URL Tricks: Review Smarter, Navigate Faster': github-url-tricks.md
   - Security:
       - Overview: security.md
   - AI:
