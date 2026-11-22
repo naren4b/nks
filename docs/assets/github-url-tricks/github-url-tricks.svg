@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="740" viewBox="0 0 1200 740" role="img" aria-labelledby="title desc">
+<title id="title">GitHub URL Tricks</title>
+<desc id="desc">Two paths from a GitHub repository: external services for public code exploration and native GitHub paths for reviews.</desc>
+<rect width="1200" height="740" rx="28" fill="#f5f8fc"/>
+<text x="60" y="78" font-family="Arial,sans-serif" font-size="46" font-weight="bold" fill="#132238">GitHub URL Tricks</text>
+<text x="60" y="118" font-family="Arial,sans-serif" font-size="22" fill="#44546b">Explore public code. Review changes within GitHub.</text>
+<rect x="330" y="150" width="540" height="66" rx="16" fill="#162b47"/>
+<text x="600" y="192" font-family="monospace" font-size="26" text-anchor="middle" fill="#ffffff">github.com/OWNER/REPO</text>
+<path d="M600 216 V250 M295 250 H905 M295 250 V270 M905 250 V270" stroke="#2872c8" stroke-width="5" fill="none"/>
+<rect x="54" y="275" width="500" height="347" rx="18" fill="#ffffff" stroke="#aac7e8" stroke-width="2"/>
+<rect x="646" y="275" width="500" height="347" rx="18" fill="#ffffff" stroke="#aac7e8" stroke-width="2"/>
+<text x="84" y="317" font-family="Arial,sans-serif" font-size="25" font-weight="bold" fill="#185b9c">External domain swaps</text>
+<text x="84" y="349" font-family="Arial,sans-serif" font-size="18" fill="#596d83">Public, approved repositories only</text>
+<text x="84" y="402" font-family="monospace" font-size="23" fill="#20354f">gitdiagram.com</text>
+<text x="84" y="446" font-family="monospace" font-size="23" fill="#20354f">deepwiki.com</text>
+<text x="84" y="490" font-family="monospace" font-size="23" fill="#20354f">gitingest.com</text>
+<text x="84" y="534" font-family="monospace" font-size="23" fill="#20354f">gitmcp.io</text>
+<text x="84" y="578" font-family="monospace" font-size="23" fill="#20354f">github.dev</text>
+<text x="676" y="317" font-family="Arial,sans-serif" font-size="25" font-weight="bold" fill="#185b9c">Native GitHub routes</text>
+<text x="676" y="349" font-family="Arial,sans-serif" font-size="18" fill="#596d83">GitHub permissions still apply</text>
+<text x="676" y="402" font-family="monospace" font-size="23" fill="#20354f">/pull/123.diff</text>
+<text x="676" y="446" font-family="monospace" font-size="23" fill="#20354f">/pull/123/files?w=1</text>
+<text x="676" y="490" font-family="monospace" font-size="23" fill="#20354f">/compare/main...feature</text>
+<text x="676" y="534" font-family="monospace" font-size="23" fill="#20354f">/blame/main/path/to/file</text>
+<text x="676" y="578" font-family="monospace" font-size="23" fill="#20354f">/releases/latest</text>
+<rect x="54" y="647" width="1092" height="62" rx="14" fill="#e1edfa"/>
+<text x="80" y="683" font-family="Arial,sans-serif" font-size="20" fill="#193b64">Security: Never send private code to unapproved third-party services.</text>
+</svg>
