@@ -1,4 +1,4 @@
-# GitHub URL Tricks for Faster Code Reviews
+# GitHub URL Tricks: Review Smarter, Navigate Faster
 
 Published: 2026-11-22
 
