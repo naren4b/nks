@@ -14,6 +14,13 @@ My work is organized around four connected pillars: **Enterprise Platform Archit
 The articles connect architecture decisions with delivery, security, reliability, observability, cost and operations. Public material is curated from private projects, labs and case studies, with professional experience, prototypes and learning clearly distinguished.
 <!-- branding:home:end -->
 
+<section id="blog-testimonials" aria-labelledby="blog-testimonials-title" hidden>
+<h2 id="blog-testimonials-title">Reader feedback</h2>
+<p>Real feedback, shared with permission.</p>
+<div id="blog-testimonials-list" aria-live="polite"></div>
+</section>
+
+
 [Explore My Journey](career-journey.md){ .md-button .md-button--primary }
 [Browse AWS Architecture](aws-architecture.md){ .md-button }
 [About Me](about.md){ .md-button }

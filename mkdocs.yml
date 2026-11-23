@@ -103,4 +103,9 @@ extra:
     - icon: fontawesome/solid/envelope
       link: mailto:naren4biz@gmail.com?subject=Cloud%20Architecture%20Lab%20-%20Blog%20Enquiry&body=Hello%2C%0A%0AI%20am%20writing%20about%20an%20article%20or%20question%20from%20blog.npanda.online.%0A%0ATopic%3A%20
 
-copyright: Copyright &copy; 2022&ndash;2026 Narendranath Panda &middot; Site v1.0.2
+copyright: Copyright &copy; 2022&ndash;2026 Narendranath Panda &middot; Site v1.1.0
+
+# Public approved testimonials, rendered on the home page only.
+extra_javascript:
+  - assets/testimonials-config.js
+  - assets/testimonials.js
